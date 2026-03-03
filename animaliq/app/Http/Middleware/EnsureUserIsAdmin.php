@@ -14,8 +14,7 @@ class EnsureUserIsAdmin
             return redirect()->route('login');
         }
 
-        // Allow if user has role 'admin' or 'super_admin', or has no roles yet (initial setup)
-        if ($request->user()->roles()->count() === 0 || $request->user()->hasRole(['admin', 'super_admin'])) {
+        if ($request->user()->isAdmin()) {
             return $next($request);
         }
 

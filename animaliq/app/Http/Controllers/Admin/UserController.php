@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,14 +12,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->orderBy('first_name')->paginate(15);
+        $users = User::orderBy('first_name')->paginate(15);
         return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
-        $roles = Role::orderBy('name')->get();
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create');
     }
 
     public function store(Request $request)
@@ -32,22 +30,17 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'password' => ['required', 'confirmed', Password::defaults()],
             'status' => 'in:active,inactive,suspended',
-            'roles' => 'array',
-            'roles.*' => 'exists:roles,id',
+            'role' => 'in:member,admin,super_admin',
         ]);
         $validated['password'] = Hash::make($validated['password']);
-        $user = User::create(collect($validated)->except('roles')->toArray());
-        if (!empty($validated['roles'])) {
-            $user->roles()->sync($validated['roles']);
-        }
+        $validated['role'] = $validated['role'] ?? 'member';
+        User::create($validated);
         return redirect()->route('admin.users.index')->with('success', 'User created.');
     }
 
     public function edit(User $user)
     {
-        $roles = Role::orderBy('name')->get();
-        $user->load('roles');
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
@@ -59,16 +52,15 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'password' => ['nullable', 'confirmed', Password::defaults()],
             'status' => 'in:active,inactive,suspended',
-            'roles' => 'array',
-            'roles.*' => 'exists:roles,id',
+            'role' => 'in:member,admin,super_admin',
         ]);
         if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
         }
-        $user->update(collect($validated)->except('roles')->toArray());
-        $user->roles()->sync($request->input('roles', []));
+        $validated['role'] = $validated['role'] ?? 'member';
+        $user->update($validated);
         return redirect()->route('admin.users.index')->with('success', 'User updated.');
     }
 

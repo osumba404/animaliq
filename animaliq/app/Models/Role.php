@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = ['name', 'description'];
 
     public function users(): BelongsToMany

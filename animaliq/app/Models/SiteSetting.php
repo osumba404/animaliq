@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Cache;
 
 class SiteSetting extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = ['setting_key', 'setting_value', 'type'];
 
     public static function getByKey(string $key, mixed $default = null): mixed

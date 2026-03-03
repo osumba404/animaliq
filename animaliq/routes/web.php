@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ResearchProjectController as AdminResearchProject
 use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\AuditLogController as AdminAuditLogController;
+use App\Http\Controllers\Admin\TeamMemberController as AdminTeamMemberController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
@@ -73,9 +74,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('events', AdminEventController::class);
     Route::resource('users', AdminUserController::class);
     Route::get('settings', [AdminSiteSettingController::class, 'index'])->name('settings.index');
-    Route::get('settings/slides', [AdminSiteSettingController::class, 'slides'])->name('settings.slides');
+    Route::get('settings/create', [AdminSiteSettingController::class, 'create'])->name('settings.create');
+    Route::post('settings', [AdminSiteSettingController::class, 'store'])->name('settings.store');
+    Route::get('settings/sections/{section}', [AdminSiteSettingController::class, 'editSection'])->name('settings.sections');
+    Route::put('settings/sections/{section}', [AdminSiteSettingController::class, 'updateSection'])->name('settings.sections.update');
     Route::get('settings/{setting}/edit', [AdminSiteSettingController::class, 'edit'])->name('settings.edit');
     Route::put('settings/{setting}', [AdminSiteSettingController::class, 'update'])->name('settings.update');
+    Route::delete('settings/{setting}', [AdminSiteSettingController::class, 'destroy'])->name('settings.destroy');
+    Route::get('settings/slides', [AdminSiteSettingController::class, 'slides'])->name('settings.slides');
+    Route::get('settings/slides/create', [AdminSiteSettingController::class, 'slidesCreate'])->name('settings.slides.create');
+    Route::post('settings/slides', [AdminSiteSettingController::class, 'slidesStore'])->name('settings.slides.store');
+    Route::get('settings/slides/{slide}/edit', [AdminSiteSettingController::class, 'slidesEdit'])->name('settings.slides.edit');
+    Route::put('settings/slides/{slide}', [AdminSiteSettingController::class, 'slidesUpdate'])->name('settings.slides.update');
+    Route::delete('settings/slides/{slide}', [AdminSiteSettingController::class, 'slidesDestroy'])->name('settings.slides.destroy');
     Route::resource('research', AdminResearchProjectController::class)->parameters(['research' => 'researchProject']);
     Route::resource('campaigns', AdminCampaignController::class);
     Route::resource('posts', AdminPostController::class);
@@ -83,5 +94,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->parameters(['donation' => 'donationCampaign'])
         ->names(['index' => 'donations.campaigns']);
     Route::resource('products', AdminProductController::class);
+    Route::resource('team', AdminTeamMemberController::class);
     Route::get('audit', [AdminAuditLogController::class, 'index'])->name('audit.index');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\SiteSetting;
+use App\Models\TeamMember;
 
 class AboutController extends Controller
 {
@@ -16,10 +17,11 @@ class AboutController extends Controller
         $departments = Department::with(['departmentMembers' => fn ($q) => $q->with('user')->orderBy('display_order')])->orderBy('name')->get();
         $strategicPlanUrl = SiteSetting::getByKey('strategic_plan_file', null);
         $annualReports = SiteSetting::getByKey('annual_reports', []);
+        $teamMembers = TeamMember::orderBy('display_order')->orderBy('name')->get();
 
         return view('public.about', compact(
             'founderStory', 'mission', 'vision', 'coreValues',
-            'departments', 'strategicPlanUrl', 'annualReports'
+            'departments', 'strategicPlanUrl', 'annualReports', 'teamMembers'
         ));
     }
 }

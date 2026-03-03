@@ -27,6 +27,7 @@ class User extends Authenticatable
         'profile_photo',
         'bio',
         'status',
+        'role',
     ];
 
     /**
@@ -90,6 +91,19 @@ class User extends Authenticatable
     public function hasRole(string|array $roles): bool
     {
         $names = is_array($roles) ? $roles : [$roles];
+        if (in_array($this->role, $names, true)) {
+            return true;
+        }
         return $this->roles()->whereIn('name', $names)->exists();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin' || $this->role === 'super_admin';
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
     }
 }
