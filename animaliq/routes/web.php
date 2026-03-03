@@ -71,6 +71,8 @@ Route::post('/logout', function () {
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::post('departments/{department}/members', [AdminDepartmentController::class, 'addMember'])->name('departments.members.store');
+    Route::delete('departments/{department}/members/{member}', [AdminDepartmentController::class, 'removeMember'])->name('departments.members.destroy');
     Route::resource('departments', AdminDepartmentController::class);
     Route::resource('programs', AdminProgramController::class);
     Route::resource('events', AdminEventController::class);

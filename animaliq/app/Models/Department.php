@@ -10,7 +10,14 @@ class Department extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'slug', 'mandate'];
+    protected $fillable = ['name', 'slug', 'mandate', 'admin_sections'];
+
+    protected function casts(): array
+    {
+        return [
+            'admin_sections' => 'array',
+        ];
+    }
 
     public function departmentMembers(): HasMany
     {

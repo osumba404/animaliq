@@ -28,17 +28,18 @@
         </div>
     </div>
     <nav class="flex flex-wrap gap-4">
-        <a href="{{ route('admin.departments.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Departments</a>
-        <a href="{{ route('admin.programs.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Programs</a>
-        <a href="{{ route('admin.events.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Events</a>
-        <a href="{{ route('admin.users.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Users</a>
-        <a href="{{ route('admin.settings.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Settings</a>
-        <a href="{{ route('admin.research.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Research</a>
-        <a href="{{ route('admin.campaigns.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Campaigns</a>
-        <a href="{{ route('admin.posts.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Posts</a>
-        <a href="{{ route('admin.donations.campaigns') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Donations</a>
-        <a href="{{ route('admin.products.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Products</a>
-        <a href="{{ route('admin.team.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Team</a>
-        <a href="{{ route('admin.audit.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Audit Log</a>
+        @php $sections = $adminAllowedSections ?? []; @endphp
+        @if(in_array('departments', $sections))<a href="{{ route('admin.departments.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Departments</a>@endif
+        @if(in_array('programs', $sections))<a href="{{ route('admin.programs.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Programs</a>@endif
+        @if(in_array('events', $sections))<a href="{{ route('admin.events.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Events</a>@endif
+        @if(in_array('users', $sections))<a href="{{ route('admin.users.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Users</a>@endif
+        @if(in_array('settings', $sections))<a href="{{ route('admin.settings.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Settings</a>@endif
+        @if(in_array('research', $sections))<a href="{{ route('admin.research.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Research</a>@endif
+        @if(in_array('campaigns', $sections))<a href="{{ route('admin.campaigns.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Campaigns</a>@endif
+        @if(in_array('posts', $sections))<a href="{{ route('admin.posts.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Posts</a>@endif
+        @if(in_array('donations', $sections))<a href="{{ route('admin.donations.campaigns') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Donations</a>@endif
+        @if(in_array('products', $sections))<a href="{{ route('admin.products.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Products</a>@endif
+        @if(in_array('team', $sections))<a href="{{ route('admin.team.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Team</a>@endif
+        @if(in_array('audit', $sections))<a href="{{ route('admin.audit.index') }}" class="theme-card px-4 py-2 rounded hover:border-[var(--accent-orange)] transition-colors">Audit Log</a>@endif
     </nav>
 @endsection

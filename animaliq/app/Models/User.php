@@ -106,4 +106,34 @@ class User extends Authenticatable
     {
         return $this->role === 'super_admin';
     }
+
+    /**
+     * Admin sections this user is allowed to access in the admin panel.
+     * Super_admin: all sections. Admin: union of admin_sections from their departments.
+     */
+    public function allowedAdminSections(): array
+    {
+        if ($this->isSuperAdmin()) {
+            return array_merge(
+                array_keys(config('admin_sections.assignable_sections', [])),
+                config('admin_sections.super_admin_only_sections', [])
+            );
+        }
+        if ($this->role !== 'admin') {
+            return [];
+        }
+        $departments = $this->departmentMembers()->with('department')->get()->pluck('department')->filter();
+        $sections = $departments->pluck('admin_sections')->filter()->flatten()->unique()->values()->all();
+        $sections = array_values(array_unique($sections));
+        if (! empty($sections)) {
+            $sections[] = 'dashboard';
+        }
+        return array_values(array_unique($sections));
+    }
+
+    /** Check if the current user can access the given admin section key. */
+    public function canAccessAdminSection(string $section): bool
+    {
+        return in_array($section, $this->allowedAdminSections(), true);
+    }
 }

@@ -19,29 +19,58 @@
             <a href="{{ route('admin.dashboard') }}" class="font-semibold theme-accent text-lg">Admin</a>
         </div>
         <nav class="p-2 flex-1 overflow-y-auto">
+            @php
+                $adminSections = $adminAllowedSections ?? [];
+            @endphp
             <ul class="space-y-0.5">
+                @if(in_array('dashboard', $adminSections))
                 <li><a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.dashboard')) active @endif">Dashboard</a></li>
+                @endif
                 <li class="pt-2 mt-2 border-t theme-border"><span class="px-3 text-xs font-semibold group-label uppercase">Content</span></li>
+                @if(in_array('departments', $adminSections))
                 <li><a href="{{ route('admin.departments.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.departments.*')) active @endif">Departments</a></li>
+                @endif
+                @if(in_array('programs', $adminSections))
                 <li><a href="{{ route('admin.programs.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.programs.*')) active @endif">Programs</a></li>
+                @endif
+                @if(in_array('events', $adminSections))
                 <li><a href="{{ route('admin.events.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.events.*')) active @endif">Events</a></li>
+                @endif
+                @if(in_array('research', $adminSections))
                 <li><a href="{{ route('admin.research.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.research.*')) active @endif">Research</a></li>
+                @endif
+                @if(in_array('campaigns', $adminSections))
                 <li><a href="{{ route('admin.campaigns.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.campaigns.*')) active @endif">Campaigns</a></li>
+                @endif
+                @if(in_array('posts', $adminSections))
                 <li><a href="{{ route('admin.posts.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.posts.*')) active @endif">Posts</a></li>
+                @endif
                 <li class="pt-2 mt-2 border-t theme-border"><span class="px-3 text-xs font-semibold group-label uppercase">Settings &amp; Site</span></li>
+                @if(in_array('settings', $adminSections))
                 <li><a href="{{ route('admin.settings.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.index') || request()->routeIs('admin.settings.edit') || request()->routeIs('admin.settings.create')) active @endif">Site Settings</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'homepage') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'homepage') active @endif">Homepage</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'mission') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'mission') active @endif">Mission &amp; Vision</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'about') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'about') active @endif">About</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'research') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'research') active @endif">Research Banner</a></li>
                 <li><a href="{{ route('admin.settings.slides') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.slides*')) active @endif">Homepage Slides</a></li>
+                @endif
+                @if(in_array('team', $adminSections))
                 <li><a href="{{ route('admin.team.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.team.*')) active @endif">Team</a></li>
+                @endif
                 <li class="pt-2 mt-2 border-t theme-border"><span class="px-3 text-xs font-semibold group-label uppercase">Finance &amp; Store</span></li>
+                @if(in_array('donations', $adminSections))
                 <li><a href="{{ route('admin.donations.campaigns') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.donations.*')) active @endif">Donation Campaigns</a></li>
+                @endif
+                @if(in_array('products', $adminSections))
                 <li><a href="{{ route('admin.products.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.products.*')) active @endif">Products</a></li>
+                @endif
                 <li class="pt-2 mt-2 border-t theme-border"><span class="px-3 text-xs font-semibold group-label uppercase">System</span></li>
+                @if(in_array('users', $adminSections))
                 <li><a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.users.*')) active @endif">Users</a></li>
+                @endif
+                @if(in_array('audit', $adminSections))
                 <li><a href="{{ route('admin.audit.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.audit.*')) active @endif">Audit Log</a></li>
+                @endif
             </ul>
         </nav>
         <div class="p-2 border-t theme-border">
