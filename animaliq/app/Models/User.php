@@ -51,4 +51,45 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_user')->withTimestamps();
+    }
+
+    public function departmentMembers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(DepartmentMember::class, 'user_id');
+    }
+
+    public function membership(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Membership::class, 'user_id');
+    }
+
+    public function eventRegistrations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(EventRegistration::class, 'user_id');
+    }
+
+    public function volunteerHours(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(VolunteerHour::class, 'user_id');
+    }
+
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function donations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Donation::class, 'user_id');
+    }
+
+    public function hasRole(string|array $roles): bool
+    {
+        $names = is_array($roles) ? $roles : [$roles];
+        return $this->roles()->whereIn('name', $names)->exists();
+    }
 }
