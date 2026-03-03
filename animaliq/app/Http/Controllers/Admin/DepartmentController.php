@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class DepartmentController extends Controller
 {
@@ -25,9 +26,13 @@ class DepartmentController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:150',
-            'slug' => 'nullable|string|max:150|unique:departments,slug',
+            'slug' => 'nullable|string|max:150',
             'mandate' => 'nullable|string',
         ]);
+        $validated['slug'] = $this->uniqueSlugForDepartment(
+            $validated['slug'] ?: Str::slug($validated['name']),
+            null
+        );
         Department::create($validated);
         return redirect()->route('admin.departments.index')->with('success', 'Department created.');
     }
@@ -43,11 +48,36 @@ class DepartmentController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:150',
-            'slug' => 'nullable|string|max:150|unique:departments,slug,' . $department->id,
+            'slug' => 'nullable|string|max:150',
             'mandate' => 'nullable|string',
         ]);
+        $validated['slug'] = $this->uniqueSlugForDepartment(
+            $validated['slug'] ?: Str::slug($validated['name']),
+            $department->id
+        );
         $department->update($validated);
         return redirect()->route('admin.departments.index')->with('success', 'Department updated.');
+    }
+
+    private function uniqueSlugForDepartment(string $slug, ?int $excludeId): string
+    {
+        $base = Str::slug($slug);
+        $base = $base ?: 'department';
+        $candidate = $base;
+        $n = 1;
+        while (true) {
+            $q = Department::where('slug', $candidate);
+            if ($excludeId !== null) {
+                $q->where('id', '!=', $excludeId);
+            }
+            if (!$q->exists()) {
+                return $candidate;
+            }
+            $candidate = $base . '-' . (++$n);
+            if (strlen($candidate) > 150) {
+                $candidate = substr($base, 0, 147) . '-' . $n;
+            }
+        }
     }
 
     public function destroy(Department $department)
