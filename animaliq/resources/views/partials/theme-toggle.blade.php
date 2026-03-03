@@ -19,7 +19,9 @@
         });
         setStored(theme);
     }
-    var preferred = getStored() || 'light';
+    var preferred = getStored();
+    if (!preferred && typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) preferred = 'dark';
+    if (!preferred) preferred = 'light';
     apply(preferred);
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.theme-switch-btn').forEach(function(btn) {

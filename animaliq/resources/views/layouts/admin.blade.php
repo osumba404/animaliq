@@ -33,6 +33,7 @@
                 <li><a href="{{ route('admin.settings.sections', 'homepage') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'homepage') active @endif">Homepage</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'mission') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'mission') active @endif">Mission &amp; Vision</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'about') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'about') active @endif">About</a></li>
+                <li><a href="{{ route('admin.settings.sections', 'research') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'research') active @endif">Research Banner</a></li>
                 <li><a href="{{ route('admin.settings.slides') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.slides*')) active @endif">Homepage Slides</a></li>
                 <li><a href="{{ route('admin.team.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.team.*')) active @endif">Team</a></li>
                 <li class="pt-2 mt-2 border-t theme-border"><span class="px-3 text-xs font-semibold group-label uppercase">Finance &amp; Store</span></li>
@@ -64,8 +65,9 @@
             @if (session('error'))
                 <div class="mb-4 p-4 rounded theme-alert-error">{{ session('error') }}</div>
             @endif
-            @yield('content')
-        </main>
+        @yield('content')
+    </main>
     </div>
+    @include('partials.admin-crud-modal')
 </body>
 </html>

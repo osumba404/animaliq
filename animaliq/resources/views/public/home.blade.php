@@ -16,7 +16,12 @@
                             <p class="mt-2 text-lg theme-text-secondary">{{ $slide->subtitle }}</p>
                         @endif
                         @if($slide->cta_text && $slide->cta_link)
-                            <a href="{{ $slide->cta_link }}" class="inline-block mt-4 theme-btn px-6 py-2">{{ $slide->cta_text }}</a>
+                            <div class="flex flex-wrap gap-3 justify-center mt-4">
+                                <a href="{{ $slide->cta_link }}" class="theme-btn px-6 py-2">{{ $slide->cta_text }}</a>
+                                @if($slide->cta_secondary_text && $slide->cta_secondary_link)
+                                    <a href="{{ $slide->cta_secondary_link }}" class="theme-btn-outline px-6 py-2">{{ $slide->cta_secondary_text }}</a>
+                                @endif
+                            </div>
                         @endif
                     </div>
                 @endforeach

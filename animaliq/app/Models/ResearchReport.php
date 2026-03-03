@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ResearchReport extends Model
 {
-    protected $fillable = ['project_id', 'title', 'file_path', 'published_at'];
+    protected $fillable = ['project_id', 'title', 'file_path', 'banner_image', 'published_at'];
 
     protected function casts(): array
     {

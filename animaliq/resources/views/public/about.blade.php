@@ -15,14 +15,24 @@
     @if($mission)
         <section class="mb-8">
             <h2 class="text-xl font-semibold mb-2 theme-section-title">Mission</h2>
-            <p class="theme-text-secondary">{{ $mission }}</p>
+            <div class="flex flex-col md:flex-row gap-4 items-start">
+                @if($missionImage)
+                    <img src="{{ asset('storage/' . $missionImage) }}" alt="Mission" class="rounded-lg max-w-sm w-full object-cover shrink-0">
+                @endif
+                <p class="theme-text-secondary flex-1">{{ $mission }}</p>
+            </div>
         </section>
     @endif
 
     @if($vision)
         <section class="mb-8">
             <h2 class="text-xl font-semibold mb-2 theme-section-title">Vision</h2>
-            <p class="theme-text-secondary">{{ $vision }}</p>
+            <div class="flex flex-col md:flex-row gap-4 items-start">
+                @if($visionImage)
+                    <img src="{{ asset('storage/' . $visionImage) }}" alt="Vision" class="rounded-lg max-w-sm w-full object-cover shrink-0">
+                @endif
+                <p class="theme-text-secondary flex-1">{{ $vision }}</p>
+            </div>
         </section>
     @endif
 

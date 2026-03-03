@@ -50,6 +50,8 @@ Route::get('/store/{product}', [StoreController::class, 'show'])->name('store.sh
 // Community portal (authenticated members)
 Route::middleware(['auth'])->group(function () {
     Route::get('/community/dashboard', [CommunityController::class, 'dashboard'])->name('community.dashboard');
+    Route::get('/community/profile', [CommunityController::class, 'profileEdit'])->name('community.profile');
+    Route::put('/community/profile', [CommunityController::class, 'profileUpdate'])->name('community.profile.update');
 });
 
 // Authentication
@@ -72,15 +74,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('departments', AdminDepartmentController::class);
     Route::resource('programs', AdminProgramController::class);
     Route::resource('events', AdminEventController::class);
+    Route::get('users-create-form', [AdminUserController::class, 'formCreate'])->name('users.create-form');
+    Route::get('users/{user}/edit-form', [AdminUserController::class, 'formEdit'])->name('users.edit-form');
     Route::resource('users', AdminUserController::class);
     Route::get('settings', [AdminSiteSettingController::class, 'index'])->name('settings.index');
-    Route::get('settings/create', [AdminSiteSettingController::class, 'create'])->name('settings.create');
-    Route::post('settings', [AdminSiteSettingController::class, 'store'])->name('settings.store');
     Route::get('settings/sections/{section}', [AdminSiteSettingController::class, 'editSection'])->name('settings.sections');
     Route::put('settings/sections/{section}', [AdminSiteSettingController::class, 'updateSection'])->name('settings.sections.update');
     Route::get('settings/{setting}/edit', [AdminSiteSettingController::class, 'edit'])->name('settings.edit');
     Route::put('settings/{setting}', [AdminSiteSettingController::class, 'update'])->name('settings.update');
-    Route::delete('settings/{setting}', [AdminSiteSettingController::class, 'destroy'])->name('settings.destroy');
     Route::get('settings/slides', [AdminSiteSettingController::class, 'slides'])->name('settings.slides');
     Route::get('settings/slides/create', [AdminSiteSettingController::class, 'slidesCreate'])->name('settings.slides.create');
     Route::post('settings/slides', [AdminSiteSettingController::class, 'slidesStore'])->name('settings.slides.store');
@@ -94,6 +95,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->parameters(['donation' => 'donationCampaign'])
         ->names(['index' => 'donations.campaigns']);
     Route::resource('products', AdminProductController::class);
+    Route::get('team-create-form', [AdminTeamMemberController::class, 'formCreate'])->name('team.create-form');
+    Route::get('team/{team}/edit-form', [AdminTeamMemberController::class, 'formEdit'])->name('team.edit-form');
     Route::resource('team', AdminTeamMemberController::class);
     Route::get('audit', [AdminAuditLogController::class, 'index'])->name('audit.index');
 });

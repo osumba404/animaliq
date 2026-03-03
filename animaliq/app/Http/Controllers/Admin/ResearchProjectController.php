@@ -26,6 +26,7 @@ class ResearchProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'nullable|string',
+            'banner_image' => 'nullable|string|max:255',
             'department_id' => 'nullable|exists:departments,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
@@ -47,6 +48,7 @@ class ResearchProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'nullable|string',
+            'banner_image' => 'nullable|string|max:255',
             'department_id' => 'nullable|exists:departments,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',

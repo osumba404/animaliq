@@ -12,7 +12,7 @@ class ResearchProject extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'title', 'summary', 'department_id', 'start_date', 'end_date', 'status',
+        'title', 'summary', 'banner_image', 'department_id', 'start_date', 'end_date', 'status',
     ];
 
     protected function casts(): array

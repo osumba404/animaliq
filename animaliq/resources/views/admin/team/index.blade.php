@@ -2,13 +2,13 @@
 @section('title', 'Team')
 @section('heading', 'Team')
 @section('content')
-<p class="mb-4"><a href="{{ route('admin.team.create') }}" class="theme-btn inline-block">Add Team Member</a></p>
+<p class="mb-4"><a href="{{ route('admin.team.create-form') }}" class="theme-btn inline-block" data-crud-modal>Add Team Member</a></p>
 <ul class="space-y-0">
     @foreach($members as $m)
     <li class="flex justify-between items-center py-3 theme-table-cell border-b">
         <span class="theme-text-primary">{{ $m->name }} — {{ $m->role }}</span>
         <span>
-            <a href="{{ route('admin.team.edit', $m) }}" class="theme-link font-medium">Edit</a>
+            <a href="{{ route('admin.team.edit-form', $m) }}" class="theme-link font-medium" data-crud-modal>Edit</a>
             <form action="{{ route('admin.team.destroy', $m) }}" method="POST" class="inline ml-2" onsubmit="return confirm('Delete this team member?');">
                 @csrf
                 @method('DELETE')

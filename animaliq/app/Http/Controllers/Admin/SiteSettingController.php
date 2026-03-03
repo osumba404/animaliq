@@ -126,6 +126,8 @@ class SiteSettingController extends Controller
             'image_path' => 'nullable|string|max:255',
             'cta_text' => 'nullable|string|max:100',
             'cta_link' => 'nullable|string|max:255',
+            'cta_secondary_text' => 'nullable|string|max:100',
+            'cta_secondary_link' => 'nullable|string|max:255',
             'display_order' => 'nullable|integer',
             'status' => 'in:active,inactive',
         ]);
@@ -148,6 +150,8 @@ class SiteSettingController extends Controller
             'image_path' => 'nullable|string|max:255',
             'cta_text' => 'nullable|string|max:100',
             'cta_link' => 'nullable|string|max:255',
+            'cta_secondary_text' => 'nullable|string|max:100',
+            'cta_secondary_link' => 'nullable|string|max:255',
             'display_order' => 'nullable|integer',
             'status' => 'in:active,inactive',
         ]);

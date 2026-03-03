@@ -21,6 +21,16 @@ class UserController extends Controller
         return view('admin.users.create');
     }
 
+    public function formCreate()
+    {
+        return view('admin.users._form', ['user' => null]);
+    }
+
+    public function formEdit(User $user)
+    {
+        return view('admin.users._form', ['user' => $user]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

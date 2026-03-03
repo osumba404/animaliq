@@ -19,6 +19,16 @@ class TeamMemberController extends Controller
         return view('admin.team.create');
     }
 
+    public function formCreate()
+    {
+        return view('admin.team._form', ['member' => null]);
+    }
+
+    public function formEdit(TeamMember $team)
+    {
+        return view('admin.team._form', ['member' => $team]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

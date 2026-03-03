@@ -1,6 +1,6 @@
 {{-- Orange & Black palette: light + dark mode. Include in <head>. --}}
 <script>
-(function(){var k='animaliq-theme';var t=(typeof localStorage!=='undefined'&&localStorage.getItem(k))||'light';document.documentElement.classList.add(t==='dark'?'dark-theme':'light-theme');})();
+(function(){var k='animaliq-theme';var s=(typeof localStorage!=='undefined'&&localStorage.getItem(k));var t=s||(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.classList.add(t==='dark'?'dark-theme':'light-theme');})();
 </script>
 <style>
     * { transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
