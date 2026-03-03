@@ -13,7 +13,7 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="inline-block px-5 py-1.5 border border-gray-300 rounded text-sm">Dashboard</a>
+                        <a href="{{ route('community.dashboard') }}" class="inline-block px-5 py-1.5 border border-gray-300 rounded text-sm">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 rounded text-sm">Log in</a>
                         @if (Route::has('register'))

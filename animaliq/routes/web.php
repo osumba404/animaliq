@@ -23,6 +23,8 @@ use App\Http\Controllers\Admin\ResearchProjectController as AdminResearchProject
 use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\AuditLogController as AdminAuditLogController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -49,19 +51,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/community/dashboard', [CommunityController::class, 'dashboard'])->name('community.dashboard');
 });
 
-// Auth stub routes (so welcome and layout don't break; install Laravel Breeze for full auth)
-Route::get('/login', function () {
-    return redirect()->route('home');
-})->name('login');
-Route::get('/register', function () {
-    return redirect()->route('home');
-})->name('register');
+// Authentication
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'create'])->name('login');
+    Route::post('/login', [LoginController::class, 'store']);
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store']);
+});
 Route::post('/logout', function () {
     auth()->logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
     return redirect()->route('home');
-})->name('logout');
+})->name('logout')->middleware('auth');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
