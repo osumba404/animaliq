@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Animal IQ') – {{ config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
     @stack('styles')
 </head>
-<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] min-h-screen antialiased">
-    <header class="border-b border-[#e3e3e0] dark:border-[#3E3E3A]">
+<body class="bg-[#FDFDFC] text-[#1b1b18] min-h-screen antialiased">
+    <header class="border-b border-gray-200">
         <nav class="container mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
             <a href="{{ route('home') }}" class="text-xl font-semibold">Animal IQ</a>
             <ul class="flex flex-wrap items-center gap-6">
@@ -50,8 +50,8 @@
         @endif
         @yield('content')
     </main>
-    <footer class="border-t border-[#e3e3e0] dark:border-[#3E3E3A] mt-12 py-8">
-        <div class="container mx-auto px-4 text-center text-sm text-[#706f6c]">
+    <footer class="border-t border-gray-200 mt-12 py-8">
+        <div class="container mx-auto px-4 text-center text-sm text-gray-500">
             &copy; {{ date('Y') }} Animal IQ. All rights reserved.
         </div>
     </footer>
