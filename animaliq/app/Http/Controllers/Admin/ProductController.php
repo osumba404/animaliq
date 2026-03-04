@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::withTrashed()->orderBy('name')->paginate(15);
+        $products = Product::withTrashed()->withCount('orderItems')->orderBy('name')->paginate(15);
         return view('admin.products.index', compact('products'));
     }
 

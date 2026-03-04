@@ -10,7 +10,7 @@ class DonationCampaignController extends Controller
 {
     public function index()
     {
-        $campaigns = DonationCampaign::withSum('donations', 'amount')->orderByDesc('end_date')->paginate(15);
+        $campaigns = DonationCampaign::withSum('donations', 'amount')->withCount('donations')->orderByDesc('end_date')->paginate(15);
         return view('admin.donations.campaigns', compact('campaigns'));
     }
 
