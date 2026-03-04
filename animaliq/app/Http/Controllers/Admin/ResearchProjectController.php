@@ -26,12 +26,17 @@ class ResearchProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'nullable|string',
-            'banner_image' => 'nullable|string|max:255',
+            'banner_image' => 'nullable|image|max:2048',
             'department_id' => 'nullable|exists:departments,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'status' => 'in:ongoing,completed',
         ]);
+        if ($request->hasFile('banner_image')) {
+            $validated['banner_image'] = $request->file('banner_image')->store('research', 'public');
+        } else {
+            $validated['banner_image'] = null;
+        }
         ResearchProject::create($validated);
         return redirect()->route('admin.research.index')->with('success', 'Research project created.');
     }
@@ -48,12 +53,17 @@ class ResearchProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'nullable|string',
-            'banner_image' => 'nullable|string|max:255',
+            'banner_image' => 'nullable|image|max:2048',
             'department_id' => 'nullable|exists:departments,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'status' => 'in:ongoing,completed',
         ]);
+        if ($request->hasFile('banner_image')) {
+            $validated['banner_image'] = $request->file('banner_image')->store('research', 'public');
+        } else {
+            unset($validated['banner_image']);
+        }
         $researchProject->update($validated);
         return redirect()->route('admin.research.index')->with('success', 'Research project updated.');
     }

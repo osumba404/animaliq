@@ -87,20 +87,37 @@ class SiteSettingController extends Controller
             abort(404, 'Unknown section.');
         }
         $config = $sections[$section];
-        $keys = array_keys($config['keys']);
+        $keysConfig = $config['keys'];
         $rules = [];
-        foreach ($keys as $key) {
-            $rules[$key] = 'nullable|string';
+        foreach (array_keys($keysConfig) as $key) {
+            if (($keysConfig[$key]['type'] ?? 'text') === 'image') {
+                $rules[$key] = 'nullable|image|max:2048';
+            } else {
+                $rules[$key] = 'nullable|string';
+            }
         }
         $validated = $request->validate($rules);
-        foreach ($validated as $key => $value) {
-            if ($key === 'core_values' && is_string($value)) {
-                $lines = array_filter(array_map('trim', explode("\n", $value)));
-                $value = json_encode($lines);
+
+        foreach (array_keys($keysConfig) as $key) {
+            $type = $keysConfig[$key]['type'] ?? 'text';
+            $value = null;
+            if ($type === 'image') {
+                if ($request->hasFile($key)) {
+                    $value = $request->file($key)->store('settings', 'public');
+                } else {
+                    $existing = SiteSetting::where('setting_key', $key)->first();
+                    $value = $existing?->setting_value ?? '';
+                }
+            } else {
+                $value = $validated[$key] ?? '';
+                if ($key === 'core_values' && is_string($value)) {
+                    $lines = array_filter(array_map('trim', explode("\n", $value)));
+                    $value = json_encode($lines);
+                }
             }
             SiteSetting::updateOrCreate(
                 ['setting_key' => $key],
-                ['setting_value' => $value ?? '', 'type' => $config['keys'][$key]['type'] ?? 'text']
+                ['setting_value' => $value ?? '', 'type' => $type]
             );
             \Illuminate\Support\Facades\Cache::forget("site_setting_{$key}");
         }
@@ -118,12 +135,22 @@ class SiteSettingController extends Controller
         return view('admin.settings.slides.create');
     }
 
+    public function formSlidesCreate()
+    {
+        return view('admin.settings.slides._form', ['slide' => null]);
+    }
+
+    public function formSlidesEdit(HomepageSlide $slide)
+    {
+        return view('admin.settings.slides._form', ['slide' => $slide]);
+    }
+
     public function slidesStore(Request $request)
     {
         $validated = $request->validate([
             'title' => 'nullable|string|max:200',
             'subtitle' => 'nullable|string',
-            'image_path' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'cta_text' => 'nullable|string|max:100',
             'cta_link' => 'nullable|string|max:255',
             'cta_secondary_text' => 'nullable|string|max:100',
@@ -133,6 +160,12 @@ class SiteSettingController extends Controller
         ]);
         $validated['display_order'] = $validated['display_order'] ?? 0;
         $validated['status'] = $validated['status'] ?? 'inactive';
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('slides', 'public');
+        } else {
+            $validated['image_path'] = null;
+        }
+        unset($validated['image']);
         HomepageSlide::create($validated);
         return redirect()->route('admin.settings.slides')->with('success', 'Slide created.');
     }
@@ -147,7 +180,7 @@ class SiteSettingController extends Controller
         $validated = $request->validate([
             'title' => 'nullable|string|max:200',
             'subtitle' => 'nullable|string',
-            'image_path' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'cta_text' => 'nullable|string|max:100',
             'cta_link' => 'nullable|string|max:255',
             'cta_secondary_text' => 'nullable|string|max:100',
@@ -155,6 +188,10 @@ class SiteSettingController extends Controller
             'display_order' => 'nullable|integer',
             'status' => 'in:active,inactive',
         ]);
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('slides', 'public');
+        }
+        unset($validated['image']);
         $slide->update($validated);
         return redirect()->route('admin.settings.slides')->with('success', 'Slide updated.');
     }

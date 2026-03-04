@@ -13,9 +13,9 @@ return [
         'title' => 'Mission & Vision',
         'keys' => [
             'mission_statement' => ['label' => 'Mission statement', 'type' => 'text'],
-            'mission_image' => ['label' => 'Mission image path (optional)', 'type' => 'text'],
+            'mission_image' => ['label' => 'Mission image (optional)', 'type' => 'image'],
             'vision_statement' => ['label' => 'Vision statement', 'type' => 'text'],
-            'vision_image' => ['label' => 'Vision image path (optional)', 'type' => 'text'],
+            'vision_image' => ['label' => 'Vision image (optional)', 'type' => 'image'],
         ],
     ],
     'about' => [
@@ -29,7 +29,7 @@ return [
     'research' => [
         'title' => 'Research Section',
         'keys' => [
-            'research_section_banner' => ['label' => 'Research section banner image path', 'type' => 'text'],
+            'research_section_banner' => ['label' => 'Research section banner image', 'type' => 'image'],
         ],
     ],
 ];

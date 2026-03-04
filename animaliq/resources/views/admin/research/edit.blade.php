@@ -3,10 +3,10 @@
 @section('heading', 'Edit Research Project')
 @section('content')
 <h1 class="text-2xl font-bold mb-4 theme-text-primary">Edit Research Project</h1>
-<form action="{{ route('admin.research.update', $researchProject) }}" method="POST" class="max-w-md">@csrf @method('PUT')
+<form action="{{ route('admin.research.update', $researchProject) }}" method="POST" class="max-w-md" enctype="multipart/form-data">@csrf @method('PUT')
 <div class="mb-4"><label class="block font-medium theme-text-secondary mb-1">Title</label><input type="text" name="title" value="{{ old('title', $researchProject->title) }}" class="theme-input w-full" required></div>
 <div class="mb-4"><label class="block font-medium theme-text-secondary mb-1">Summary</label><textarea name="summary" class="theme-input w-full" rows="4">{{ old('summary', $researchProject->summary) }}</textarea></div>
-<div class="mb-4"><label class="block font-medium theme-text-secondary mb-1">Banner image path</label><input type="text" name="banner_image" value="{{ old('banner_image', $researchProject->banner_image) }}" class="theme-input w-full" placeholder="path/to/banner.jpg"></div>
+<div class="mb-4"><label class="block font-medium theme-text-secondary mb-1">Banner image</label>@if($researchProject->banner_image)<p class="text-sm theme-text-secondary mb-1">Current: <img src="{{ asset('storage/' . $researchProject->banner_image) }}" alt="" class="inline-block h-10 max-w-[120px] object-cover rounded"></p>@endif<input type="file" name="banner_image" accept="image/*" class="theme-input w-full"><span class="text-xs theme-text-secondary">Leave empty to keep current</span></div>
 <div class="mb-4"><label class="block font-medium theme-text-secondary mb-1">Department</label><select name="department_id" class="theme-input w-full"><option value="">—</option>@foreach($departments as $d)<option value="{{ $d->id }}" {{ $researchProject->department_id == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>@endforeach</select></div>
 <div class="mb-4"><label class="block font-medium theme-text-secondary mb-1">Start date</label><input type="date" name="start_date" value="{{ old('start_date', $researchProject->start_date?->format('Y-m-d')) }}" class="theme-input w-full"></div>
 <div class="mb-4"><label class="block font-medium theme-text-secondary mb-1">End date</label><input type="date" name="end_date" value="{{ old('end_date', $researchProject->end_date?->format('Y-m-d')) }}" class="theme-input w-full"></div>

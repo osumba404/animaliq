@@ -23,6 +23,16 @@ class DepartmentController extends Controller
         return view('admin.departments.create', compact('users'));
     }
 
+    public function formCreate()
+    {
+        return view('admin.departments._form', ['department' => null]);
+    }
+
+    public function formEdit(Department $department)
+    {
+        return view('admin.departments._form', ['department' => $department]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

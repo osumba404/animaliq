@@ -2,13 +2,13 @@
 @section('title', 'Homepage Slides')
 @section('heading', 'Homepage Slides')
 @section('content')
-<p class="mb-4"><a href="{{ route('admin.settings.slides.create') }}" class="theme-btn inline-block">Add Slide</a></p>
+<p class="mb-4"><a href="{{ route('admin.settings.slides.create-form') }}" class="theme-btn inline-block" data-crud-modal>Add Slide</a></p>
 <ul class="space-y-0">
     @foreach($slides as $s)
     <li class="flex justify-between items-center py-3 theme-table-cell border-b">
         <span class="theme-text-primary">{{ $s->title ?: '(No title)' }} — {{ $s->status }} (order: {{ $s->display_order ?? 0 }})</span>
         <span>
-            <a href="{{ route('admin.settings.slides.edit', $s) }}" class="theme-link font-medium">Edit</a>
+            <a href="{{ route('admin.settings.slides.edit-form', $s) }}" class="theme-link font-medium" data-crud-modal>Edit</a>
             <form action="{{ route('admin.settings.slides.destroy', $s) }}" method="POST" class="inline ml-2" onsubmit="return confirm('Delete this slide?');">
                 @csrf
                 @method('DELETE')

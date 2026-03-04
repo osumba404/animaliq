@@ -73,6 +73,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::post('departments/{department}/members', [AdminDepartmentController::class, 'addMember'])->name('departments.members.store');
     Route::delete('departments/{department}/members/{member}', [AdminDepartmentController::class, 'removeMember'])->name('departments.members.destroy');
+    Route::get('departments-create-form', [AdminDepartmentController::class, 'formCreate'])->name('departments.create-form');
+    Route::get('departments/{department}/edit-form', [AdminDepartmentController::class, 'formEdit'])->name('departments.edit-form');
     Route::resource('departments', AdminDepartmentController::class);
     Route::resource('programs', AdminProgramController::class);
     Route::resource('events', AdminEventController::class);
@@ -85,6 +87,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('settings/{setting}/edit', [AdminSiteSettingController::class, 'edit'])->name('settings.edit');
     Route::put('settings/{setting}', [AdminSiteSettingController::class, 'update'])->name('settings.update');
     Route::get('settings/slides', [AdminSiteSettingController::class, 'slides'])->name('settings.slides');
+    Route::get('settings/slides/create-form', [AdminSiteSettingController::class, 'formSlidesCreate'])->name('settings.slides.create-form');
+    Route::get('settings/slides/{slide}/edit-form', [AdminSiteSettingController::class, 'formSlidesEdit'])->name('settings.slides.edit-form');
     Route::get('settings/slides/create', [AdminSiteSettingController::class, 'slidesCreate'])->name('settings.slides.create');
     Route::post('settings/slides', [AdminSiteSettingController::class, 'slidesStore'])->name('settings.slides.store');
     Route::get('settings/slides/{slide}/edit', [AdminSiteSettingController::class, 'slidesEdit'])->name('settings.slides.edit');

@@ -33,7 +33,7 @@ class TeamMemberController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:150',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'role' => 'required|string|max:150',
             'remarks' => 'nullable|string',
             'role_description' => 'nullable|string',
@@ -46,6 +46,11 @@ class TeamMemberController extends Controller
         ]);
         $validated['display_order'] = (int) ($validated['display_order'] ?? 0);
         $validated['socials'] = array_filter($validated['socials'] ?? []);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('team', 'public');
+        } else {
+            $validated['image'] = null;
+        }
         TeamMember::create($validated);
         return redirect()->route('admin.team.index')->with('success', 'Team member created.');
     }
@@ -59,7 +64,7 @@ class TeamMemberController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:150',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'role' => 'required|string|max:150',
             'remarks' => 'nullable|string',
             'role_description' => 'nullable|string',
@@ -72,6 +77,11 @@ class TeamMemberController extends Controller
         ]);
         $validated['display_order'] = (int) ($validated['display_order'] ?? 0);
         $validated['socials'] = array_filter($validated['socials'] ?? []);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('team', 'public');
+        } else {
+            unset($validated['image']);
+        }
         $team->update($validated);
         return redirect()->route('admin.team.index')->with('success', 'Team member updated.');
     }
