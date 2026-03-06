@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use SoftDeletes;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = [
-        'name', 'description', 'price', 'stock', 'image_path', 'status',
+        'name', 'slug', 'description', 'price', 'stock', 'image_path', 'status',
     ];
 
     protected function casts(): array

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,10 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ResearchProject extends Model
 {
-    use SoftDeletes;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = [
-        'title', 'summary', 'banner_image', 'department_id', 'start_date', 'end_date', 'status',
+        'title', 'slug', 'summary', 'banner_image', 'department_id', 'start_date', 'end_date', 'status',
     ];
 
     protected function casts(): array

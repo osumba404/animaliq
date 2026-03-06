@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Campaign extends Model
 {
-    use SoftDeletes;
+    use HasSlug, SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'image', 'start_date', 'end_date'];
+    protected $fillable = ['title', 'slug', 'description', 'image', 'start_date', 'end_date'];
 
     protected function casts(): array
     {

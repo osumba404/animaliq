@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use SoftDeletes;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = [
-        'campaign_id', 'author_id', 'title', 'content', 'featured_image',
+        'campaign_id', 'author_id', 'title', 'slug', 'content', 'featured_image',
         'status', 'published_at',
     ];
 

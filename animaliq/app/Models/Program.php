@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,9 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Program extends Model
 {
-    use SoftDeletes;
+    use HasSlug, SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'image', 'department_id', 'status'];
+    protected $fillable = ['title', 'slug', 'description', 'image', 'department_id', 'status'];
 
     public function department(): BelongsTo
     {

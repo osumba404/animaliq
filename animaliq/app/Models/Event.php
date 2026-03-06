@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,10 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    use SoftDeletes;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = [
-        'program_id', 'title', 'description', 'location',
+        'program_id', 'title', 'slug', 'description', 'location',
         'start_datetime', 'end_datetime', 'capacity', 'banner_image', 'status',
     ];
 
