@@ -6,6 +6,7 @@
     <title>@yield('title', 'Admin') – {{ config('app.name') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
+    @include('partials.animations')
     <style>
         .admin-sidebar { background: var(--bg-secondary); border-right: 1px solid var(--border-color); }
         .admin-sidebar a, .admin-sidebar button { color: var(--text-secondary); text-decoration: none; background: none; border: none; cursor: pointer; font: inherit; }
@@ -100,7 +101,7 @@
             </div>
             @include('partials.theme-toggle')
         </header>
-        <main class="flex-1 p-4 md:p-6 overflow-auto theme-bg-primary">
+        <main class="flex-1 p-4 md:p-6 overflow-auto theme-bg-primary main-enter">
             @if (session('success'))
                 <div class="mb-4 p-4 rounded theme-alert-success">{{ session('success') }}</div>
             @endif

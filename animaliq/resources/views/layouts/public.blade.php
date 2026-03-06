@@ -6,12 +6,13 @@
     <title>@yield('title', 'Animal IQ') – {{ config('app.name') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
+    @include('partials.animations')
     @stack('styles')
 </head>
 <body class="theme-bg-primary theme-text-primary min-h-screen antialiased">
     <header class="theme-bg-primary theme-header-border sticky top-0 z-30">
         <nav class="container mx-auto px-4 py-3 md:py-4 flex flex-wrap items-center justify-between gap-2">
-            <a href="{{ route('home') }}" class="text-xl font-semibold shrink-0" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Animal IQ</a>
+            <a href="{{ route('home') }}" class="logo-brand text-xl font-semibold shrink-0" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Animal IQ</a>
             <div class="flex items-center gap-2 md:gap-4">
                 @include('partials.theme-toggle')
                 {{-- Desktop nav: visible from md up --}}
@@ -89,7 +90,7 @@
             </ul>
         </div>
     </header>
-    <main class="container mx-auto px-4 py-6 md:py-8 theme-text-primary min-w-0">
+    <main class="container mx-auto px-4 py-6 md:py-8 theme-text-primary min-w-0 main-enter">
         @if (session('success'))
             <div class="mb-4 p-4 rounded theme-alert-success">{{ session('success') }}</div>
         @endif
@@ -98,7 +99,7 @@
         @endif
         @yield('content')
     </main>
-    <footer class="theme-border border-t mt-12 py-8 theme-bg-secondary">
+    <footer class="theme-border border-t mt-12 py-8 theme-bg-secondary footer-enter">
         <div class="container mx-auto px-4 text-center text-sm theme-text-secondary">
             &copy; {{ date('Y') }} Animal IQ. All rights reserved.
         </div>

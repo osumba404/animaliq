@@ -6,10 +6,10 @@
     {{-- Hero --}}
     <section class="relative overflow-hidden theme-bg-warm border-b theme-border -mx-4 px-4 py-16 md:py-24">
         <div class="container mx-auto px-4 text-center max-w-3xl">
-            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-3">Who we are</p>
-            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary mb-4">About Animal IQ</h1>
-            <p class="text-lg theme-text-secondary">Education, conservation, and community at the heart of wildlife protection.</p>
-            <div class="mt-8 h-1 w-20 mx-auto rounded-full" style="background: linear-gradient(90deg, var(--orange-400), var(--orange-600));"></div>
+            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-3 animate-fade-in-up">Who we are</p>
+            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary mb-4 animate-fade-in-up animate-delay-1">About Animal IQ</h1>
+            <p class="text-lg theme-text-secondary animate-fade-in-up animate-delay-2">Education, conservation, and community at the heart of wildlife protection.</p>
+            <div class="mt-8 h-1 w-20 mx-auto rounded-full animate-fade-in-up animate-delay-3" style="background: linear-gradient(90deg, var(--orange-400), var(--orange-600));"></div>
         </div>
     </section>
 
@@ -30,7 +30,7 @@
                 <h2 class="text-center text-2xl font-bold theme-text-primary mb-10">Our Mission & Vision</h2>
                 <div class="grid md:grid-cols-2 gap-8">
                     @if($mission)
-                        <div class="theme-card rounded-2xl p-6 md:p-8 overflow-hidden transition hover:shadow-xl">
+                        <div class="theme-card rounded-2xl p-6 md:p-8 overflow-hidden hover-lift">
                             <div class="flex flex-col gap-4">
                                 @if($missionImage)
                                     <img src="{{ asset('storage/' . $missionImage) }}" alt="Our mission" class="w-full h-48 object-cover rounded-xl">
@@ -43,7 +43,7 @@
                         </div>
                     @endif
                     @if($vision)
-                        <div class="theme-card rounded-2xl p-6 md:p-8 overflow-hidden transition hover:shadow-xl">
+                        <div class="theme-card rounded-2xl p-6 md:p-8 overflow-hidden hover-lift">
                             <div class="flex flex-col gap-4">
                                 @if($visionImage)
                                     <img src="{{ asset('storage/' . $visionImage) }}" alt="Our vision" class="w-full h-48 object-cover rounded-xl">
@@ -67,7 +67,7 @@
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach((array) $coreValues as $index => $value)
                         @php $label = is_string($value) ? $value : ($value['name'] ?? json_encode($value)); @endphp
-                        <div class="theme-card rounded-xl p-5 flex items-start gap-4 transition hover:shadow-lg border-l-4 border-l-[var(--accent-orange)]">
+                        <div class="theme-card rounded-xl p-5 flex items-start gap-4 hover-lift border-l-4 border-l-[var(--accent-orange)]">
                             <span class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold theme-bg-warm theme-accent border-2 theme-border">{{ $index + 1 }}</span>
                             <p class="theme-text-primary font-medium pt-1">{{ $label }}</p>
                         </div>
@@ -84,7 +84,7 @@
                     <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto">The people behind our mission.</p>
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($teamMembers as $tm)
-                            <article class="theme-card rounded-2xl p-6 text-center transition hover:shadow-xl overflow-hidden group">
+                            <article class="theme-card rounded-2xl p-6 text-center hover-lift overflow-hidden group">
                                 <div class="mb-4 flex justify-center">
                                     @if($tm->image)
                                         <img src="{{ asset('storage/' . $tm->image) }}" alt="{{ $tm->name }}" class="w-28 h-28 object-cover rounded-full ring-4 ring-[var(--orange-200)] group-hover:ring-[var(--accent-orange)] transition">
@@ -120,7 +120,7 @@
             <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center">Organizational Structure</h2>
             <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto">How we're organized to deliver impact.</p>
             @forelse($departments as $dept)
-                <div class="theme-card rounded-2xl p-6 md:p-8 mb-6 last:mb-0 transition hover:shadow-lg">
+                <div class="theme-card rounded-2xl p-6 md:p-8 mb-6 last:mb-0 hover-lift">
                     <h3 class="text-xl font-bold theme-text-primary flex items-center gap-2">
                         <span class="w-1 h-6 rounded-full bg-[var(--accent-orange)]"></span>
                         {{ $dept->name }}

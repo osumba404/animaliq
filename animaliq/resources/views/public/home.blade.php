@@ -75,7 +75,7 @@
     @endif
 
     {{-- Intro: mission / teaser --}}
-    <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl md:mx-0">
+    <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl md:mx-0 animate-fade-in-up animate-slow">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-4">What we do</h2>
             <p class="text-lg md:text-xl theme-text-secondary leading-relaxed">
@@ -90,21 +90,21 @@
 
     {{-- Impact stats --}}
     <section class="py-12 md:py-16">
-        <h2 class="text-2xl md:text-3xl font-bold theme-text-primary text-center mb-10">Our impact</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center transition hover:shadow-lg border-l-4 border-l-[var(--accent-orange)]">
+        <h2 class="text-2xl md:text-3xl font-bold theme-text-primary text-center mb-10 animate-fade-in-up">Our impact</h2>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 stagger-children">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--accent-orange)]">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($youthReached) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Youth reached</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center transition hover:shadow-lg border-l-4 border-l-[var(--orange-500)]">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-500)]">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($membersActive) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Members active</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center transition hover:shadow-lg border-l-4 border-l-[var(--orange-600)]">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-600)]">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($eventsHosted) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Events hosted</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center transition hover:shadow-lg border-l-4 border-l-[var(--orange-700)]">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-700)]">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($partnershipsFormed) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Partnerships</p>
             </div>
@@ -114,15 +114,15 @@
     {{-- Core programs --}}
     <section class="py-12 md:py-16 theme-bg-warm -mx-4 px-4 md:rounded-2xl md:mx-0">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2">Core programs</h2>
-            <p class="theme-text-secondary mb-8 max-w-2xl">Education, youth engagement, and conservation at the heart of what we do.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2 animate-fade-in-up">Core programs</h2>
+            <p class="theme-text-secondary mb-8 max-w-2xl animate-fade-in-up animate-delay-1">Education, youth engagement, and conservation at the heart of what we do.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
                 @forelse($programs as $program)
                     @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
-                    <a href="{{ route('programs.show', $program) }}" class="block theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group">
-                        <div class="h-40 bg-[var(--bg-secondary)] overflow-hidden">
+                    <a href="{{ route('programs.show', $program) }}" class="block theme-card rounded-2xl overflow-hidden hover-lift group">
+                        <div class="h-40 bg-[var(--bg-secondary)] overflow-hidden img-zoom">
                             @if($img)
-                                <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full flex items-center justify-center theme-text-secondary"><span class="text-5xl opacity-30">🌿</span></div>
                             @endif
@@ -152,12 +152,12 @@
             <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2">Upcoming events</h2>
             <p class="theme-text-secondary mb-8">Join workshops, field trips, and community activities.</p>
             @if(isset($upcomingEvents) && $upcomingEvents->isNotEmpty())
-                <div class="grid md:grid-cols-3 gap-6">
+                <div class="grid md:grid-cols-3 gap-6 stagger-children">
                     @foreach($upcomingEvents as $event)
-                        <a href="{{ route('events.show', $event) }}" class="block theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group">
-                            <div class="h-36 bg-[var(--bg-secondary)] overflow-hidden">
+                        <a href="{{ route('events.show', $event) }}" class="block theme-card rounded-2xl overflow-hidden hover-lift group">
+                            <div class="h-36 bg-[var(--bg-secondary)] overflow-hidden img-zoom">
                                 @if($event->banner_image)
-                                    <img src="{{ asset('storage/' . $event->banner_image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    <img src="{{ asset('storage/' . $event->banner_image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center theme-text-secondary"><span class="text-4xl opacity-30">📅</span></div>
                                 @endif
@@ -191,12 +191,12 @@
         <div class="max-w-6xl mx-auto">
             <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2">Latest from the blog</h2>
             <p class="theme-text-secondary mb-8">Stories and updates from our community.</p>
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-3 gap-6 stagger-children">
                 @foreach($recentPosts as $post)
-                    <a href="{{ route('blog.show', $post) }}" class="block theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group">
-                        <div class="h-44 bg-[var(--bg-primary)] overflow-hidden">
+                    <a href="{{ route('blog.show', $post) }}" class="block theme-card rounded-2xl overflow-hidden hover-lift group">
+                        <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
                             @if($post->featured_image)
-                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full flex items-center justify-center theme-text-secondary"><span class="text-5xl opacity-30">✏️</span></div>
                             @endif
@@ -223,7 +223,7 @@
     @if(isset($featuredResearch) && $featuredResearch)
     <section class="py-12 md:py-16">
         <div class="max-w-6xl mx-auto">
-            <div class="theme-card rounded-2xl overflow-hidden flex flex-col md:flex-row">
+            <div class="theme-card rounded-2xl overflow-hidden flex flex-col md:flex-row hover-lift">
                 <div class="md:w-2/5 h-56 md:h-auto min-h-[200px] bg-[var(--bg-secondary)]">
                     @if($featuredResearch->banner_image)
                         <img src="{{ asset('storage/' . $featuredResearch->banner_image) }}" alt="{{ $featuredResearch->title }}" class="w-full h-full object-cover">
@@ -247,8 +247,8 @@
     {{-- Main CTAs --}}
     <section class="py-12 md:py-16 theme-bg-warm -mx-4 px-4 md:rounded-2xl md:mx-0">
         <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-4">Get involved</h2>
-            <p class="theme-text-secondary mb-8">Join the community, attend events, or support our mission.</p>
+            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-4 animate-fade-in-up">Get involved</h2>
+            <p class="theme-text-secondary mb-8 animate-fade-in-up animate-delay-1">Join the community, attend events, or support our mission.</p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="{{ route('register') }}" class="theme-btn px-8 py-3">Join the community</a>
                 <a href="{{ route('events.index') }}" class="theme-btn-outline px-8 py-3">Attend an event</a>

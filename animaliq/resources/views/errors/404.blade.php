@@ -6,9 +6,10 @@
     <title>Page not found – {{ config('app.name') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
+    @include('partials.animations')
 </head>
 <body class="theme-bg-primary theme-text-primary min-h-screen antialiased flex flex-col items-center justify-center p-6">
-    <div class="text-center max-w-md">
+    <div class="text-center max-w-md animate-fade-in-up animate-slow">
         <p class="text-6xl font-bold theme-accent mb-2">404</p>
         <h1 class="text-2xl font-semibold theme-text-primary mb-2">Page not found</h1>
         <p class="theme-text-secondary mb-6">The page you're looking for doesn't exist or has been moved.</p>

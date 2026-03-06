@@ -4,21 +4,21 @@
 
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
-        <div class="max-w-4xl">
+        <div class="max-w-4xl animate-fade-in-up">
             <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">What we do</p>
             <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Our Programs</h1>
-            <p class="text-lg theme-text-secondary mt-2">Explore our initiatives in wildlife education, youth engagement, and conservation.</p>
+            <p class="text-lg theme-text-secondary mt-2 animate-fade-in-up animate-delay-1">Explore our initiatives in wildlife education, youth engagement, and conservation.</p>
         </div>
     </section>
 
     <div class="py-12">
         @forelse($programs as $program)
             @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
-            <a href="{{ route('programs.show', $program) }}" class="block theme-card rounded-2xl overflow-hidden mb-8 transition hover:shadow-xl group">
+            <a href="{{ route('programs.show', $program) }}" class="block theme-card rounded-2xl overflow-hidden mb-8 hover-lift group">
                 <div class="grid md:grid-cols-5 gap-0">
-                    <div class="md:col-span-2 h-56 md:h-auto min-h-[200px] bg-[var(--bg-secondary)]">
+                    <div class="md:col-span-2 h-56 md:h-auto min-h-[200px] bg-[var(--bg-secondary)] img-zoom">
                         @if($img)
-                            <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover">
                         @else
                             <div class="w-full h-full flex items-center justify-center theme-text-secondary">
                                 <span class="text-6xl opacity-30">🌿</span>

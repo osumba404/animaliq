@@ -6,6 +6,7 @@
     <title>@yield('title', 'Sign in') – {{ config('app.name') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
+    @include('partials.animations')
 </head>
 <body class="theme-bg-primary theme-text-primary min-h-screen antialiased flex flex-col">
     <header class="theme-border border-b">
