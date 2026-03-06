@@ -26,9 +26,15 @@ class ProgramController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:200',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
             'department_id' => 'nullable|exists:departments,id',
             'status' => 'in:active,archived',
         ]);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('programs', 'public');
+        } else {
+            $validated['image'] = null;
+        }
         Program::create($validated);
         return redirect()->route('admin.programs.index')->with('success', 'Program created.');
     }
@@ -44,9 +50,15 @@ class ProgramController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:200',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
             'department_id' => 'nullable|exists:departments,id',
             'status' => 'in:active,archived',
         ]);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('programs', 'public');
+        } else {
+            unset($validated['image']);
+        }
         $program->update($validated);
         return redirect()->route('admin.programs.index')->with('success', 'Program updated.');
     }

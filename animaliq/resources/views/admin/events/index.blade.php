@@ -32,9 +32,9 @@
                                     <span><span class="font-medium">Location:</span> {{ Str::limit($e->location, 30) }}</span>
                                 @endif
                             </div>
-                            @if($e->description)
+                            @isset($e->description)
                                 <p class="text-sm theme-text-secondary mt-2 line-clamp-2">{{ Str::limit(strip_tags($e->description), 140) }}</p>
-                            @endif
+                            @endisset
                         </div>
                         <div class="flex flex-wrap items-center gap-2 shrink-0">
                             <a href="{{ route('admin.events.show', $e) }}" class="theme-link font-medium">View</a>

@@ -19,7 +19,11 @@
             @foreach($programs as $p)
                 <article class="theme-card rounded-lg p-4 transition hover:shadow-lg">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div class="min-w-0 flex-1">
+                        <div class="min-w-0 flex-1 flex flex-wrap items-start gap-4">
+                            @if($p->image)
+                                <img src="{{ asset('storage/' . $p->image) }}" alt="" class="w-20 h-20 object-cover rounded-lg shrink-0">
+                            @endif
+                            <div class="min-w-0 flex-1">
                             <h2 class="font-semibold theme-text-primary text-lg">{{ $p->title }}</h2>
                             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm theme-text-secondary">
                                 <span><span class="font-medium">Status:</span> <span class="theme-badge">{{ $p->status ?? '—' }}</span></span>
@@ -31,6 +35,7 @@
                             @if($p->description)
                                 <p class="text-sm theme-text-secondary mt-2 line-clamp-2">{{ Str::limit($p->description, 140) }}</p>
                             @endif
+                            </div>
                         </div>
                         <div class="flex flex-wrap items-center gap-2 shrink-0">
                             <a href="{{ route('admin.programs.edit', $p) }}" class="theme-link font-medium">Edit</a>

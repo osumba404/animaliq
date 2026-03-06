@@ -24,9 +24,15 @@ class CampaignController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:200',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('campaigns', 'public');
+        } else {
+            $validated['image'] = null;
+        }
         Campaign::create($validated);
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created.');
     }
@@ -41,9 +47,15 @@ class CampaignController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:200',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('campaigns', 'public');
+        } else {
+            unset($validated['image']);
+        }
         $campaign->update($validated);
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated.');
     }

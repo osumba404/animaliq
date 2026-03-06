@@ -11,8 +11,9 @@ class SiteSettingController extends Controller
 {
     public function index()
     {
-        $settings = SiteSetting::orderBy('setting_key')->paginate(20);
-        return view('admin.settings.index', compact('settings'));
+        $sections = array_keys(config('settings_sections', []));
+        $first = $sections[0] ?? 'homepage';
+        return redirect()->route('admin.settings.sections', $first);
     }
 
     public function create()

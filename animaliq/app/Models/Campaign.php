@@ -10,7 +10,7 @@ class Campaign extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'start_date', 'end_date'];
+    protected $fillable = ['title', 'description', 'image', 'start_date', 'end_date'];
 
     protected function casts(): array
     {
