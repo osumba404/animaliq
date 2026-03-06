@@ -97,6 +97,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('settings/slides/{slide}', [AdminSiteSettingController::class, 'slidesDestroy'])->name('settings.slides.destroy');
     Route::resource('research', AdminResearchProjectController::class)->parameters(['research' => 'researchProject']);
     Route::resource('campaigns', AdminCampaignController::class);
+    Route::post('posts/upload-image', [AdminPostController::class, 'uploadImage'])->name('posts.upload-image');
     Route::resource('posts', AdminPostController::class);
     Route::resource('donations', AdminDonationCampaignController::class)
         ->parameters(['donation' => 'donationCampaign'])

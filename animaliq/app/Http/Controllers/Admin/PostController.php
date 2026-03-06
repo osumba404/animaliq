@@ -79,4 +79,11 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted.');
     }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate(['image' => 'required|image|max:2048']);
+        $path = $request->file('image')->store('posts', 'public');
+        return response()->json(['url' => asset('storage/' . $path)]);
+    }
 }

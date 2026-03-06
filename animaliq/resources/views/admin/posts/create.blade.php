@@ -17,7 +17,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6" id="post-form">
+        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6" id="post-form" data-upload-url="{{ route('admin.posts.upload-image') }}">
             @csrf
 
             <div class="theme-card rounded-xl p-6 space-y-4">
@@ -50,25 +50,28 @@
             </div>
 
             <div class="theme-card rounded-xl p-6 space-y-4">
-                <h2 class="text-lg font-semibold theme-text-primary theme-section-title">Content (HTML supported)</h2>
-                <p class="text-sm theme-text-secondary">Use the toolbar to insert headings, lists, links, and more. You can also write HTML directly.</p>
+                <h2 class="text-lg font-semibold theme-text-primary theme-section-title">Content</h2>
+                <p class="text-sm theme-text-secondary">Write your post below. Use the toolbar for headings, bold, italic, lists, quotes, and links—no coding required.</p>
 
-                <div class="cms-toolbar flex flex-wrap gap-2 p-2 rounded-lg theme-bg-secondary border border-[var(--border-color)] mb-2">
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;h1&gt;" data-close="&lt;/h1&gt;">H1</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;h2&gt;" data-close="&lt;/h2&gt;">H2</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;h3&gt;" data-close="&lt;/h3&gt;">H3</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;h4&gt;" data-close="&lt;/h4&gt;">H4</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;p&gt;" data-close="&lt;/p&gt;">P</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;strong&gt;" data-close="&lt;/strong&gt;">B</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;em&gt;" data-close="&lt;/em&gt;">I</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;ul&gt;&#10;&lt;li&gt;" data-close="&lt;/li&gt;&#10;&lt;/ul&gt;">UL</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;ol&gt;&#10;&lt;li&gt;" data-close="&lt;/li&gt;&#10;&lt;/ol&gt;">OL</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;blockquote&gt;" data-close="&lt;/blockquote&gt;">Quote</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;hr&gt;" data-close="">HR</button>
-                    <button type="button" class="cms-insert theme-btn-outline text-sm py-1 px-2" data-open="&lt;a href=&quot;&quot;&gt;" data-close="&lt;/a&gt;">Link</button>
+                <div class="cms-toolbar flex flex-wrap gap-2 p-2 rounded-lg theme-bg-secondary border border-[var(--border-color)] mb-2" id="cms-toolbar-wrap">
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="formatBlock" data-value="h1">H1</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="formatBlock" data-value="h2">H2</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="formatBlock" data-value="h3">H3</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="formatBlock" data-value="h4">H4</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="formatBlock" data-value="p">Paragraph</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="bold">Bold</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="italic">Italic</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="insertUnorderedList">Bullet list</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="insertOrderedList">Numbered list</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="formatBlock" data-value="blockquote">Quote</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="insertHorizontalRule">Line</button>
+                    <button type="button" class="cms-cmd theme-btn-outline text-sm py-1 px-2" data-cmd="createLink" data-prompt="true">Link</button>
+                    <input type="file" id="cms-image-input" accept="image/*" class="hidden">
+                    <button type="button" class="cms-insert-image theme-btn-outline text-sm py-1 px-2">Image</button>
                 </div>
 
-                <textarea name="content" id="post-content" class="theme-input w-full font-mono text-sm min-h-[320px]" rows="16" placeholder="Write your post content (HTML allowed)...">{{ old('content') }}</textarea>
+                <input type="hidden" name="content" id="post-content">
+                <div id="post-content-editor" class="cms-editor theme-input w-full min-h-[320px] p-4 text-left" contenteditable="true" data-placeholder="Write your post here…"></div>
 
                 <div class="flex flex-wrap items-center gap-4 text-sm theme-text-secondary cms-counters">
                     <span id="cms-words">Words: 0</span>
