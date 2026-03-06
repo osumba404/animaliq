@@ -6,7 +6,6 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PartnershipsController;
 use App\Http\Controllers\ProgramsController;
 use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\StoreController;
@@ -38,7 +37,6 @@ Route::get('/research', [ResearchController::class, 'index'])->name('research.in
 Route::get('/research/{researchProject}', [ResearchController::class, 'show'])->name('research.show');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
-Route::get('/partnerships', [PartnershipsController::class, 'index'])->name('partnerships.index');
 Route::get('/donate', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donate/campaign/{donationCampaign}', [DonationController::class, 'show'])->name('donations.show');
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');

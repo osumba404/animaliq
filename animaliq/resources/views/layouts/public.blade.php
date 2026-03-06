@@ -23,7 +23,6 @@
                     <li><a href="{{ route('events.index') }}" class="theme-nav-link">Events</a></li>
                     <li><a href="{{ route('research.index') }}" class="theme-nav-link">Research</a></li>
                     <li><a href="{{ route('blog.index') }}" class="theme-nav-link">Blog</a></li>
-                    <li><a href="{{ route('partnerships.index') }}" class="theme-nav-link">Partnerships</a></li>
                     <li><a href="{{ route('donations.index') }}" class="theme-link font-medium">Donate</a></li>
                     <li><a href="{{ route('store.index') }}" class="theme-nav-link">Store</a></li>
                     @auth
@@ -66,7 +65,6 @@
                 <li><a href="{{ route('events.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Events</a></li>
                 <li><a href="{{ route('research.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Research</a></li>
                 <li><a href="{{ route('blog.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Blog</a></li>
-                <li><a href="{{ route('partnerships.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Partnerships</a></li>
                 <li><a href="{{ route('donations.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-accent font-medium">Donate</a></li>
                 <li><a href="{{ route('store.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Store</a></li>
                 @auth
@@ -97,9 +95,34 @@
         @endif
         @yield('content')
     </main>
-    <footer class="theme-border border-t mt-12 py-8 theme-bg-secondary footer-enter">
-        <div class="container mx-auto px-4 text-center text-sm theme-text-secondary">
-            &copy; {{ date('Y') }} Animal IQ. All rights reserved.
+    <footer class="theme-border border-t mt-12 py-10 theme-bg-secondary footer-enter">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+                <div>
+                    <a href="{{ route('home') }}" class="font-semibold text-lg theme-accent" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Animal IQ</a>
+                    <p class="text-sm theme-text-secondary mt-2">Education, conservation, and community at the heart of wildlife protection.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold theme-text-primary mb-3">Quick links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="{{ route('about') }}" class="theme-nav-link">About</a></li>
+                        <li><a href="{{ route('programs.index') }}" class="theme-nav-link">Programs</a></li>
+                        <li><a href="{{ route('events.index') }}" class="theme-nav-link">Events</a></li>
+                        <li><a href="{{ route('research.index') }}" class="theme-nav-link">Research</a></li>
+                        <li><a href="{{ route('blog.index') }}" class="theme-nav-link">Blog</a></li>
+                        <li><a href="{{ route('donations.index') }}" class="theme-nav-link">Donate</a></li>
+                        <li><a href="{{ route('store.index') }}" class="theme-nav-link">Store</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold theme-text-primary mb-3">Get involved</h3>
+                    <p class="text-sm theme-text-secondary mb-3">Support our mission through donations, partnerships, or by joining our community.</p>
+                    <a href="{{ route('donations.index') }}" class="theme-btn text-sm inline-block">Donate</a>
+                </div>
+            </div>
+            <div class="pt-6 border-t theme-border text-center text-sm theme-text-secondary">
+                &copy; {{ date('Y') }} Animal IQ. All rights reserved.
+            </div>
         </div>
     </footer>
     <script>

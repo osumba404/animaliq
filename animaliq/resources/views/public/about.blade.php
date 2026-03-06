@@ -171,5 +171,42 @@
                 </div>
             </div>
         </section>
+
+        {{-- Partnerships --}}
+        <section class="py-12 md:py-16">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center">Partnerships</h2>
+                <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto">Work with us. Partners, media kit, and partnership opportunities.</p>
+                <div class="theme-card rounded-2xl p-8 md:p-10 mb-8">
+                    <h3 class="text-xl font-bold theme-text-primary mb-4">Why Partner With Us</h3>
+                    <p class="theme-text-secondary leading-relaxed mb-4">Animal IQ brings together wildlife education, youth empowerment, and community conservation. We work with institutions, NGOs, and businesses to amplify impact.</p>
+                    <ul class="space-y-2 theme-text-secondary">
+                        <li class="flex items-start gap-2"><span class="theme-accent font-bold">·</span> Institutional collaborations for school and campus programs</li>
+                        <li class="flex items-start gap-2"><span class="theme-accent font-bold">·</span> Media and communications partnerships</li>
+                        <li class="flex items-start gap-2"><span class="theme-accent font-bold">·</span> Resource development and grant alignment</li>
+                    </ul>
+                </div>
+                <div class="theme-card rounded-2xl p-8 md:p-10 mb-8">
+                    <h3 class="text-xl font-bold theme-text-primary mb-4">Partnership Resources</h3>
+                    <p class="theme-text-secondary mb-6">Download our media kit and partnership proposal template.</p>
+                    <div class="flex flex-wrap gap-4">
+                        @if($mediaKitUrl ?? null)
+                            <a href="{{ $mediaKitUrl }}" class="theme-btn inline-block" target="_blank" rel="noopener">Download Media Kit</a>
+                        @endif
+                        @if($proposalTemplateUrl ?? null)
+                            <a href="{{ asset('storage/' . $proposalTemplateUrl) }}" class="theme-btn-outline inline-block" download>Partnership Proposal Template</a>
+                        @endif
+                    </div>
+                    @if(empty($mediaKitUrl ?? '') && empty($proposalTemplateUrl ?? ''))
+                        <p class="theme-text-secondary text-sm mt-4">Resources will be listed here when available.</p>
+                    @endif
+                </div>
+                <div class="theme-card rounded-2xl p-8 md:p-10 text-center">
+                    <h3 class="text-xl font-bold theme-text-primary mb-2">Interested in Partnering?</h3>
+                    <p class="theme-text-secondary mb-4">Reach out to discuss collaboration opportunities.</p>
+                    <a href="{{ route('home') }}" class="theme-btn">Get in touch</a>
+                </div>
+            </div>
+        </section>
     </div>
 @endsection

@@ -20,10 +20,12 @@ class AboutController extends Controller
         $strategicPlanUrl = SiteSetting::getByKey('strategic_plan_file', null);
         $annualReports = SiteSetting::getByKey('annual_reports', []);
         $teamMembers = TeamMember::orderBy('display_order')->orderBy('name')->get();
+        $mediaKitUrl = SiteSetting::getByKey('media_kit_url', null);
+        $proposalTemplateUrl = SiteSetting::getByKey('partnership_proposal_template', null);
 
         return view('public.about', compact(
             'founderStory', 'mission', 'missionImage', 'vision', 'visionImage', 'coreValues',
-            'departments', 'strategicPlanUrl', 'annualReports', 'teamMembers'
+            'departments', 'strategicPlanUrl', 'annualReports', 'teamMembers', 'mediaKitUrl', 'proposalTemplateUrl'
         ));
     }
 }
