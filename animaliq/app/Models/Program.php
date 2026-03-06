@@ -11,7 +11,7 @@ class Program extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'department_id', 'status'];
+    protected $fillable = ['title', 'description', 'image', 'department_id', 'status'];
 
     public function department(): BelongsTo
     {

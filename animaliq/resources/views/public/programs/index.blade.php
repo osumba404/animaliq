@@ -3,15 +3,42 @@
 @section('title', 'Our Programs')
 
 @section('content')
-    <h1 class="text-3xl font-bold mb-6">Our Programs</h1>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
+        <div class="max-w-4xl">
+            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">What we do</p>
+            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Our Programs</h1>
+            <p class="text-lg theme-text-secondary mt-2">Explore our initiatives in wildlife education, youth engagement, and conservation.</p>
+        </div>
+    </section>
+
+    <div class="py-12">
         @forelse($programs as $program)
-            <a href="{{ route('programs.show', $program) }}" class="block p-4 rounded-lg border border-[#e3e3e0] dark:border-[#3E3E3A] hover:border-[#19140035]">
-                <h2 class="font-semibold text-lg">{{ $program->title }}</h2>
-                <p class="text-sm text-[#706f6c] mt-1 line-clamp-2">{{ $program->description }}</p>
+            @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
+            <a href="{{ route('programs.show', $program) }}" class="block theme-card rounded-2xl overflow-hidden mb-8 transition hover:shadow-xl group">
+                <div class="grid md:grid-cols-5 gap-0">
+                    <div class="md:col-span-2 h-56 md:h-auto min-h-[200px] bg-[var(--bg-secondary)]">
+                        @if($img)
+                            <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center theme-text-secondary">
+                                <span class="text-6xl opacity-30">🌿</span>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="md:col-span-3 p-6 md:p-8 flex flex-col justify-center">
+                        @if($program->department)
+                            <p class="text-sm font-semibold theme-accent mb-2">{{ $program->department->name }}</p>
+                        @endif
+                        <h2 class="text-2xl font-bold theme-text-primary group-hover:theme-accent transition">{{ $program->title }}</h2>
+                        <p class="theme-text-secondary mt-2 line-clamp-3">{{ Str::limit($program->description, 180) }}</p>
+                        <span class="inline-flex items-center gap-2 mt-4 theme-link font-medium">View program →</span>
+                    </div>
+                </div>
             </a>
         @empty
-            <p class="text-[#706f6c] col-span-full">No programs yet.</p>
+            <div class="theme-card rounded-2xl p-12 text-center">
+                <p class="theme-text-secondary text-lg">No programs yet. Check back soon.</p>
+            </div>
         @endforelse
     </div>
 @endsection

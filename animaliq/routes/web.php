@@ -35,6 +35,7 @@ Route::get('/programs', [ProgramsController::class, 'index'])->name('programs.in
 Route::get('/programs/{program}', [ProgramsController::class, 'show'])->name('programs.show');
 Route::get('/events', [EventsController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventsController::class, 'show'])->name('events.show');
+Route::post('/events/{event}/register', [EventsController::class, 'register'])->name('events.register')->middleware('auth');
 Route::get('/research', [ResearchController::class, 'index'])->name('research.index');
 Route::get('/research/{researchProject}', [ResearchController::class, 'show'])->name('research.show');
 Route::get('/advocacy', [AdvocacyController::class, 'index'])->name('advocacy.index');

@@ -3,16 +3,44 @@
 @section('title', 'Blog')
 
 @section('content')
-    <h1 class="text-3xl font-bold mb-6">Blog</h1>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @forelse($posts as $post)
-            <a href="{{ route('blog.show', $post) }}" class="block p-4 rounded-lg border border-[#e3e3e0] dark:border-[#3E3E3A] hover:border-[#19140035]">
-                <h2 class="font-semibold">{{ $post->title }}</h2>
-                <p class="text-sm text-[#706f6c]">By {{ $post->author->first_name }} {{ $post->author->last_name }} · {{ $post->published_at?->format('M j, Y') }}</p>
-            </a>
-        @empty
-            <p class="text-[#706f6c] col-span-full">No posts yet.</p>
-        @endforelse
+    <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
+        <div class="max-w-4xl">
+            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Stories & updates</p>
+            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Blog</h1>
+            <p class="text-lg theme-text-secondary mt-2">News, stories, and updates from the Animal IQ community.</p>
+        </div>
+    </section>
+
+    <div class="py-12">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @forelse($posts as $post)
+                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col">
+                    <a href="{{ route('blog.show', $post) }}" class="block flex-1 flex flex-col">
+                        <div class="h-52 bg-[var(--bg-secondary)] overflow-hidden">
+                            @if($post->featured_image)
+                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center theme-text-secondary"><span class="text-5xl opacity-30">✏️</span></div>
+                            @endif
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            @if($post->campaign)
+                                <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-2">{{ $post->campaign->title }}</p>
+                            @endif
+                            <h2 class="text-lg font-bold theme-text-primary group-hover:theme-accent transition line-clamp-2">{{ $post->title }}</h2>
+                            <p class="text-sm theme-text-secondary mt-2">By {{ $post->author->first_name }} {{ $post->author->last_name }} · {{ $post->published_at?->format('M j, Y') }}</p>
+                            @if($post->content)
+                                <p class="text-sm theme-text-secondary mt-3 line-clamp-2">{{ Str::limit(strip_tags($post->content), 100) }}</p>
+                            @endif
+                        </div>
+                    </a>
+                </article>
+            @empty
+                <div class="col-span-full theme-card rounded-2xl p-12 text-center">
+                    <p class="theme-text-secondary text-lg">No posts yet. Check back soon.</p>
+                </div>
+            @endforelse
+        </div>
+        {{ $posts->links() }}
     </div>
-    {{ $posts->links() }}
 @endsection
