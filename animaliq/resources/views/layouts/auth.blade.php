@@ -9,15 +9,15 @@
 </head>
 <body class="theme-bg-primary theme-text-primary min-h-screen antialiased flex flex-col">
     <header class="theme-border border-b">
-        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="text-xl font-semibold" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Animal IQ</a>
-            <div class="flex items-center gap-4">
+        <nav class="container mx-auto px-4 py-3 md:py-4 flex items-center justify-between gap-2">
+            <a href="{{ route('home') }}" class="text-lg md:text-xl font-semibold shrink-0" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Animal IQ</a>
+            <div class="flex items-center gap-2 md:gap-4 min-w-0">
                 @include('partials.theme-toggle')
-                <a href="{{ route('home') }}" class="theme-nav-link text-sm">← Back to site</a>
+                <a href="{{ route('home') }}" class="theme-nav-link text-sm whitespace-nowrap">← Back to site</a>
             </div>
         </nav>
     </header>
-    <main class="container mx-auto px-4 py-12 flex-1 flex items-center justify-center">
+    <main class="container mx-auto px-4 py-8 md:py-12 flex-1 flex items-center justify-center min-w-0">
         <div class="w-full max-w-md">
             @if (session('success'))
                 <div class="mb-4 p-4 rounded theme-alert-success">{{ session('success') }}</div>

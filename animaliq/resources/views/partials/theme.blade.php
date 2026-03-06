@@ -46,7 +46,9 @@
         --orange-800: #FF4433;
         --orange-900: #B86B4C;
     }
-    body { background-color: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+    img { max-width: 100%; height: auto; }
+    .overflow-x-auto-mobile { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .theme-bg-primary { background-color: var(--bg-primary); }
     .theme-bg-secondary { background-color: var(--bg-secondary); }
     .theme-bg-warm { background-color: var(--bg-warm); }
@@ -86,4 +88,28 @@
     html.dark-theme .theme-badge { background: var(--orange-700); color: #fff; }
     .theme-table-header { background: var(--bg-secondary); color: var(--text-primary); }
     .theme-table-cell { border-color: var(--border-color); }
+
+    /* Mobile menu & hamburger */
+    .mobile-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .mobile-menu-overlay.open { opacity: 1; pointer-events: auto; }
+    .mobile-nav-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(280px, 85vw); max-width: 100%; background: var(--bg-primary); border-left: 1px solid var(--border-color); z-index: 50; transform: translateX(100%); transition: transform 0.25s ease; overflow-y: auto; box-shadow: -4px 0 20px var(--shadow); }
+    .mobile-nav-panel.open { transform: translateX(0); }
+    .hamburger-btn { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; padding: 8px; background: transparent; border: 1px solid var(--border-color); border-radius: 0.375rem; cursor: pointer; color: var(--text-primary); }
+    .hamburger-btn span { display: block; width: 100%; height: 2px; background: currentColor; border-radius: 1px; transition: transform 0.2s ease, opacity 0.2s ease; }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    body.mobile-nav-open { overflow: hidden; }
+    .mobile-nav-link:hover { background: var(--bg-warm); }
+    @media (min-width: 768px) {
+        .mobile-menu-overlay.open { opacity: 0; pointer-events: none; }
+        .mobile-nav-panel.open { transform: translateX(100%); }
+    }
+
+    /* Admin mobile sidebar */
+    .admin-sidebar-mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .admin-sidebar-mobile-overlay.open { opacity: 1; pointer-events: auto; }
+    @media (min-width: 768px) {
+        .admin-sidebar-mobile-overlay { display: none !important; }
+    }
 </style>
