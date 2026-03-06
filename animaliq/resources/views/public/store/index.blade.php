@@ -3,19 +3,44 @@
 @section('title', 'Eco Store')
 
 @section('content')
-    <h1 class="text-3xl font-bold mb-6">Eco Store</h1>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @forelse($products as $product)
-            <a href="{{ route('store.show', $product) }}" class="block p-4 rounded-lg border border-[#e3e3e0] dark:border-[#3E3E3A] hover:border-[#19140035]">
-                @if($product->image_path)
-                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover rounded mb-2">
-                @endif
-                <h2 class="font-semibold">{{ $product->name }}</h2>
-                <p class="text-[#f53003] font-medium">{{ number_format($product->price, 0) }}</p>
-            </a>
-        @empty
-            <p class="text-[#706f6c] col-span-full">No products yet.</p>
-        @endforelse
+    <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
+        <div class="max-w-4xl">
+            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Shop for a cause</p>
+            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Eco Store</h1>
+            <p class="text-lg theme-text-secondary mt-2">T-shirts, stickers, books and more. Proceeds support our programs.</p>
+        </div>
+    </section>
+
+    <div class="py-12">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @forelse($products as $product)
+                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col">
+                    <a href="{{ route('store.show', $product) }}" class="block flex-1 flex flex-col">
+                        <div class="aspect-square bg-[var(--bg-secondary)] overflow-hidden">
+                            @if($product->image_path)
+                                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center theme-text-secondary"><span class="text-6xl opacity-30">🛍️</span></div>
+                            @endif
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <h2 class="font-bold text-lg theme-text-primary group-hover:theme-accent transition line-clamp-2">{{ $product->name }}</h2>
+                            <p class="text-xl font-bold theme-accent mt-2">{{ number_format($product->price, 0) }} <span class="text-sm font-normal theme-text-secondary">KES</span></p>
+                            @if($product->stock !== null && $product->stock < 5 && $product->stock > 0)
+                                <p class="text-xs theme-text-secondary mt-1">Only {{ $product->stock }} left</p>
+                            @endif
+                        </div>
+                    </a>
+                    <div class="p-5 pt-0">
+                        <a href="{{ route('store.show', $product) }}" class="theme-btn w-full text-center block">View product</a>
+                    </div>
+                </article>
+            @empty
+                <div class="col-span-full theme-card rounded-2xl p-12 text-center">
+                    <p class="theme-text-secondary text-lg">No products at the moment. Check back soon.</p>
+                </div>
+            @endforelse
+        </div>
+        {{ $products->links() }}
     </div>
-    {{ $products->links() }}
 @endsection

@@ -4,18 +4,22 @@
 
 @section('content')
     @if($researchProject->banner_image)
-        <div class="rounded-lg overflow-hidden mb-6">
-            <img src="{{ asset('storage/' . $researchProject->banner_image) }}" alt="{{ $researchProject->title }}" class="w-full h-56 object-cover">
+        <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 h-64 md:h-80">
+            <img src="{{ asset('storage/' . $researchProject->banner_image) }}" alt="{{ $researchProject->title }}" class="w-full h-full object-cover">
         </div>
     @endif
-    <h1 class="text-3xl font-bold mb-4 theme-text-primary">{{ $researchProject->title }}</h1>
-    <p class="theme-text-secondary mb-6">{{ $researchProject->status }} · {{ $researchProject->start_date?->format('F Y') }} @if($researchProject->end_date)– {{ $researchProject->end_date->format('F Y') }}@endif</p>
+    <div class="max-w-3xl">
+        @if($researchProject->department)
+            <p class="text-sm font-semibold theme-accent mb-2">{{ $researchProject->department->name }}</p>
+        @endif
+        <h1 class="text-4xl font-bold theme-text-primary mb-4">{{ $researchProject->title }}</h1>
+        <p class="theme-text-secondary mb-6"><span class="theme-badge">{{ $researchProject->status }}</span> {{ $researchProject->start_date?->format('F Y') }} @if($researchProject->end_date)– {{ $researchProject->end_date->format('F Y') }}@endif</p>
     <div class="prose theme-text-secondary max-w-none mb-8">{!! nl2br(e($researchProject->summary ?? '')) !!}</div>
 
-    <h2 class="text-xl font-semibold mb-4 theme-section-title">Reports &amp; Documents</h2>
-    <div class="space-y-6">
+    <h2 class="text-2xl font-bold theme-text-primary mb-6">Reports &amp; Documents</h2>
+    <div class="space-y-8">
         @forelse($researchProject->reports as $report)
-            <div class="theme-card rounded-lg p-4">
+            <div class="theme-card rounded-2xl p-6">
                 @if($report->banner_image)
                     <img src="{{ asset('storage/' . $report->banner_image) }}" alt="{{ $report->title }}" class="w-full max-h-48 object-cover rounded mb-3">
                 @endif
@@ -44,5 +48,6 @@
         @empty
             <p class="theme-text-secondary">No reports yet.</p>
         @endforelse
+    </div>
     </div>
 @endsection
