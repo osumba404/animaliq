@@ -26,9 +26,14 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'nullable|integer|min:0',
-            'image_path' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'status' => 'in:active,inactive',
         ]);
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('products', 'public');
+        } else {
+            $validated['image_path'] = null;
+        }
         Product::create($validated);
         return redirect()->route('admin.products.index')->with('success', 'Product created.');
     }
@@ -45,9 +50,14 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'nullable|integer|min:0',
-            'image_path' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'status' => 'in:active,inactive',
         ]);
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('products', 'public');
+        } else {
+            unset($validated['image_path']);
+        }
         $product->update($validated);
         return redirect()->route('admin.products.index')->with('success', 'Product updated.');
     }

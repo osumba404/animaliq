@@ -31,9 +31,14 @@ class EventController extends Controller
             'start_datetime' => 'nullable|date',
             'end_datetime' => 'nullable|date|after_or_equal:start_datetime',
             'capacity' => 'nullable|integer|min:0',
-            'banner_image' => 'nullable|string|max:255',
+            'banner_image' => 'nullable|image|max:2048',
             'status' => 'in:upcoming,completed,cancelled',
         ]);
+        if ($request->hasFile('banner_image')) {
+            $validated['banner_image'] = $request->file('banner_image')->store('events', 'public');
+        } else {
+            $validated['banner_image'] = null;
+        }
         Event::create($validated);
         return redirect()->route('admin.events.index')->with('success', 'Event created.');
     }
@@ -60,9 +65,14 @@ class EventController extends Controller
             'start_datetime' => 'nullable|date',
             'end_datetime' => 'nullable|date|after_or_equal:start_datetime',
             'capacity' => 'nullable|integer|min:0',
-            'banner_image' => 'nullable|string|max:255',
+            'banner_image' => 'nullable|image|max:2048',
             'status' => 'in:upcoming,completed,cancelled',
         ]);
+        if ($request->hasFile('banner_image')) {
+            $validated['banner_image'] = $request->file('banner_image')->store('events', 'public');
+        } else {
+            unset($validated['banner_image']);
+        }
         $event->update($validated);
         return redirect()->route('admin.events.index')->with('success', 'Event updated.');
     }

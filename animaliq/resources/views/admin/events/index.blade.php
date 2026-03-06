@@ -22,19 +22,13 @@
                         <div class="min-w-0 flex-1">
                             <h2 class="font-semibold theme-text-primary text-lg">{{ $e->title }}</h2>
                             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm theme-text-secondary">
-                                <span><span class="font-medium">Date:</span> {{ $e->start_datetime?->format('M j, Y') ?? '—' }}@if($e->end_datetime) → {{ $e->end_datetime->format('M j, Y') }}@endif</span>
+                                <span><span class="font-medium">Date:</span> {{ $e->start_datetime?->format('M j, Y') ?? '—' }}{{ $e->end_datetime ? ' → ' . $e->end_datetime->format('M j, Y') : '' }}</span>
                                 <span><span class="font-medium">Status:</span> <span class="theme-badge">{{ $e->status ?? '—' }}</span></span>
-                                @if($e->program)
-                                    <span><span class="font-medium">Program:</span> {{ $e->program->title }}</span>
-                                @endif
-                                <span><span class="font-medium">Registrations:</span> {{ $e->registrations_count ?? 0 }}@if($e->capacity) / {{ $e->capacity }} capacity@endif</span>
-                                @if($e->location)
-                                    <span><span class="font-medium">Location:</span> {{ Str::limit($e->location, 30) }}</span>
-                                @endif
+                                <span><span class="font-medium">Program:</span> {{ $e->program?->title ?? '—' }}</span>
+                                <span><span class="font-medium">Registrations:</span> {{ $e->registrations_count ?? 0 }}{{ $e->capacity ? ' / ' . $e->capacity . ' capacity' : '' }}</span>
+                                <span><span class="font-medium">Location:</span> {{ $e->location ? Str::limit($e->location, 30) : '—' }}</span>
                             </div>
-                            @isset($e->description)
-                                <p class="text-sm theme-text-secondary mt-2 line-clamp-2">{{ Str::limit(strip_tags($e->description), 140) }}</p>
-                            @endisset
+                            <p class="text-sm theme-text-secondary mt-2 line-clamp-2">{{ Str::limit(strip_tags($e->description ?? ''), 140) }}</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2 shrink-0">
                             <a href="{{ route('admin.events.show', $e) }}" class="theme-link font-medium">View</a>
