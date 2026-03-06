@@ -26,9 +26,6 @@
                                 @if($p->author)
                                     <span><span class="font-medium">Author:</span> {{ $p->author->first_name }} {{ $p->author->last_name }}</span>
                                 @endif
-                                @if($p->campaign)
-                                    <span><span class="font-medium">Campaign:</span> {{ $p->campaign->title }}</span>
-                                @endif
                                 @if($p->published_at)
                                     <span><span class="font-medium">Published:</span> {{ $p->published_at->format('M j, Y') }}</span>
                                 @endif

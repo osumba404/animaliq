@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Campaign;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -11,20 +10,18 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('author', 'campaign')->latest()->paginate(15);
+        $posts = Post::with('author')->latest()->paginate(15);
         return view('admin.posts.index', compact('posts'));
     }
 
     public function create()
     {
-        $campaigns = Campaign::orderBy('title')->get();
-        return view('admin.posts.create', compact('campaigns'));
+        return view('admin.posts.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'campaign_id' => 'nullable|exists:campaigns,id',
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'content' => 'nullable|string',
@@ -47,14 +44,12 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $campaigns = Campaign::orderBy('title')->get();
-        return view('admin.posts.edit', compact('post', 'campaigns'));
+        return view('admin.posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'campaign_id' => 'nullable|exists:campaigns,id',
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'content' => 'nullable|string',

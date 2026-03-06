@@ -48,9 +48,6 @@
                 @if(in_array('research', $adminSections))
                 <li><a href="{{ route('admin.research.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.research.*')) active @endif">Research</a></li>
                 @endif
-                @if(in_array('campaigns', $adminSections))
-                <li><a href="{{ route('admin.campaigns.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.campaigns.*')) active @endif">Campaigns</a></li>
-                @endif
                 @if(in_array('posts', $adminSections))
                 <li><a href="{{ route('admin.posts.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.posts.*')) active @endif">Posts</a></li>
                 @endif

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\AdvocacyController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DonationController;
@@ -11,7 +10,6 @@ use App\Http\Controllers\PartnershipsController;
 use App\Http\Controllers\ProgramsController;
 use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\StoreController;
-use App\Http\Controllers\Admin\CampaignController as AdminCampaignController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DepartmentController as AdminDepartmentController;
 use App\Http\Controllers\Admin\DonationCampaignController as AdminDonationCampaignController;
@@ -38,8 +36,6 @@ Route::get('/events/{event}', [EventsController::class, 'show'])->name('events.s
 Route::post('/events/{event}/register', [EventsController::class, 'register'])->name('events.register')->middleware('auth');
 Route::get('/research', [ResearchController::class, 'index'])->name('research.index');
 Route::get('/research/{researchProject}', [ResearchController::class, 'show'])->name('research.show');
-Route::get('/advocacy', [AdvocacyController::class, 'index'])->name('advocacy.index');
-Route::get('/advocacy/{campaign}', [AdvocacyController::class, 'show'])->name('advocacy.show');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/partnerships', [PartnershipsController::class, 'index'])->name('partnerships.index');
@@ -96,7 +92,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('settings/slides/{slide}', [AdminSiteSettingController::class, 'slidesUpdate'])->name('settings.slides.update');
     Route::delete('settings/slides/{slide}', [AdminSiteSettingController::class, 'slidesDestroy'])->name('settings.slides.destroy');
     Route::resource('research', AdminResearchProjectController::class)->parameters(['research' => 'researchProject']);
-    Route::resource('campaigns', AdminCampaignController::class);
     Route::post('posts/upload-image', [AdminPostController::class, 'uploadImage'])->name('posts.upload-image');
     Route::resource('posts', AdminPostController::class);
     Route::resource('donations', AdminDonationCampaignController::class)

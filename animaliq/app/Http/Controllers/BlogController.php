@@ -8,7 +8,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $posts = Post::published()->with('author', 'campaign')->latest('published_at')->paginate(12);
+        $posts = Post::published()->with('author')->latest('published_at')->paginate(12);
 
         return view('public.blog.index', compact('posts'));
     }
@@ -18,7 +18,7 @@ class BlogController extends Controller
         if ($post->status !== 'published') {
             abort(404);
         }
-        $post->load('author', 'campaign');
+        $post->load('author');
 
         return view('public.blog.show', compact('post'));
     }

@@ -12,7 +12,7 @@ class Post extends Model
     use HasSlug, SoftDeletes;
 
     protected $fillable = [
-        'campaign_id', 'author_id', 'title', 'slug', 'content', 'featured_image',
+        'author_id', 'title', 'slug', 'content', 'featured_image',
         'status', 'published_at',
     ];
 

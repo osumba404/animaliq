@@ -38,9 +38,6 @@
             </div>
         @endif
         <header class="mb-8">
-            @if($post->campaign)
-                <a href="{{ route('advocacy.show', $post->campaign) }}" class="text-sm font-semibold theme-accent mb-2 inline-block">{{ $post->campaign->title }}</a>
-            @endif
             <h1 class="text-3xl md:text-4xl font-bold theme-text-primary mb-3 leading-tight">{{ $post->title }}</h1>
             <p class="theme-text-secondary text-sm md:text-base">
                 By {{ $post->author->first_name }} {{ $post->author->last_name }}

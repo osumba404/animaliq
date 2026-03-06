@@ -31,15 +31,6 @@
                     <label class="block font-medium theme-text-secondary mb-1">Slug (optional, auto from title)</label>
                     <input type="text" name="slug" id="post-slug" value="{{ old('slug', $post->slug) }}" class="theme-input w-full" placeholder="url-friendly-slug">
                 </div>
-                <div>
-                    <label class="block font-medium theme-text-secondary mb-1">Campaign</label>
-                    <select name="campaign_id" class="theme-input w-full">
-                        <option value="">— None —</option>
-                        @foreach($campaigns as $c)
-                            <option value="{{ $c->id }}" {{ old('campaign_id', $post->campaign_id) == $c->id ? 'selected' : '' }}>{{ $c->title }}</option>
-                        @endforeach
-                    </select>
-                </div>
             </div>
 
             <div class="theme-card rounded-xl p-6 space-y-4">

@@ -22,7 +22,6 @@
                     <li><a href="{{ route('programs.index') }}" class="theme-nav-link">Programs</a></li>
                     <li><a href="{{ route('events.index') }}" class="theme-nav-link">Events</a></li>
                     <li><a href="{{ route('research.index') }}" class="theme-nav-link">Research</a></li>
-                    <li><a href="{{ route('advocacy.index') }}" class="theme-nav-link">Advocacy</a></li>
                     <li><a href="{{ route('blog.index') }}" class="theme-nav-link">Blog</a></li>
                     <li><a href="{{ route('partnerships.index') }}" class="theme-nav-link">Partnerships</a></li>
                     <li><a href="{{ route('donations.index') }}" class="theme-link font-medium">Donate</a></li>
@@ -66,7 +65,6 @@
                 <li><a href="{{ route('programs.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Programs</a></li>
                 <li><a href="{{ route('events.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Events</a></li>
                 <li><a href="{{ route('research.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Research</a></li>
-                <li><a href="{{ route('advocacy.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Advocacy</a></li>
                 <li><a href="{{ route('blog.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Blog</a></li>
                 <li><a href="{{ route('partnerships.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Partnerships</a></li>
                 <li><a href="{{ route('donations.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-accent font-medium">Donate</a></li>

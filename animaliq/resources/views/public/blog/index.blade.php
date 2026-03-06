@@ -24,9 +24,6 @@
                             @endif
                         </div>
                         <div class="p-5 flex-1 flex flex-col">
-                            @if($post->campaign)
-                                <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-2">{{ $post->campaign->title }}</p>
-                            @endif
                             <h2 class="text-lg font-bold theme-text-primary group-hover:theme-accent transition line-clamp-2">{{ $post->title }}</h2>
                             <p class="text-sm theme-text-secondary mt-2">By {{ $post->author->first_name }} {{ $post->author->last_name }} · {{ $post->published_at?->format('M j, Y') }}</p>
                             @if($post->content)
