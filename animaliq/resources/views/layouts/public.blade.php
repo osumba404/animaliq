@@ -17,28 +17,31 @@
                 @include('partials.theme-toggle')
                 {{-- Desktop nav: visible from md up --}}
                 <ul class="hidden md:flex flex-wrap items-center gap-4 lg:gap-6">
-                    <li><a href="{{ route('home') }}" class="theme-nav-link">Home</a></li>
-                    <li><a href="{{ route('about') }}" class="theme-nav-link">About</a></li>
-                    <li><a href="{{ route('programs.index') }}" class="theme-nav-link">Programs</a></li>
-                    <li><a href="{{ route('events.index') }}" class="theme-nav-link">Events</a></li>
-                    <li><a href="{{ route('research.index') }}" class="theme-nav-link">Research</a></li>
-                    <li><a href="{{ route('blog.index') }}" class="theme-nav-link">Blog</a></li>
-                    <li><a href="{{ route('donations.index') }}" class="theme-link font-medium">Donate</a></li>
-                    <li><a href="{{ route('store.index') }}" class="theme-nav-link">Store</a></li>
+                    <li>@include('partials.nav-link', ['route' => route('home'), 'label' => 'Home', 'icon' => 'home'])</li>
+                    <li>@include('partials.nav-link', ['route' => route('about'), 'label' => 'About', 'icon' => 'about'])</li>
+                    <li>@include('partials.nav-link', ['route' => route('programs.index'), 'label' => 'Programs', 'icon' => 'programs'])</li>
+                    <li>@include('partials.nav-link', ['route' => route('events.index'), 'label' => 'Events', 'icon' => 'events'])</li>
+                    <li>@include('partials.nav-link', ['route' => route('research.index'), 'label' => 'Research', 'icon' => 'research'])</li>
+                    <li>@include('partials.nav-link', ['route' => route('blog.index'), 'label' => 'Blog', 'icon' => 'blog'])</li>
+                    <li>@include('partials.nav-link', ['route' => route('donations.index'), 'label' => 'Donate', 'icon' => 'donate', 'class' => 'theme-link font-medium'])</li>
+                    <li>@include('partials.nav-link', ['route' => route('store.index'), 'label' => 'Store', 'icon' => 'store'])</li>
                     @auth
-                        <li><a href="{{ route('community.dashboard') }}" class="theme-link font-medium">My Dashboard</a></li>
+                        <li>@include('partials.nav-link', ['route' => route('community.dashboard'), 'label' => 'My Dashboard', 'icon' => 'dashboard', 'class' => 'theme-link font-medium'])</li>
                         <li>
                             <form method="POST" action="{{ url('/logout') }}" class="inline">
                                 @csrf
-                                <button type="submit" class="theme-nav-link bg-transparent border-none cursor-pointer p-0 text-left">Logout</button>
+                                <button type="submit" class="theme-nav-link bg-transparent border-none cursor-pointer p-0 text-left inline-flex items-center gap-1.5">
+                                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                    <span>Logout</span>
+                                </button>
                             </form>
                         </li>
                     @else
                         @if (Route::has('login'))
-                            <li><a href="{{ route('login') }}" class="theme-link font-medium">Log in</a></li>
+                            <li>@include('partials.nav-link', ['route' => route('login'), 'label' => 'Log in', 'icon' => 'login', 'class' => 'theme-link font-medium'])</li>
                         @endif
                         @if (Route::has('register'))
-                            <li><a href="{{ route('register') }}" class="theme-btn-outline text-sm inline-block">Register</a></li>
+                            <li><a href="{{ route('register') }}" class="theme-btn-outline text-sm inline-flex items-center gap-1.5"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg><span>Register</span></a></li>
                         @endif
                     @endauth
                 </ul>
@@ -59,28 +62,31 @@
                 </button>
             </div>
             <ul class="space-y-1">
-                <li><a href="{{ route('home') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Home</a></li>
-                <li><a href="{{ route('about') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">About</a></li>
-                <li><a href="{{ route('programs.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Programs</a></li>
-                <li><a href="{{ route('events.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Events</a></li>
-                <li><a href="{{ route('research.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Research</a></li>
-                <li><a href="{{ route('blog.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Blog</a></li>
-                <li><a href="{{ route('donations.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-accent font-medium">Donate</a></li>
-                <li><a href="{{ route('store.index') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-text-primary">Store</a></li>
+                <li>@include('partials.nav-link', ['route' => route('home'), 'label' => 'Home', 'icon' => 'home', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
+                <li>@include('partials.nav-link', ['route' => route('about'), 'label' => 'About', 'icon' => 'about', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
+                <li>@include('partials.nav-link', ['route' => route('programs.index'), 'label' => 'Programs', 'icon' => 'programs', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
+                <li>@include('partials.nav-link', ['route' => route('events.index'), 'label' => 'Events', 'icon' => 'events', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
+                <li>@include('partials.nav-link', ['route' => route('research.index'), 'label' => 'Research', 'icon' => 'research', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
+                <li>@include('partials.nav-link', ['route' => route('blog.index'), 'label' => 'Blog', 'icon' => 'blog', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
+                <li>@include('partials.nav-link', ['route' => route('donations.index'), 'label' => 'Donate', 'icon' => 'donate', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium'])</li>
+                <li>@include('partials.nav-link', ['route' => route('store.index'), 'label' => 'Store', 'icon' => 'store', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
                 @auth
-                    <li><a href="{{ route('community.dashboard') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-accent font-medium">My Dashboard</a></li>
+                    <li>@include('partials.nav-link', ['route' => route('community.dashboard'), 'label' => 'My Dashboard', 'icon' => 'dashboard', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium'])</li>
                     <li>
                         <form method="POST" action="{{ url('/logout') }}">
                             @csrf
-                            <button type="submit" class="mobile-nav-link w-full text-left px-4 py-3 rounded-lg theme-text-primary">Logout</button>
+                            <button type="submit" class="mobile-nav-link w-full text-left px-4 py-3 rounded-lg theme-text-primary inline-flex items-center gap-1.5">
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                <span>Logout</span>
+                            </button>
                         </form>
                     </li>
                 @else
                     @if (Route::has('login'))
-                        <li><a href="{{ route('login') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-accent font-medium">Log in</a></li>
+                        <li>@include('partials.nav-link', ['route' => route('login'), 'label' => 'Log in', 'icon' => 'login', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium'])</li>
                     @endif
                     @if (Route::has('register'))
-                        <li><a href="{{ route('register') }}" class="mobile-nav-link block px-4 py-3 rounded-lg theme-accent font-medium">Register</a></li>
+                        <li><a href="{{ route('register') }}" class="mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg><span>Register</span></a></li>
                     @endif
                 @endauth
             </ul>
