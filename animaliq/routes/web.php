@@ -39,6 +39,7 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/donate', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donate/campaign/{donationCampaign}', [DonationController::class, 'show'])->name('donations.show');
+Route::post('/donate/campaign/{donationCampaign}/pay', [DonationController::class, 'initiatePayment'])->name('donations.initiate');
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 Route::get('/store/{product}', [StoreController::class, 'show'])->name('store.show');
 

@@ -9,7 +9,7 @@ class Donation extends Model
 {
     protected $fillable = [
         'user_id', 'campaign_id', 'amount', 'payment_method',
-        'transaction_reference', 'donated_at',
+        'transaction_reference', 'checkout_request_id', 'merchant_request_id', 'donated_at',
     ];
 
     protected function casts(): array

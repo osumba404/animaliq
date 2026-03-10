@@ -10,6 +10,7 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id', 'total_amount', 'payment_status', 'transaction_reference',
+        'checkout_request_id', 'merchant_request_id',
     ];
 
     protected function casts(): array

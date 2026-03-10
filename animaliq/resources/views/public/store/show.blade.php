@@ -20,7 +20,7 @@
                 @endif
                 <div class="prose theme-text-secondary max-w-none mb-8">{!! nl2br(e($product->description ?? '')) !!}</div>
                 @if($product->stock === null || $product->stock > 0)
-                    <p class="text-sm theme-text-secondary mb-2">M-Pesa checkout coming soon. For now, contact us to order.</p>
+                    <p class="text-sm theme-text-secondary mb-2">M-Pesa checkout will use the Daraja API (STK Push). Integration is prepared but not implemented yet – see <code class="text-sm">config/daraja.php</code> and <code class="text-sm">App\Services\Mpesa\DarajaService</code>. For now, contact us to order.</p>
                     <a href="{{ route('home') }}#contact" class="theme-btn inline-block">Contact to order</a>
                 @endif
             </div>
