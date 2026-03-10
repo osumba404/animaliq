@@ -185,7 +185,7 @@
                                 @if($event->program)
                                     <p class="text-xs theme-text-secondary mt-1">{{ $event->program->title }}</p>
                                 @endif
-                                <span class="inline-block mt-2 theme-link text-sm font-medium">View event →</span>
+                                <span class="inline-block mt-2 theme-link text-sm font-medium">@include('partials.event-view-label', ['event' => $event]) →</span>
                             </div>
                         </a>
                     @endforeach

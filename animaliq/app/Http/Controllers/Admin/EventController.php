@@ -45,7 +45,7 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        $event->load('program', 'registrations.user');
+        $event->load('program', 'registrations.user', 'proceeding');
         return view('admin.events.show', compact('event'));
     }
 

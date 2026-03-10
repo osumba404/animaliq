@@ -6,6 +6,7 @@ use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
@@ -38,6 +39,20 @@ class Event extends Model
     public function volunteerHours(): HasMany
     {
         return $this->hasMany(VolunteerHour::class);
+    }
+
+    public function proceeding(): HasOne
+    {
+        return $this->hasOne(EventProceeding::class);
+    }
+
+    /** Whether this event is in the past (completed or start date passed). */
+    public function isPast(): bool
+    {
+        if ($this->status === 'completed') {
+            return true;
+        }
+        return $this->start_datetime && $this->start_datetime->isPast();
     }
 
     public function scopeUpcoming($query)

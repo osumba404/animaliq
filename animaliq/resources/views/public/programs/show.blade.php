@@ -20,9 +20,9 @@
         <section class="mt-12 pt-8 border-t theme-border">
             <h2 class="text-2xl font-bold theme-text-primary mb-4">Related Events</h2>
             @forelse($program->events as $event)
-                <a href="{{ route('events.show', $event) }}" class="flex flex-wrap items-center justify-between gap-4 theme-card rounded-xl p-4 mb-3 transition hover:shadow-lg block">
+                <a href="{{ route('events.show', $event) }}{{ $event->isPast() ? '#proceedings' : '' }}" class="flex flex-wrap items-center justify-between gap-4 theme-card rounded-xl p-4 mb-3 transition hover:shadow-lg block">
                     <span class="font-semibold theme-text-primary">{{ $event->title }}</span>
-                    <span class="text-sm theme-text-secondary">{{ $event->start_datetime?->format('M j, Y') }} · {{ $event->status }}</span>
+                    <span class="text-sm theme-text-secondary">{{ $event->start_datetime?->format('M j, Y') }} · @include('partials.event-view-label', ['event' => $event])</span>
                 </a>
             @empty
                 <p class="theme-text-secondary">No upcoming or past events for this program.</p>

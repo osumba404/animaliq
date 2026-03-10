@@ -57,7 +57,7 @@
                         @if($event->location)
                             <p class="text-xs theme-text-secondary mt-1">{{ Str::limit($event->location, 40) }}</p>
                         @endif
-                        <a href="{{ route('events.show', $event) }}" class="theme-btn inline-block text-center mt-4">View event</a>
+                        <a href="{{ route('events.show', $event) }}" class="theme-btn inline-block text-center mt-4">@include('partials.event-view-label', ['event' => $event])</a>
                     </div>
                 </article>
             @empty
@@ -73,7 +73,7 @@
             <ul class="space-y-3">
                 @foreach($past as $event)
                     <li>
-                        <a href="{{ route('events.show', $event) }}" class="flex flex-wrap items-center justify-between gap-2 theme-card rounded-xl px-4 py-3 transition hover:shadow-md theme-link font-medium block">
+                        <a href="{{ route('events.show', $event) }}#proceedings" class="flex flex-wrap items-center justify-between gap-2 theme-card rounded-xl px-4 py-3 transition hover:shadow-md theme-link font-medium block">
                             <span>{{ $event->title }}</span>
                             <span class="text-sm theme-text-secondary font-normal">{{ $event->start_datetime?->format('M j, Y') }}</span>
                         </a>
