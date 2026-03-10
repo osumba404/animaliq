@@ -20,7 +20,7 @@
                             @if($product->image_path)
                                 <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                             @else
-                                <div class="w-full h-full flex items-center justify-center theme-text-secondary"><span class="text-6xl opacity-30">🛍️</span></div>
+                                <div class="w-full h-full flex items-center justify-center theme-text-secondary"><svg class="w-16 h-16 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div>
                             @endif
                         </div>
                         <div class="p-5 flex-1 flex flex-col">

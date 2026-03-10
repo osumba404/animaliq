@@ -36,7 +36,7 @@
                                     <img src="{{ asset('storage/' . $missionImage) }}" alt="Our mission" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center theme-text-secondary">
-                                        <span class="text-5xl opacity-30">🎯</span>
+                                        <svg class="w-14 h-14 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                     </div>
                                 @endif
                             </div>
@@ -54,7 +54,7 @@
                                     <img src="{{ asset('storage/' . $visionImage) }}" alt="Our vision" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center theme-text-secondary">
-                                        <span class="text-5xl opacity-30">🌅</span>
+                                        <svg class="w-14 h-14 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                     </div>
                                 @endif
                             </div>

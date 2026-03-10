@@ -22,7 +22,9 @@
                         placeholder="Search programs..."
                         class="theme-input w-full pl-9"
                     >
-                    <span class="absolute inset-y-0 left-3 flex items-center text-sm theme-text-secondary">🔍</span>
+                    <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none" aria-hidden="true">
+                        <svg class="w-5 h-5 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </span>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -44,7 +46,7 @@
                             <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover">
                         @else
                             <div class="w-full h-full flex items-center justify-center theme-text-secondary">
-                                <span class="text-6xl opacity-30">🌿</span>
+                                <svg class="w-16 h-16 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                             </div>
                         @endif
                     </div>
