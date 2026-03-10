@@ -9,23 +9,23 @@
             <div class="relative">
                 <div id="hero-track" class="flex transition-transform duration-500 ease-out" style="width: {{ $slides->count() * 100 }}vw;">
                     @foreach($slides as $slide)
-                        <div class="hero-slide flex-shrink-0 w-full min-h-[70vmin] md:min-h-[500px] flex items-center justify-center relative bg-[var(--bg-warm)]" style="width: 100vw;">
+                        <div class="hero-slide flex-shrink-0 w-full min-h-[85vmin] md:min-h-[580px] flex items-center justify-center relative bg-[var(--bg-warm)] {{ $slide->image_path ? 'hero-slide--with-image' : '' }}" style="width: 100vw;">
                             @if($slide->image_path)
                                 <div class="absolute inset-0 z-0">
                                     <img src="{{ asset('storage/' . $slide->image_path) }}" alt="{{ $slide->title }}" class="w-full h-full object-cover">
                                     <div class="absolute inset-0 bg-black/40 z-10"></div>
                                 </div>
                             @endif
-                            <div class="relative z-20 p-6 md:p-12 text-center max-w-4xl mx-auto">
-                                <h1 class="text-3xl md:text-5xl font-bold theme-text-primary drop-shadow-sm">{{ $slide->title ?? 'Welcome to Animal IQ' }}</h1>
+                            <div class="hero-slide-content relative z-20 p-6 md:p-12 text-center max-w-4xl mx-auto">
+                                <h1 class="text-3xl md:text-5xl font-bold drop-shadow-md {{ $slide->image_path ? 'text-white' : 'theme-text-primary' }}">{{ $slide->title ?? 'Welcome to Animal IQ' }}</h1>
                                 @if($slide->subtitle)
-                                    <p class="mt-4 text-lg md:text-xl theme-text-secondary">{{ $slide->subtitle }}</p>
+                                    <p class="mt-4 text-lg md:text-xl drop-shadow-sm {{ $slide->image_path ? 'text-white/90' : 'theme-text-secondary' }}">{{ $slide->subtitle }}</p>
                                 @endif
                                 @if($slide->cta_text && $slide->cta_link)
                                     <div class="flex flex-wrap gap-3 justify-center mt-6">
                                         <a href="{{ $slide->cta_link }}" class="theme-btn px-6 py-3">{{ $slide->cta_text }}</a>
                                         @if($slide->cta_secondary_text && $slide->cta_secondary_link)
-                                            <a href="{{ $slide->cta_secondary_link }}" class="theme-btn-outline px-6 py-3">{{ $slide->cta_secondary_text }}</a>
+                                            <a href="{{ $slide->cta_secondary_link }}" class="theme-btn-outline px-6 py-3 {{ $slide->image_path ? 'border-white text-white hover:bg-white/20' : '' }}">{{ $slide->cta_secondary_text }}</a>
                                         @endif
                                     </div>
                                 @endif
@@ -34,6 +34,12 @@
                     @endforeach
                 </div>
                 @if($slides->count() > 1)
+                    <button type="button" class="hero-arrow hero-arrow-prev absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition focus:outline-none focus:ring-2 focus:ring-white/50" aria-label="Previous slide">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button type="button" class="hero-arrow hero-arrow-next absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition focus:outline-none focus:ring-2 focus:ring-white/50" aria-label="Next slide">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
                     <div class="absolute bottom-4 left-0 right-0 z-30 flex justify-center gap-2">
                         @foreach($slides as $i => $slide)
                             <button type="button" class="hero-dot w-2.5 h-2.5 rounded-full border-2 border-white/80 bg-white/40 hover:bg-white/70 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent-orange)]" aria-label="Go to slide {{ $i + 1 }}" data-index="{{ $i }}"></button>
@@ -42,7 +48,7 @@
                 @endif
             </div>
         @else
-            <div class="min-h-[70vmin] md:min-h-[500px] flex items-center justify-center theme-bg-warm border-b theme-border">
+            <div class="min-h-[85vmin] md:min-h-[580px] flex items-center justify-center theme-bg-warm border-b theme-border">
                 <div class="p-8 text-center">
                     <h1 class="text-3xl md:text-5xl font-bold theme-text-primary">The Wild Window</h1>
                     <p class="mt-4 text-lg theme-text-secondary">Connecting youth with wildlife and environmental education.</p>
@@ -56,20 +62,31 @@
     (function() {
         var track = document.getElementById('hero-track');
         if (!track) return;
+        var wrapper = track.closest('.hero-full-width');
         var dots = document.querySelectorAll('.hero-dot');
+        var prevBtn = wrapper.querySelector('.hero-arrow-prev');
+        var nextBtn = wrapper.querySelector('.hero-arrow-next');
         var total = track.querySelectorAll('.hero-slide').length;
         var current = 0;
+        var intervalId = null;
         function goTo(i) {
             current = (i + total) % total;
             track.style.transform = 'translateX(-' + (current * 100) + 'vw)';
             dots.forEach(function(d, j) { d.classList.toggle('bg-white', j === current); d.classList.toggle('bg-white/40', j !== current); });
         }
+        function startAuto() {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(function() { goTo(current + 1); }, 5000);
+        }
         dots.forEach(function(dot, i) {
-            dot.addEventListener('click', function() { goTo(i); });
+            dot.addEventListener('click', function() { goTo(i); startAuto(); });
         });
+        if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); startAuto(); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { goTo(current + 1); startAuto(); });
         goTo(0);
-        var interval = setInterval(function() { goTo(current + 1); }, 5000);
-        track.closest('.hero-full-width').addEventListener('mouseenter', function() { clearInterval(interval); });
+        startAuto();
+        wrapper.addEventListener('mouseenter', function() { if (intervalId) { clearInterval(intervalId); intervalId = null; } });
+        wrapper.addEventListener('mouseleave', function() { if (total > 1) startAuto(); });
     })();
     </script>
     @endif
