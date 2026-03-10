@@ -11,7 +11,30 @@
         </div>
     </section>
 
-    <div class="py-12">
+    <div class="py-12 max-w-5xl">
+        <form method="GET" class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+            <div class="flex-1 flex gap-2">
+                <div class="relative flex-1">
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request('q') }}"
+                        placeholder="Search programs..."
+                        class="theme-input w-full pl-9"
+                    >
+                    <span class="absolute inset-y-0 left-3 flex items-center text-sm theme-text-secondary">🔍</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <label for="sort-programs" class="text-sm theme-text-secondary">Sort by</label>
+                <select id="sort-programs" name="sort" class="theme-input text-sm">
+                    <option value="title" @selected(request('sort', 'title') === 'title')>Title A–Z</option>
+                    <option value="newest" @selected(request('sort') === 'newest')>Newest first</option>
+                    <option value="oldest" @selected(request('sort') === 'oldest')>Oldest first</option>
+                </select>
+            </div>
+        </form>
+
         @forelse($programs as $program)
             @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
             <a href="{{ route('programs.show', $program) }}" class="block theme-card rounded-2xl overflow-hidden mb-8 hover-lift group">
@@ -40,5 +63,9 @@
                 <p class="theme-text-secondary text-lg">No programs yet. Check back soon.</p>
             </div>
         @endforelse
+
+        <div class="mt-8">
+            {{ $programs->links() }}
+        </div>
     </div>
 @endsection

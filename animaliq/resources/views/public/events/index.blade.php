@@ -12,6 +12,28 @@
     </section>
 
     <div class="py-12">
+        <form method="GET" class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+            <div class="flex-1 flex gap-2">
+                <div class="relative flex-1">
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request('q') }}"
+                        placeholder="Search events (title, location, description)..."
+                        class="theme-input w-full pl-9"
+                    >
+                    <span class="absolute inset-y-0 left-3 flex items-center text-sm theme-text-secondary">🔍</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <label for="sort-events" class="text-sm theme-text-secondary">Sort by</label>
+                <select id="sort-events" name="sort" class="theme-input text-sm">
+                    <option value="soonest" @selected(request('sort', 'soonest') === 'soonest')>Soonest first</option>
+                    <option value="latest" @selected(request('sort') === 'latest')>Latest first</option>
+                </select>
+            </div>
+        </form>
+
         <h2 class="text-2xl font-bold theme-text-primary mb-6">Upcoming</h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             @forelse($upcoming as $event)

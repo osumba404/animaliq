@@ -3,12 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use Illuminate\Http\Request;
 
 class ProgramsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $programs = Program::active()->with('department', 'events')->orderBy('title')->get();
+        $query = Program::active()
+            ->with('department', 'events');
+
+        if ($search = $request->query('q')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        $sort = $request->query('sort', 'title');
+        if ($sort === 'newest') {
+            $query->latest();
+        } elseif ($sort === 'oldest') {
+            $query->oldest();
+        } else {
+            $query->orderBy('title');
+        }
+
+        $programs = $query->paginate(9)->withQueryString();
 
         return view('public.programs.index', compact('programs'));
     }

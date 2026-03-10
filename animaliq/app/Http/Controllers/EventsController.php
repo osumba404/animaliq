@@ -8,9 +8,27 @@ use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $upcoming = Event::upcoming()->with('program')->orderBy('start_datetime')->paginate(9);
+        $query = Event::upcoming()->with('program');
+
+        if ($search = $request->query('q')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        $sort = $request->query('sort', 'soonest');
+        if ($sort === 'latest') {
+            $query->orderByDesc('start_datetime');
+        } else {
+            // default: soonest first
+            $query->orderBy('start_datetime');
+        }
+
+        $upcoming = $query->paginate(9)->withQueryString();
         $past = Event::where('status', 'completed')->with('program')->orderByDesc('start_datetime')->take(6)->get();
 
         return view('public.events.index', compact('upcoming', 'past'));

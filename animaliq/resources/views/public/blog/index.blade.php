@@ -12,6 +12,30 @@
     </section>
 
     <div class="py-12">
+        <div class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+            <form method="GET" class="flex-1 flex flex-col md:flex-row gap-3 md:items-center">
+                <div class="flex-1 flex gap-2">
+                    <div class="relative flex-1">
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ request('q') }}"
+                            placeholder="Search blog posts..."
+                            class="theme-input w-full pl-9"
+                        >
+                        <span class="absolute inset-y-0 left-3 flex items-center text-sm theme-text-secondary">🔍</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label for="sort-blog" class="text-sm theme-text-secondary">Sort by</label>
+                    <select id="sort-blog" name="sort" class="theme-input text-sm">
+                        <option value="latest" @selected(request('sort', 'latest') === 'latest')>Newest first</option>
+                        <option value="oldest" @selected(request('sort') === 'oldest')>Oldest first</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($posts as $post)
                 <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col">

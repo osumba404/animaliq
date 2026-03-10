@@ -18,6 +18,30 @@
     @endif
 
     <div class="py-8">
+        <div class="max-w-6xl mx-auto mb-8">
+            <form method="GET" class="flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+                <div class="flex-1 flex gap-2">
+                    <div class="relative flex-1">
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ request('q') }}"
+                            placeholder="Search research projects..."
+                            class="theme-input w-full pl-9"
+                        >
+                        <span class="absolute inset-y-0 left-3 flex items-center text-sm theme-text-secondary">🔍</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label for="sort-research" class="text-sm theme-text-secondary">Sort by</label>
+                    <select id="sort-research" name="sort" class="theme-input text-sm">
+                        <option value="newest" @selected(request('sort', 'newest') === 'newest')>Newest first</option>
+                        <option value="oldest" @selected(request('sort') === 'oldest')>Oldest first</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
         <div class="grid md:grid-cols-2 gap-8">
             @forelse($projects as $project)
                 <a href="{{ route('research.show', $project) }}" class="block theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group">
@@ -48,6 +72,10 @@
                     <p class="theme-text-secondary text-lg">No research projects yet. Check back soon.</p>
                 </div>
             @endforelse
+        </div>
+
+        <div class="mt-8">
+            {{ $projects->links() }}
         </div>
     </div>
 @endsection

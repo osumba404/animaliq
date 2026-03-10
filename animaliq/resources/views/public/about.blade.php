@@ -26,34 +26,44 @@
 
         {{-- Mission & Vision --}}
         <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl">
-            <div class="max-w-5xl mx-auto">
-                <h2 class="text-center text-2xl font-bold theme-text-primary mb-10">Our Mission & Vision</h2>
-                <div class="grid md:grid-cols-2 gap-8">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-center text-2xl md:text-3xl font-bold theme-text-primary mb-8">Our Mission & Vision</h2>
+                <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
                     @if($mission)
-                        <div class="theme-card rounded-2xl p-6 md:p-8 overflow-hidden hover-lift">
-                            <div class="flex flex-col gap-4">
+                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col">
+                            <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
                                 @if($missionImage)
-                                    <img src="{{ asset('storage/' . $missionImage) }}" alt="Our mission" class="w-full h-48 object-cover rounded-xl">
+                                    <img src="{{ asset('storage/' . $missionImage) }}" alt="Our mission" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center theme-text-secondary">
+                                        <span class="text-5xl opacity-30">🎯</span>
+                                    </div>
                                 @endif
-                                <div>
-                                    <h3 class="text-xl font-bold theme-accent mb-3">Mission</h3>
-                                    <p class="theme-text-secondary leading-relaxed">{{ $mission }}</p>
-                                </div>
                             </div>
-                        </div>
+                            <div class="p-6 md:p-7 flex-1 flex flex-col">
+                                <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-2">Mission</p>
+                                <h3 class="text-xl font-bold theme-text-primary mb-2 group-hover:theme-accent transition">Why we exist</h3>
+                                <p class="theme-text-secondary leading-relaxed text-sm md:text-base flex-1">{{ $mission }}</p>
+                            </div>
+                        </article>
                     @endif
                     @if($vision)
-                        <div class="theme-card rounded-2xl p-6 md:p-8 overflow-hidden hover-lift">
-                            <div class="flex flex-col gap-4">
+                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col">
+                            <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
                                 @if($visionImage)
-                                    <img src="{{ asset('storage/' . $visionImage) }}" alt="Our vision" class="w-full h-48 object-cover rounded-xl">
+                                    <img src="{{ asset('storage/' . $visionImage) }}" alt="Our vision" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center theme-text-secondary">
+                                        <span class="text-5xl opacity-30">🌅</span>
+                                    </div>
                                 @endif
-                                <div>
-                                    <h3 class="text-xl font-bold theme-accent mb-3">Vision</h3>
-                                    <p class="theme-text-secondary leading-relaxed">{{ $vision }}</p>
-                                </div>
                             </div>
-                        </div>
+                            <div class="p-6 md:p-7 flex-1 flex flex-col">
+                                <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-2">Vision</p>
+                                <h3 class="text-xl font-bold theme-text-primary mb-2 group-hover:theme-accent transition">Where we’re going</h3>
+                                <p class="theme-text-secondary leading-relaxed text-sm md:text-base flex-1">{{ $vision }}</p>
+                            </div>
+                        </article>
                     @endif
                 </div>
             </div>
