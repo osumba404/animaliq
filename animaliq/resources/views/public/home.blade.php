@@ -7,6 +7,7 @@
     $seoTitle = 'Animal IQ – Wildlife Education & Conservation';
     $seoDescription = 'Animal IQ connects youth with wildlife and environmental education. Explore programs, events, research, and ways to get involved in conservation.';
     $seoCanonical = route('home');
+    $seoImage = $seoImage ?? null;
 @endphp
 @include('partials.seo')
 @endsection
@@ -112,40 +113,37 @@
             @endif
             <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
                 <a href="{{ route('about') }}" class="theme-link font-semibold">Learn more about us →</a>
-                @include('partials.share-button', ['shareTitle' => 'Animal IQ – Wildlife Education & Conservation', 'url' => route('home')])
             </div>
         </div>
     </section>
 
-    {{-- Impact stats --}}
+    {{-- Impact stats – one row on desktop, equal width --}}
     <section class="py-12 md:py-16">
         <h2 class="text-2xl md:text-3xl font-bold theme-text-primary text-center mb-10 animate-fade-in-up">Our impact</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 stagger-children">
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--accent-orange)]">
+        <div class="flex flex-wrap justify-center gap-4 md:gap-6 lg:flex-nowrap lg:justify-center lg:gap-4">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--accent-orange)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($activePrograms) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Active programs</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-500)]">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-500)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($membersActive) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Members active</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-600)]">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-600)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($eventsHosted) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Events hosted</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-700)]">
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-700)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($partnershipsFormed) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Partnerships</p>
             </div>
-        </div>
-        @if(isset($upcomingEventsCount) && $upcomingEventsCount > 0)
-            <div class="mt-6 flex justify-center">
-                <div class="theme-card rounded-2xl px-6 py-4 text-center hover-lift border-l-4 border-l-[var(--orange-400)] inline-block">
-                    <p class="text-2xl md:text-3xl font-bold theme-accent tabular-nums">{{ number_format($upcomingEventsCount) }}</p>
-                    <p class="text-sm md:text-base theme-text-secondary mt-1">Upcoming events</p>
-                </div>
+            @if(isset($upcomingEventsCount) && $upcomingEventsCount > 0)
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-400)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($upcomingEventsCount) }}</p>
+                <p class="text-sm md:text-base theme-text-secondary mt-1">Upcoming events</p>
             </div>
-        @endif
+            @endif
+        </div>
     </section>
 
     {{-- Core programs --}}

@@ -15,8 +15,8 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
         <span>Share</span>
     </button>
-    <div class="share-modal fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50" role="dialog" aria-modal="true" aria-label="Share options" data-share-modal="{{ $id }}">
-        <div class="theme-card rounded-2xl p-6 max-w-sm w-full shadow-xl share-modal-inner">
+    <div class="share-modal fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 invisible pointer-events-none transition-opacity duration-200 ease-out bg-black/50" role="dialog" aria-modal="true" aria-label="Share options" aria-hidden="true" data-share-modal="{{ $id }}" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0;">
+        <div class="theme-card rounded-2xl p-6 max-w-sm w-full shadow-xl share-modal-inner relative z-10">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-bold theme-text-primary">Share</h3>
                 <button type="button" class="share-close p-1 rounded theme-text-secondary hover:theme-bg-warm text-2xl leading-none" aria-label="Close" data-share-id="{{ $id }}">&times;</button>

@@ -13,9 +13,8 @@
 
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16 mb-8">
-        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="max-w-4xl mx-auto">
             <h1 class="text-3xl md:text-4xl font-bold theme-text-primary">{{ $donationCampaign->title }}</h1>
-            @include('partials.share-button', ['shareTitle' => 'Donate: ' . $donationCampaign->title . ' – Animal IQ', 'url' => route('donations.show', $donationCampaign)])
         </div>
     </section>
     <div class="max-w-4xl mx-auto">

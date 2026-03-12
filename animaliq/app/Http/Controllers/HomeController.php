@@ -29,10 +29,12 @@ class HomeController extends Controller
         $recentPosts = Post::published()->with('author')->latest('published_at')->take(3)->get();
         $featuredResearch = ResearchProject::with('department')->orderByDesc('start_date')->first();
 
+        $seoImage = $slides->first()?->image_path;
+
         return view('public.home', compact(
             'slides', 'mission', 'missionTeaser', 'vision',
             'activePrograms', 'membersActive', 'eventsHosted', 'partnershipsFormed', 'upcomingEventsCount',
-            'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'featuredResearch'
+            'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'featuredResearch', 'seoImage'
         ));
     }
 }

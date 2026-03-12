@@ -13,13 +13,12 @@
 
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="max-w-6xl mx-auto">
             <div>
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Shop for a cause</p>
                 <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Eco Store</h1>
                 <p class="text-lg theme-text-secondary mt-2">T-shirts, stickers, books and more. Proceeds support our programs.</p>
             </div>
-            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => 'Eco Store – Animal IQ', 'url' => route('store.index')])</div>
         </div>
     </section>
 

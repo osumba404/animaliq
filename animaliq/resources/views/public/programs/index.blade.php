@@ -13,13 +13,12 @@
 
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="max-w-6xl mx-auto">
             <div class="animate-fade-in-up">
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">What we do</p>
                 <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Our Programs</h1>
                 <p class="text-lg theme-text-secondary mt-2 animate-fade-in-up animate-delay-1">Explore our initiatives in wildlife education, youth engagement, and conservation.</p>
             </div>
-            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => 'Our Programs – Animal IQ', 'url' => route('programs.index')])</div>
         </div>
     </section>
 

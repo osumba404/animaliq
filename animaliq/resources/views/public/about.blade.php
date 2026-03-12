@@ -18,10 +18,7 @@
             <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-3 animate-fade-in-up">Who we are</p>
             <h1 class="text-4xl md:text-5xl font-bold theme-text-primary mb-4 animate-fade-in-up animate-delay-1">About Animal IQ</h1>
             <p class="text-lg theme-text-secondary animate-fade-in-up animate-delay-2">Education, conservation, and community at the heart of wildlife protection.</p>
-            <div class="mt-6 flex justify-center">
-                @include('partials.share-button', ['shareTitle' => 'About Animal IQ', 'url' => route('about')])
-            </div>
-            <div class="mt-6 h-1 w-20 mx-auto rounded-full animate-fade-in-up animate-delay-3" style="background: linear-gradient(90deg, var(--orange-400), var(--orange-600));"></div>
+            <div class="mt-8 h-1 w-20 mx-auto rounded-full animate-fade-in-up animate-delay-3" style="background: linear-gradient(90deg, var(--orange-400), var(--orange-600));"></div>
         </div>
     </section>
 

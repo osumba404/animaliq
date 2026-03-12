@@ -13,13 +13,12 @@
 
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="max-w-6xl mx-auto">
             <div>
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Support us</p>
                 <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Donate</h1>
                 <p class="text-lg theme-text-secondary mt-2">One-time or campaign-based. M-Pesa integration. Donation receipt by email.</p>
             </div>
-            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => 'Donate – Animal IQ', 'url' => route('donations.index')])</div>
         </div>
     </section>
 

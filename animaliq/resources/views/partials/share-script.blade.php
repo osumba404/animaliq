@@ -6,8 +6,9 @@
             var modal = document.querySelector('.share-modal[data-share-modal="' + id + '"]');
             if (!modal) return;
             btn.addEventListener('click', function() {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
+                modal.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+                modal.classList.add('opacity-100', 'visible', 'pointer-events-auto');
+                modal.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
             });
         });
@@ -16,8 +17,9 @@
             var modal = document.querySelector('.share-modal[data-share-modal="' + id + '"]');
             if (!modal) return;
             function close() {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
+                modal.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+                modal.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
+                modal.setAttribute('aria-hidden', 'true');
                 document.body.style.overflow = '';
             }
             btn.addEventListener('click', close);
