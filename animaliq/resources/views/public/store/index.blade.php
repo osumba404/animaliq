@@ -2,16 +2,28 @@
 
 @section('title', 'Eco Store')
 
+@section('meta')
+@php
+    $seoTitle = 'Eco Store – Animal IQ';
+    $seoDescription = 'Shop Animal IQ merchandise: T-shirts, stickers, books and more. Proceeds support our wildlife education and conservation programs.';
+    $seoCanonical = route('store.index');
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
-        <div class="max-w-4xl">
-            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Shop for a cause</p>
-            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Eco Store</h1>
-            <p class="text-lg theme-text-secondary mt-2">T-shirts, stickers, books and more. Proceeds support our programs.</p>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Shop for a cause</p>
+                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Eco Store</h1>
+                <p class="text-lg theme-text-secondary mt-2">T-shirts, stickers, books and more. Proceeds support our programs.</p>
+            </div>
+            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => 'Eco Store – Animal IQ', 'url' => route('store.index')])</div>
         </div>
     </section>
 
-    <div class="py-12">
+    <div class="py-12 max-w-6xl mx-auto">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($products as $product)
                 <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col">
@@ -31,8 +43,9 @@
                             @endif
                         </div>
                     </a>
-                    <div class="p-5 pt-0">
-                        <a href="{{ route('store.show', $product) }}" class="theme-btn w-full text-center block">View product</a>
+                    <div class="p-5 pt-0 flex flex-wrap items-center justify-between gap-2">
+                        <a href="{{ route('store.show', $product) }}" class="theme-btn flex-1 sm:flex-none text-center">View product</a>
+                        @include('partials.share-button', ['shareTitle' => $product->name . ' – Animal IQ Store', 'url' => route('store.show', $product)])
                     </div>
                 </article>
             @empty

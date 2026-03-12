@@ -2,6 +2,16 @@
 
 @section('title', $product->name)
 
+@section('meta')
+@php
+    $seoTitle = $product->name . ' – Animal IQ Store';
+    $seoDescription = Str::limit(strip_tags($product->description ?? ''), 160);
+    $seoCanonical = route('store.show', $product);
+    $seoImage = $product->image_path;
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
     <div class="max-w-5xl mx-auto py-8">
         <div class="grid md:grid-cols-2 gap-8 md:gap-12">
@@ -13,7 +23,10 @@
                 @endif
             </div>
             <div>
-                <h1 class="text-3xl md:text-4xl font-bold theme-text-primary mb-4">{{ $product->name }}</h1>
+                <header class="mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <h1 class="text-3xl md:text-4xl font-bold theme-text-primary">{{ $product->name }}</h1>
+                    <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => $product->name . ' – Animal IQ Store', 'url' => route('store.show', $product)])</div>
+                </header>
                 <p class="text-3xl font-bold theme-accent mb-2">{{ number_format($product->price, 0) }} <span class="text-lg font-normal theme-text-secondary">KES</span></p>
                 @if($product->stock !== null)
                     <p class="text-sm theme-text-secondary mb-4">@if($product->stock > 0) In stock ({{ $product->stock }}) @else <span class="theme-accent font-medium">Out of stock</span> @endif</p>

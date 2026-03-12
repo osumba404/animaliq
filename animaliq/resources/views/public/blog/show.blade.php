@@ -2,6 +2,18 @@
 
 @section('title', $post->title)
 
+@section('meta')
+@php
+    $seoTitle = $post->title . ' – Animal IQ';
+    $seoDescription = Str::limit(strip_tags($post->content ?? ''), 160);
+    $seoCanonical = route('blog.show', $post);
+    $seoImage = $post->featured_image;
+    $seoType = 'article';
+    $seoPublishedTime = $post->published_at?->toIso8601String();
+@endphp
+@include('partials.seo')
+@endsection
+
 @push('styles')
 <style>
 /* Blog / CMS content – typography for HTML from editor */
@@ -37,14 +49,17 @@
                 <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
             </div>
         @endif
-        <header class="mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold theme-text-primary mb-3 leading-tight">{{ $post->title }}</h1>
-            <p class="theme-text-secondary text-sm md:text-base">
-                By {{ $post->author->first_name }} {{ $post->author->last_name }}
-                @if($post->published_at)
-                    · {{ $post->published_at->format('F j, Y') }}
-                @endif
-            </p>
+        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold theme-text-primary mb-3 leading-tight">{{ $post->title }}</h1>
+                <p class="theme-text-secondary text-sm md:text-base">
+                    By {{ $post->author->first_name }} {{ $post->author->last_name }}
+                    @if($post->published_at)
+                        · {{ $post->published_at->format('F j, Y') }}
+                    @endif
+                </p>
+            </div>
+            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => $post->title . ' – Animal IQ', 'url' => route('blog.show', $post)])</div>
         </header>
 
         <div class="blog-content">{!! $post->content !!}</div>

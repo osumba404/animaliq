@@ -2,16 +2,28 @@
 
 @section('title', 'Events & Experiences')
 
+@section('meta')
+@php
+    $seoTitle = 'Events & Experiences – Animal IQ';
+    $seoDescription = 'Join Animal IQ events: workshops, field trips, community activities, and wildlife experiences. Find upcoming events and register.';
+    $seoCanonical = route('events.index');
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
-        <div class="max-w-4xl">
-            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Get involved</p>
-            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Events & Experiences</h1>
-            <p class="text-lg theme-text-secondary mt-2">Join workshops, field trips, and community activities.</p>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Get involved</p>
+                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Events & Experiences</h1>
+                <p class="text-lg theme-text-secondary mt-2">Join workshops, field trips, and community activities.</p>
+            </div>
+            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => 'Events & Experiences – Animal IQ', 'url' => route('events.index')])</div>
         </div>
     </section>
 
-    <div class="py-12">
+    <div class="py-12 max-w-6xl mx-auto">
         <form method="GET" class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
             <div class="flex-1 flex gap-2">
                 <div class="relative flex-1">
@@ -57,7 +69,10 @@
                         @if($event->location)
                             <p class="text-xs theme-text-secondary mt-1">{{ Str::limit($event->location, 40) }}</p>
                         @endif
-                        <a href="{{ route('events.show', $event) }}" class="theme-btn inline-block text-center mt-4">@include('partials.event-view-label', ['event' => $event])</a>
+                        <div class="flex flex-wrap items-center justify-between gap-2 mt-4">
+                        <a href="{{ route('events.show', $event) }}" class="theme-btn inline-block">@include('partials.event-view-label', ['event' => $event])</a>
+                        @include('partials.share-button', ['shareTitle' => $event->title . ' – Animal IQ', 'url' => route('events.show', $event)])
+                    </div>
                     </div>
                 </article>
             @empty
@@ -72,11 +87,12 @@
             <h2 class="text-2xl font-bold theme-text-primary mb-4 mt-12">Past Events</h2>
             <ul class="space-y-3">
                 @foreach($past as $event)
-                    <li>
-                        <a href="{{ route('events.show', $event) }}#proceedings" class="flex flex-wrap items-center justify-between gap-2 theme-card rounded-xl px-4 py-3 transition hover:shadow-md theme-link font-medium block">
+                    <li class="flex flex-wrap items-center justify-between gap-2 theme-card rounded-xl px-4 py-3 transition hover:shadow-md">
+                        <a href="{{ route('events.show', $event) }}#proceedings" class="flex-1 min-w-0 theme-link font-medium">
                             <span>{{ $event->title }}</span>
-                            <span class="text-sm theme-text-secondary font-normal">{{ $event->start_datetime?->format('M j, Y') }}</span>
+                            <span class="text-sm theme-text-secondary font-normal ml-2">{{ $event->start_datetime?->format('M j, Y') }}</span>
                         </a>
+                        @include('partials.share-button', ['shareTitle' => $event->title . ' – Animal IQ', 'url' => route('events.show', $event)])
                     </li>
                 @endforeach
             </ul>

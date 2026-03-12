@@ -2,6 +2,16 @@
 
 @section('title', $event->title)
 
+@section('meta')
+@php
+    $seoTitle = $event->title . ' – Animal IQ';
+    $seoDescription = Str::limit(strip_tags($event->description ?? ''), 160);
+    $seoCanonical = route('events.show', $event);
+    $seoImage = $event->banner_image;
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
     {{-- Hero / banner --}}
     @if($event->banner_image)
@@ -16,7 +26,8 @@
 
     <div class="max-w-4xl mx-auto">
         {{-- Event header --}}
-        <header class="mb-8">
+        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
             @if($event->program)
                 <p class="text-sm font-semibold theme-accent uppercase tracking-wide mb-2">{{ $event->program->title }}</p>
             @endif
@@ -33,6 +44,8 @@
             @if($event->capacity)
                 <p class="text-sm theme-text-secondary mt-2">Capacity: {{ $event->registrations_count ?? 0 }} / {{ $event->capacity }} registered</p>
             @endif
+            </div>
+            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => $event->title . ' – Animal IQ', 'url' => route('events.show', $event)])</div>
         </header>
 
         {{-- Original event description --}}

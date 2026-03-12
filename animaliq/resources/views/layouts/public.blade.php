@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Animal IQ') – {{ config('app.name') }}</title>
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        @include('partials.seo')
+    @endif
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
     @include('partials.animations')
@@ -162,5 +167,6 @@
     })();
     </script>
     @stack('scripts')
+    @include('partials.share-script')
 </body>
 </html>

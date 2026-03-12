@@ -2,16 +2,28 @@
 
 @section('title', 'Blog')
 
+@section('meta')
+@php
+    $seoTitle = 'Blog – Animal IQ';
+    $seoDescription = 'News, stories, and updates from the Animal IQ community. Read about wildlife, conservation, and our programs.';
+    $seoCanonical = route('blog.index');
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16">
-        <div class="max-w-4xl">
-            <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Stories & updates</p>
-            <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Blog</h1>
-            <p class="text-lg theme-text-secondary mt-2">News, stories, and updates from the Animal IQ community.</p>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Stories & updates</p>
+                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Blog</h1>
+                <p class="text-lg theme-text-secondary mt-2">News, stories, and updates from the Animal IQ community.</p>
+            </div>
+            <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => 'Blog – Animal IQ', 'url' => route('blog.index')])</div>
         </div>
     </section>
 
-    <div class="py-12">
+    <div class="py-12 max-w-6xl mx-auto">
         <div class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
             <form method="GET" class="flex-1 flex flex-col md:flex-row gap-3 md:items-center">
                 <div class="flex-1 flex gap-2">
@@ -57,6 +69,10 @@
                             @endif
                         </div>
                     </a>
+                    <div class="p-5 pt-0 flex flex-wrap items-center justify-between gap-2">
+                        <a href="{{ route('blog.show', $post) }}" class="theme-link font-medium">Read more →</a>
+                        @include('partials.share-button', ['shareTitle' => $post->title . ' – Animal IQ', 'url' => route('blog.show', $post)])
+                    </div>
                 </article>
             @empty
                 <div class="col-span-full theme-card rounded-2xl p-12 text-center">

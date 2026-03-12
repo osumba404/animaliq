@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Program;
 use App\Models\ResearchProject;
 use App\Models\SiteSetting;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -17,10 +18,11 @@ class HomeController extends Controller
         $mission = SiteSetting::getByKey('mission_statement', 'Connecting youth with wildlife and environmental education.');
         $missionTeaser = SiteSetting::getByKey('homepage_mission_teaser', '');
         $vision = SiteSetting::getByKey('vision_statement', '');
-        $youthReached = (int) SiteSetting::getByKey('impact_youth_reached', 0);
-        $membersActive = (int) SiteSetting::getByKey('impact_members_active', 0);
+        $activePrograms = Program::active()->count();
+        $membersActive = User::count();
         $eventsHosted = (int) SiteSetting::getByKey('impact_events_hosted', 0);
         $partnershipsFormed = (int) SiteSetting::getByKey('impact_partnerships_formed', 0);
+        $upcomingEventsCount = Event::upcoming()->count();
         $programs = Program::active()->with('department', 'events')->take(6)->get();
         $upcomingEvent = Event::upcoming()->with('program')->first();
         $upcomingEvents = Event::upcoming()->with('program')->orderBy('start_datetime')->take(3)->get();
@@ -29,7 +31,7 @@ class HomeController extends Controller
 
         return view('public.home', compact(
             'slides', 'mission', 'missionTeaser', 'vision',
-            'youthReached', 'membersActive', 'eventsHosted', 'partnershipsFormed',
+            'activePrograms', 'membersActive', 'eventsHosted', 'partnershipsFormed', 'upcomingEventsCount',
             'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'featuredResearch'
         ));
     }

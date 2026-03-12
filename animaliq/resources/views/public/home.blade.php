@@ -2,6 +2,15 @@
 
 @section('title', 'Home')
 
+@section('meta')
+@php
+    $seoTitle = 'Animal IQ – Wildlife Education & Conservation';
+    $seoDescription = 'Animal IQ connects youth with wildlife and environmental education. Explore programs, events, research, and ways to get involved in conservation.';
+    $seoCanonical = route('home');
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
     {{-- Full-width hero carousel --}}
     <section class="hero-full-width mb-0 overflow-hidden" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw;">
@@ -101,7 +110,10 @@
             @if($vision)
                 <p class="mt-6 text-base theme-text-secondary max-w-2xl mx-auto">{{ Str::limit($vision, 160) }}</p>
             @endif
-            <a href="{{ route('about') }}" class="inline-block mt-8 theme-link font-semibold">Learn more about us →</a>
+            <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
+                <a href="{{ route('about') }}" class="theme-link font-semibold">Learn more about us →</a>
+                @include('partials.share-button', ['shareTitle' => 'Animal IQ – Wildlife Education & Conservation', 'url' => route('home')])
+            </div>
         </div>
     </section>
 
@@ -110,8 +122,8 @@
         <h2 class="text-2xl md:text-3xl font-bold theme-text-primary text-center mb-10 animate-fade-in-up">Our impact</h2>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 stagger-children">
             <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--accent-orange)]">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($youthReached) }}</p>
-                <p class="text-sm md:text-base theme-text-secondary mt-1">Youth reached</p>
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($activePrograms) }}</p>
+                <p class="text-sm md:text-base theme-text-secondary mt-1">Active programs</p>
             </div>
             <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-500)]">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($membersActive) }}</p>
@@ -126,6 +138,14 @@
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Partnerships</p>
             </div>
         </div>
+        @if(isset($upcomingEventsCount) && $upcomingEventsCount > 0)
+            <div class="mt-6 flex justify-center">
+                <div class="theme-card rounded-2xl px-6 py-4 text-center hover-lift border-l-4 border-l-[var(--orange-400)] inline-block">
+                    <p class="text-2xl md:text-3xl font-bold theme-accent tabular-nums">{{ number_format($upcomingEventsCount) }}</p>
+                    <p class="text-sm md:text-base theme-text-secondary mt-1">Upcoming events</p>
+                </div>
+            </div>
+        @endif
     </section>
 
     {{-- Core programs --}}

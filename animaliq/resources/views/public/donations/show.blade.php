@@ -2,9 +2,24 @@
 
 @section('title', 'Donate – ' . $donationCampaign->title)
 
+@section('meta')
+@php
+    $seoTitle = 'Donate: ' . $donationCampaign->title . ' – Animal IQ';
+    $seoDescription = Str::limit(strip_tags($donationCampaign->description ?? ''), 160);
+    $seoCanonical = route('donations.show', $donationCampaign);
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
-    <h1 class="text-3xl font-bold mb-4">{{ $donationCampaign->title }}</h1>
-    <div class="prose dark:prose-invert max-w-none mb-8">{!! nl2br(e($donationCampaign->description ?? '')) !!}</div>
+    <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16 mb-8">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h1 class="text-3xl md:text-4xl font-bold theme-text-primary">{{ $donationCampaign->title }}</h1>
+            @include('partials.share-button', ['shareTitle' => 'Donate: ' . $donationCampaign->title . ' – Animal IQ', 'url' => route('donations.show', $donationCampaign)])
+        </div>
+    </section>
+    <div class="max-w-4xl mx-auto">
+    <div class="prose prose-lg dark:prose-invert max-w-none theme-text-secondary mb-8">{!! nl2br(e($donationCampaign->description ?? '')) !!}</div>
 
     @if(session('success'))
         <p class="mb-4 p-4 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200">{{ session('success') }}</p>
@@ -33,5 +48,6 @@
             </div>
             <button type="submit" class="theme-btn w-full">Pay with M-Pesa</button>
         </form>
+    </div>
     </div>
 @endsection

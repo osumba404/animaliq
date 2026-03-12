@@ -2,6 +2,15 @@
 
 @section('title', 'About Animal IQ')
 
+@section('meta')
+@php
+    $seoTitle = 'About Animal IQ – Our Team, Mission & Vision';
+    $seoDescription = 'Learn about Animal IQ: founder story, mission, vision, core values, organizational structure, and the people behind wildlife education and conservation.';
+    $seoCanonical = route('about');
+@endphp
+@include('partials.seo')
+@endsection
+
 @section('content')
     {{-- Hero --}}
     <section class="relative overflow-hidden theme-bg-warm border-b theme-border -mx-4 px-4 py-16 md:py-24">
@@ -9,7 +18,10 @@
             <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-3 animate-fade-in-up">Who we are</p>
             <h1 class="text-4xl md:text-5xl font-bold theme-text-primary mb-4 animate-fade-in-up animate-delay-1">About Animal IQ</h1>
             <p class="text-lg theme-text-secondary animate-fade-in-up animate-delay-2">Education, conservation, and community at the heart of wildlife protection.</p>
-            <div class="mt-8 h-1 w-20 mx-auto rounded-full animate-fade-in-up animate-delay-3" style="background: linear-gradient(90deg, var(--orange-400), var(--orange-600));"></div>
+            <div class="mt-6 flex justify-center">
+                @include('partials.share-button', ['shareTitle' => 'About Animal IQ', 'url' => route('about')])
+            </div>
+            <div class="mt-6 h-1 w-20 mx-auto rounded-full animate-fade-in-up animate-delay-3" style="background: linear-gradient(90deg, var(--orange-400), var(--orange-600));"></div>
         </div>
     </section>
 
@@ -97,9 +109,9 @@
                             <article class="theme-card rounded-2xl p-6 text-center hover-lift overflow-hidden group">
                                 <div class="mb-4 flex justify-center">
                                     @if($tm->image)
-                                        <img src="{{ asset('storage/' . $tm->image) }}" alt="{{ $tm->name }}" class="w-28 h-28 object-cover rounded-full ring-4 ring-[var(--orange-200)] group-hover:ring-[var(--accent-orange)] transition">
+                                        <img src="{{ asset('storage/' . $tm->image) }}" alt="{{ $tm->name }}" class="w-28 h-28 object-cover rounded-[1.25rem] ring-4 ring-[var(--orange-200)] group-hover:ring-[var(--accent-orange)] transition">
                                     @else
-                                        <div class="w-28 h-28 rounded-full flex items-center justify-center text-3xl font-bold theme-bg-secondary theme-accent ring-4 ring-[var(--orange-200)]">{{ strtoupper(mb_substr($tm->name ?? '?', 0, 1)) }}</div>
+                                        <div class="w-28 h-28 rounded-[1.25rem] flex items-center justify-center text-3xl font-bold theme-bg-secondary theme-accent ring-4 ring-[var(--orange-200)]">{{ strtoupper(mb_substr($tm->name ?? '?', 0, 1)) }}</div>
                                     @endif
                                 </div>
                                 <h3 class="text-lg font-bold theme-text-primary">{{ $tm->name }}</h3>
@@ -110,14 +122,7 @@
                                 @if($tm->remarks)
                                     <p class="text-xs theme-text-secondary mt-2 italic">{{ Str::limit($tm->remarks, 80) }}</p>
                                 @endif
-                                @if(!empty(array_filter($tm->socials ?? [])))
-                                    <div class="flex justify-center gap-3 mt-4 flex-wrap">
-                                        @if(!empty($tm->socials['twitter']))<a href="{{ $tm->socials['twitter'] }}" class="text-sm theme-link font-medium" target="_blank" rel="noopener" aria-label="Twitter">Twitter</a>@endif
-                                        @if(!empty($tm->socials['instagram']))<a href="{{ $tm->socials['instagram'] }}" class="text-sm theme-link font-medium" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>@endif
-                                        @if(!empty($tm->socials['facebook']))<a href="{{ $tm->socials['facebook'] }}" class="text-sm theme-link font-medium" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>@endif
-                                        @if(!empty($tm->socials['linkedin']))<a href="{{ $tm->socials['linkedin'] }}" class="text-sm theme-link font-medium" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>@endif
-                                    </div>
-                                @endif
+                                @include('partials.social-icons', ['socials' => $tm->socials ?? []])
                             </article>
                         @endforeach
                     </div>
@@ -130,7 +135,8 @@
             <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center">Organizational Structure</h2>
             <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto">How we're organized to deliver impact.</p>
             @forelse($departments as $dept)
-                <div class="theme-card rounded-2xl p-6 md:p-8 mb-6 last:mb-0 hover-lift">
+                <div id="dept-{{ $dept->id }}" class="theme-card rounded-2xl p-6 md:p-8 mb-6 last:mb-0 hover-lift flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div class="flex-1">
                     <h3 class="text-xl font-bold theme-text-primary flex items-center gap-2">
                         <span class="w-1 h-6 rounded-full bg-[var(--accent-orange)]"></span>
                         {{ $dept->name }}
@@ -152,6 +158,10 @@
                     @else
                         <p class="text-sm theme-text-secondary italic">Members to be listed.</p>
                     @endif
+                    </div>
+                    <div class="flex-shrink-0">
+                        @include('partials.share-button', ['shareTitle' => $dept->name . ' – Animal IQ', 'url' => route('about') . '#dept-' . $dept->id])
+                    </div>
                 </div>
             @empty
                 <div class="theme-card rounded-2xl p-8 text-center">
