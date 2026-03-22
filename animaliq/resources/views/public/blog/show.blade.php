@@ -4,13 +4,41 @@
 
 @section('meta')
 @php
-    $seoTitle = $post->title . ' – Animal IQ';
-    $seoDescription = Str::limit(strip_tags($post->content ?? ''), 160);
-    $seoCanonical = route('blog.show', $post);
-    $seoImage = $post->featured_image;
-    $seoType = 'article';
+    $seoTitle         = $post->title . ' – Animal IQ Blog';
+    $seoDescription   = $post->content
+        ? Str::limit(strip_tags($post->content), 155)
+        : $post->title . ' – Read this article on the Animal IQ blog about wildlife education and conservation.';
+    $seoCanonical     = route('blog.show', $post);
+    $seoImage         = $post->featured_image;
+    $seoType          = 'article';
     $seoPublishedTime = $post->published_at?->toIso8601String();
+    $seoModifiedTime  = $post->updated_at?->toIso8601String();
+    $authorName       = $post->author->first_name . ' ' . $post->author->last_name;
+    $jsonLd = [
+        '@context'         => 'https://schema.org',
+        '@type'            => 'BlogPosting',
+        'headline'         => $post->title,
+        'url'              => route('blog.show', $post),
+        'description'      => Str::limit(strip_tags($post->content ?? ''), 155),
+        'datePublished'    => $post->published_at?->toIso8601String(),
+        'dateModified'     => $post->updated_at?->toIso8601String(),
+        'author'           => ['@type' => 'Person', 'name' => $authorName],
+        'publisher'        => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'image'            => $post->featured_image ? asset('storage/' . $post->featured_image) : null,
+        'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => route('blog.show', $post)],
+        'breadcrumb'       => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Blog', 'item' => route('blog.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $post->title, 'item' => route('blog.show', $post)],
+            ],
+        ],
+    ];
 @endphp
+<meta name="author" content="{{ $authorName }}">
+<meta property="article:author" content="{{ $authorName }}">
+<meta property="article:section" content="Wildlife & Conservation">
 @include('partials.seo')
 @endsection
 

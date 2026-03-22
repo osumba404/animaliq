@@ -4,10 +4,28 @@
 
 @section('meta')
 @php
-    $seoTitle = $program->title . ' – Animal IQ';
-    $seoDescription = Str::limit(strip_tags($program->description ?? ''), 160);
-    $seoCanonical = route('programs.show', $program);
-    $seoImage = $program->image ?? $program->events->first()?->banner_image;
+    $seoTitle       = $program->title . ' – Animal IQ Program';
+    $seoDescription = $program->description
+        ? Str::limit(strip_tags($program->description), 155)
+        : 'Learn about the ' . $program->title . ' program at Animal IQ – wildlife education and conservation in action.';
+    $seoCanonical   = route('programs.show', $program);
+    $seoImage       = $program->image ?? $program->events->first()?->banner_image;
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'Course',
+        'name'        => $program->title,
+        'url'         => route('programs.show', $program),
+        'description' => strip_tags($program->description ?? ''),
+        'provider'    => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'breadcrumb'  => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',     'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Programs', 'item' => route('programs.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $program->title, 'item' => route('programs.show', $program)],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

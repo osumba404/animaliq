@@ -4,9 +4,17 @@
 
 @section('meta')
 @php
-    $seoTitle = 'About Animal IQ – Our Team, Mission & Vision';
-    $seoDescription = 'Learn about Animal IQ: founder story, mission, vision, core values, organizational structure, and the people behind wildlife education and conservation.';
-    $seoCanonical = route('about');
+    $seoTitle       = 'About Animal IQ – Mission, Vision, Team & Story';
+    $seoDescription = 'Discover Animal IQ: our founder story, mission to educate and conserve wildlife, vision for a nature-connected generation, core values, team, and organizational structure.';
+    $seoCanonical   = route('about');
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'AboutPage',
+        'name'        => 'About Animal IQ',
+        'url'         => route('about'),
+        'description' => 'Learn about Animal IQ: founder story, mission, vision, core values, team, and departments.',
+        'publisher'   => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

@@ -4,9 +4,24 @@
 
 @section('meta')
 @php
-    $seoTitle = 'Events & Experiences – Animal IQ';
-    $seoDescription = 'Join Animal IQ events: workshops, field trips, community activities, and wildlife experiences. Find upcoming events and register.';
-    $seoCanonical = route('events.index');
+    $seoTitle       = 'Upcoming Events & Wildlife Experiences – Animal IQ';
+    $seoDescription = 'Find and register for Animal IQ events: wildlife workshops, school field trips, community conservation activities, and youth engagement experiences across Kenya.';
+    $seoCanonical   = route('events.index');
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'CollectionPage',
+        'name'        => 'Animal IQ Events',
+        'url'         => route('events.index'),
+        'description' => 'Wildlife workshops, field trips, and community events by Animal IQ.',
+        'publisher'   => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'breadcrumb'  => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',   'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Events', 'item' => route('events.index')],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

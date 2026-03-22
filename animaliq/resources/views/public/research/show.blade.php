@@ -4,10 +4,31 @@
 
 @section('meta')
 @php
-    $seoTitle = $researchProject->title . ' – Animal IQ';
-    $seoDescription = Str::limit(strip_tags($researchProject->summary ?? ''), 160);
-    $seoCanonical = route('research.show', $researchProject);
-    $seoImage = $researchProject->banner_image;
+    $seoTitle       = $researchProject->title . ' – Animal IQ Research';
+    $seoDescription = $researchProject->summary
+        ? Str::limit(strip_tags($researchProject->summary), 155)
+        : 'Read about the ' . $researchProject->title . ' research project by Animal IQ' . ($researchProject->department ? ', ' . $researchProject->department->name . ' department' : '') . '.';
+    $seoCanonical   = route('research.show', $researchProject);
+    $seoImage       = $researchProject->banner_image;
+    $jsonLd = [
+        '@context'      => 'https://schema.org',
+        '@type'         => 'ScholarlyArticle',
+        'name'          => $researchProject->title,
+        'url'           => route('research.show', $researchProject),
+        'description'   => strip_tags($researchProject->summary ?? ''),
+        'datePublished' => $researchProject->start_date?->toDateString(),
+        'dateModified'  => $researchProject->updated_at?->toDateString(),
+        'publisher'     => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'image'         => $researchProject->banner_image ? asset('storage/' . $researchProject->banner_image) : null,
+        'breadcrumb'    => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',     'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Research', 'item' => route('research.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $researchProject->title, 'item' => route('research.show', $researchProject)],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

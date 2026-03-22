@@ -4,9 +4,24 @@
 
 @section('meta')
 @php
-    $seoTitle = 'Eco Store – Animal IQ';
-    $seoDescription = 'Shop Animal IQ merchandise: T-shirts, stickers, books and more. Proceeds support our wildlife education and conservation programs.';
-    $seoCanonical = route('store.index');
+    $seoTitle       = 'Eco Store – Shop & Support Animal IQ Conservation';
+    $seoDescription = 'Shop Animal IQ merchandise: T-shirts, stickers, books, and eco-friendly products. Every purchase directly supports wildlife education and conservation programs in Kenya.';
+    $seoCanonical   = route('store.index');
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'Store',
+        'name'        => 'Animal IQ Eco Store',
+        'url'         => route('store.index'),
+        'description' => 'Merchandise and eco-friendly products supporting Animal IQ wildlife education and conservation.',
+        'seller'      => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'breadcrumb'  => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',  'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Store', 'item' => route('store.index')],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

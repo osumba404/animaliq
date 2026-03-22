@@ -4,9 +4,27 @@
 
 @section('meta')
 @php
-    $seoTitle = 'Donate: ' . $donationCampaign->title . ' – Animal IQ';
-    $seoDescription = Str::limit(strip_tags($donationCampaign->description ?? ''), 160);
-    $seoCanonical = route('donations.show', $donationCampaign);
+    $seoTitle       = 'Donate: ' . $donationCampaign->title . ' – Animal IQ';
+    $seoDescription = $donationCampaign->description
+        ? Str::limit(strip_tags($donationCampaign->description), 155)
+        : 'Support the ' . $donationCampaign->title . ' campaign by Animal IQ. Your donation funds wildlife education and conservation programs.';
+    $seoCanonical   = route('donations.show', $donationCampaign);
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'DonateAction',
+        'name'        => 'Donate: ' . $donationCampaign->title,
+        'url'         => route('donations.show', $donationCampaign),
+        'description' => strip_tags($donationCampaign->description ?? ''),
+        'recipient'   => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'breadcrumb'  => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',   'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Donate', 'item' => route('donations.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $donationCampaign->title, 'item' => route('donations.show', $donationCampaign)],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

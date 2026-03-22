@@ -4,10 +4,24 @@
 
 @section('meta')
 @php
-    $seoTitle = 'Animal IQ – Wildlife Education & Conservation';
-    $seoDescription = 'Animal IQ connects youth with wildlife and environmental education. Explore programs, events, research, and ways to get involved in conservation.';
-    $seoCanonical = route('home');
-    $seoImage = $seoImage ?? null;
+    $seoTitle       = 'Animal IQ – Wildlife Education, Conservation & Community';
+    $seoDescription = 'Animal IQ connects youth and communities with wildlife education, conservation programs, events, and research in Kenya. Join us to protect and celebrate nature.';
+    $seoCanonical   = route('home');
+    $seoImage       = $seoImage ?? null;
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'Organization',
+        'name'        => 'Animal IQ',
+        'url'         => url('/'),
+        'logo'        => url('/favicon.ico'),
+        'description' => 'Wildlife and environmental education organization connecting youth with conservation, programs, events, and research.',
+        'sameAs'      => [],
+        'contactPoint' => [
+            '@type'       => 'ContactPoint',
+            'contactType' => 'customer support',
+            'url'         => url('/'),
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

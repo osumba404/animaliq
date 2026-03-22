@@ -4,10 +4,34 @@
 
 @section('meta')
 @php
-    $seoTitle = $event->title . ' – Animal IQ';
-    $seoDescription = Str::limit(strip_tags($event->description ?? ''), 160);
-    $seoCanonical = route('events.show', $event);
-    $seoImage = $event->banner_image;
+    $seoTitle       = $event->title . ' – Animal IQ Event';
+    $seoDescription = $event->description
+        ? Str::limit(strip_tags($event->description), 155)
+        : 'Join ' . $event->title . ' – an Animal IQ event' . ($event->location ? ' at ' . $event->location : '') . ($event->start_datetime ? ' on ' . $event->start_datetime->format('F j, Y') : '') . '.';
+    $seoCanonical   = route('events.show', $event);
+    $seoImage       = $event->banner_image;
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'Event',
+        'name'        => $event->title,
+        'url'         => route('events.show', $event),
+        'description' => strip_tags($event->description ?? ''),
+        'eventStatus' => 'https://schema.org/EventScheduled',
+        'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+        'startDate'   => $event->start_datetime?->toIso8601String(),
+        'endDate'     => $event->end_datetime?->toIso8601String(),
+        'location'    => $event->location ? ['@type' => 'Place', 'name' => $event->location] : null,
+        'organizer'   => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'image'       => $event->banner_image ? asset('storage/' . $event->banner_image) : null,
+        'breadcrumb'  => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',   'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Events', 'item' => route('events.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $event->title, 'item' => route('events.show', $event)],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

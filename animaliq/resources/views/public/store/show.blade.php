@@ -4,10 +4,39 @@
 
 @section('meta')
 @php
-    $seoTitle = $product->name . ' – Animal IQ Store';
-    $seoDescription = Str::limit(strip_tags($product->description ?? ''), 160);
-    $seoCanonical = route('store.show', $product);
-    $seoImage = $product->image_path;
+    $seoTitle       = $product->name . ' – Animal IQ Eco Store';
+    $seoDescription = $product->description
+        ? Str::limit(strip_tags($product->description), 155)
+        : 'Buy ' . $product->name . ' from the Animal IQ Eco Store. Proceeds support wildlife education and conservation programs in Kenya.';
+    $seoCanonical   = route('store.show', $product);
+    $seoImage       = $product->image_path;
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'Product',
+        'name'        => $product->name,
+        'url'         => route('store.show', $product),
+        'description' => strip_tags($product->description ?? ''),
+        'image'       => $product->image_path ? asset('storage/' . $product->image_path) : null,
+        'offers'      => [
+            '@type'         => 'Offer',
+            'price'         => $product->price,
+            'priceCurrency' => 'KES',
+            'availability'  => ($product->stock === null || $product->stock > 0)
+                ? 'https://schema.org/InStock'
+                : 'https://schema.org/OutOfStock',
+            'url'           => route('store.show', $product),
+            'seller'        => ['@type' => 'Organization', 'name' => 'Animal IQ'],
+        ],
+        'brand'       => ['@type' => 'Brand', 'name' => 'Animal IQ'],
+        'breadcrumb'  => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',  'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Store', 'item' => route('store.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $product->name, 'item' => route('store.show', $product)],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection

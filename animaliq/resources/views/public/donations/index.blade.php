@@ -4,9 +4,24 @@
 
 @section('meta')
 @php
-    $seoTitle = 'Donate – Animal IQ';
-    $seoDescription = 'Support Animal IQ through one-time or campaign-based donations. M-Pesa and receipt by email.';
-    $seoCanonical = route('donations.index');
+    $seoTitle       = 'Support Wildlife Conservation – Donate to Animal IQ';
+    $seoDescription = 'Make a difference for wildlife and youth education. Donate to Animal IQ’s conservation campaigns via M-Pesa. Every contribution funds programs, events, and research.';
+    $seoCanonical   = route('donations.index');
+    $jsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'DonateAction',
+        'name'        => 'Donate to Animal IQ',
+        'url'         => route('donations.index'),
+        'description' => 'Support Animal IQ wildlife education and conservation through donations.',
+        'recipient'   => ['@type' => 'Organization', 'name' => 'Animal IQ', 'url' => url('/')],
+        'breadcrumb'  => [
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',   'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Donate', 'item' => route('donations.index')],
+            ],
+        ],
+    ];
 @endphp
 @include('partials.seo')
 @endsection
