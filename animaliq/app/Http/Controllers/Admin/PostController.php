@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewPostNotification;
 use App\Models\Post;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -38,7 +40,17 @@ class PostController extends Controller
         if (! $request->filled('slug')) {
             unset($validated['slug']);
         }
-        Post::create($validated);
+        $post = Post::create($validated);
+        if ($post->status === 'published') {
+            $post->load('author', 'campaign');
+            app(NotificationService::class)->broadcast(
+                type:   'post',
+                title:  'New Post: ' . $post->title,
+                body:   $post->content ? \Illuminate\Support\Str::limit(strip_tags($post->content), 120) : '',
+                url:    route('blog.show', $post),
+                mailer: fn($user) => new NewPostNotification($post, $user->first_name ?: 'there'),
+            );
+        }
         return redirect()->route('admin.posts.index')->with('success', 'Post created.');
     }
 

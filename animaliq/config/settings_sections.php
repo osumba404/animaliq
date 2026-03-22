@@ -23,7 +23,7 @@ return [
         'keys' => [
             'about_founder_story' => ['label' => 'Founder story', 'type' => 'text'],
             'core_values' => ['label' => 'Core values (one per line)', 'type' => 'text'],
-            'strategic_plan_file' => ['label' => 'Strategic plan file path', 'type' => 'text'],
+            'strategic_plan_file' => ['label' => 'Strategic plan file (PDF/doc)', 'type' => 'file'],
         ],
     ],
     'research' => [

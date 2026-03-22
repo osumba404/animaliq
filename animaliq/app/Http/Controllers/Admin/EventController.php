@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewEventNotification;
 use App\Models\Event;
 use App\Models\Program;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -39,7 +41,15 @@ class EventController extends Controller
         } else {
             $validated['banner_image'] = null;
         }
-        Event::create($validated);
+        $event = Event::create($validated);
+        $event->load('program');
+        app(NotificationService::class)->broadcast(
+            type:   'event',
+            title:  'New Event: ' . $event->title,
+            body:   $event->description ? \Illuminate\Support\Str::limit(strip_tags($event->description), 120) : '',
+            url:    route('events.show', $event),
+            mailer: fn($user) => new NewEventNotification($event, $user->first_name ?: 'there'),
+        );
         return redirect()->route('admin.events.index')->with('success', 'Event created.');
     }
 

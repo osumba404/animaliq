@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Animal IQ') – {{ config('app.name') }}</title>
     @hasSection('meta')
         @yield('meta')
@@ -31,7 +32,23 @@
                     <li>@include('partials.nav-link', ['route' => route('donations.index'), 'label' => 'Donate', 'icon' => 'donate', 'class' => 'theme-link font-medium'])</li>
                     <li>@include('partials.nav-link', ['route' => route('store.index'), 'label' => 'Store', 'icon' => 'store'])</li>
                     @auth
-                        <li>@include('partials.nav-link', ['route' => route('community.dashboard'), 'label' => 'My Dashboard', 'icon' => 'dashboard', 'class' => 'theme-link font-medium'])</li>
+                        <li>
+                            @if(in_array(auth()->user()->role, ['admin', 'super_admin']))
+                                <div class="relative" id="dashboard-dropdown-wrap">
+                                    <button type="button" id="dashboard-dropdown-btn" class="inline-flex items-center gap-1.5 theme-nav-link" style="background:none;border:none;cursor:pointer;padding:0;" aria-haspopup="true" aria-expanded="false">
+                                        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                        <span @if(request()->is('community/*')) style="color:var(--accent-orange);font-weight:600;" @endif>My Dashboard</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                    </button>
+                                    <div id="dashboard-dropdown" class="absolute right-0 mt-1 w-48 rounded-lg border theme-border theme-bg-primary shadow-lg z-50 hidden">
+                                        <a href="{{ route('community.dashboard') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm theme-text-primary hover:bg-[var(--bg-warm)] rounded-t-lg @if(request()->is('community/*')) font-semibold @endif" style="@if(request()->is('community/*')) color:var(--accent-orange); @endif">My Dashboard</a>
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm theme-text-primary hover:bg-[var(--bg-warm)] rounded-b-lg @if(request()->is('admin*')) font-semibold @endif" style="@if(request()->is('admin*')) color:var(--accent-orange); @endif">Admin Dashboard</a>
+                                    </div>
+                                </div>
+                            @else
+                                @include('partials.nav-link', ['route' => route('community.dashboard'), 'label' => 'My Dashboard', 'icon' => 'dashboard', 'class' => 'theme-link font-medium'])
+                            @endif
+                        </li>
                         <li>
                             <form method="POST" action="{{ url('/logout') }}" class="inline">
                                 @csrf
@@ -40,6 +57,24 @@
                                     <span>Logout</span>
                                 </button>
                             </form>
+                        </li>
+                        {{-- Bell notification icon --}}
+                        <li class="relative" id="bell-wrap">
+                            <button id="bell-btn" aria-label="Notifications" class="relative p-1.5 rounded-lg theme-text-secondary hover:text-[var(--accent-orange)] transition" style="background:none;border:none;cursor:pointer;">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                                <span id="bell-badge" class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-white text-[10px] font-bold flex items-center justify-center hidden" style="background:var(--accent-orange);"></span>
+                            </button>
+                            {{-- Popup --}}
+                            <div id="bell-popup" class="hidden absolute right-0 mt-2 w-80 rounded-xl border theme-border theme-bg-primary shadow-2xl z-50" style="top:100%;">
+                                <div class="flex items-center justify-between px-4 py-3 border-b theme-border">
+                                    <span class="font-semibold theme-text-primary text-sm">Notifications</span>
+                                    <button id="bell-mark-all" class="text-xs theme-link">Mark all read</button>
+                                </div>
+                                <div id="bell-list" class="divide-y" style="border-color:var(--border-color);max-height:340px;overflow-y:auto;"></div>
+                                <div class="px-4 py-3 border-t theme-border text-center">
+                                    <a href="{{ route('notifications.index') }}" class="text-sm theme-link font-medium">View all notifications →</a>
+                                </div>
+                            </div>
                         </li>
                     @else
                         @if (Route::has('login'))
@@ -76,7 +111,14 @@
                 <li>@include('partials.nav-link', ['route' => route('donations.index'), 'label' => 'Donate', 'icon' => 'donate', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium'])</li>
                 <li>@include('partials.nav-link', ['route' => route('store.index'), 'label' => 'Store', 'icon' => 'store', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
                 @auth
-                    <li>@include('partials.nav-link', ['route' => route('community.dashboard'), 'label' => 'My Dashboard', 'icon' => 'dashboard', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium'])</li>
+                    <li>
+                        @if(in_array(auth()->user()->role, ['admin', 'super_admin']))
+                            <a href="{{ route('community.dashboard') }}" class="mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg @if(request()->is('community/*')) font-semibold @endif" style="@if(request()->is('community/*')) color:var(--accent-orange); @endif">My Dashboard</a>
+                            <a href="{{ route('admin.dashboard') }}" class="mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg @if(request()->is('admin*')) font-semibold @endif" style="@if(request()->is('admin*')) color:var(--accent-orange); @endif">Admin Dashboard</a>
+                        @else
+                            @include('partials.nav-link', ['route' => route('community.dashboard'), 'label' => 'My Dashboard', 'icon' => 'dashboard', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium'])
+                        @endif
+                    </li>
                     <li>
                         <form method="POST" action="{{ url('/logout') }}">
                             @csrf
@@ -166,6 +208,115 @@
         document.querySelectorAll('.mobile-nav-panel a').forEach(function(a) { a.addEventListener('click', closeMenu); });
     })();
     </script>
+    <script>
+    (function() {
+        var ddBtn = document.getElementById('dashboard-dropdown-btn');
+        var dd    = document.getElementById('dashboard-dropdown');
+        if (ddBtn && dd) {
+            ddBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var isHidden = dd.classList.contains('hidden');
+                dd.classList.toggle('hidden', !isHidden);
+                ddBtn.setAttribute('aria-expanded', String(isHidden));
+            });
+            document.addEventListener('click', function(e) {
+                if (!ddBtn.contains(e.target) && !dd.contains(e.target)) {
+                    dd.classList.add('hidden');
+                    ddBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+    })();
+    </script>
+    @auth
+    <script>
+    (function() {
+        var bellBtn  = document.getElementById('bell-btn');
+        var bellPop  = document.getElementById('bell-popup');
+        var bellList = document.getElementById('bell-list');
+        var bellBadge= document.getElementById('bell-badge');
+        var csrf     = document.querySelector('meta[name=csrf-token]')?.content || '';
+        var icons = {
+            program:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>',
+            event:    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            post:     '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+            research: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+        };
+        var defaultIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>';
+
+        function timeAgo(dateStr) {
+            var diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
+            if (diff < 60)   return diff + 's ago';
+            if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+            if (diff < 86400)return Math.floor(diff/3600) + 'h ago';
+            return Math.floor(diff/86400) + 'd ago';
+        }
+
+        function loadNotifications() {
+            fetch('/notifications/recent', {headers:{'Accept':'application/json','X-CSRF-TOKEN':csrf}})
+                .then(r => r.json())
+                .then(data => {
+                    // Badge
+                    if (data.unread > 0) {
+                        bellBadge.textContent = data.unread > 99 ? '99+' : data.unread;
+                        bellBadge.classList.remove('hidden');
+                    } else {
+                        bellBadge.classList.add('hidden');
+                    }
+                    // List
+                    if (!data.notifications.length) {
+                        bellList.innerHTML = '<div class="px-4 py-6 text-center text-sm" style="color:var(--text-secondary)">No notifications yet.</div>';
+                        return;
+                    }
+                    bellList.innerHTML = data.notifications.map(function(n) {
+                        var icon = icons[n.type] || defaultIcon;
+                        var unread = !n.read_at;
+                        return '<div class="flex gap-3 px-4 py-3 hover:bg-[var(--bg-warm)] transition cursor-pointer notification-row" data-id="'+n.id+'" data-url="'+(n.url||'')+'" style="'+(unread?'background:var(--bg-warm);':'')+'">'
+                            + '<span class="shrink-0 mt-0.5 w-7 h-7 rounded-md flex items-center justify-center" style="background:var(--bg-warm);color:var(--accent-orange);">'+icon+'</span>'
+                            + '<div class="flex-1 min-w-0">'
+                            + '<p class="text-sm font-'+(unread?'semibold':'normal')+' leading-snug truncate" style="color:var(--text-primary)">'+n.title+'</p>'
+                            + (n.body ? '<p class="text-xs mt-0.5 line-clamp-1" style="color:var(--text-secondary)">'+n.body+'</p>' : '')
+                            + '<p class="text-xs mt-1" style="color:var(--text-secondary)">'+timeAgo(n.created_at)+'</p>'
+                            + '</div>'
+                            + (unread ? '<span class="w-2 h-2 rounded-full shrink-0 mt-2" style="background:var(--accent-orange);"></span>' : '')
+                            + '</div>';
+                    }).join('');
+                    // Click rows
+                    bellList.querySelectorAll('.notification-row').forEach(function(row) {
+                        row.addEventListener('click', function() {
+                            var id  = row.dataset.id;
+                            var url = row.dataset.url;
+                            fetch('/notifications/'+id+'/read', {method:'POST', headers:{'X-CSRF-TOKEN':csrf,'Accept':'application/json'}});
+                            if (url) window.location.href = url;
+                        });
+                    });
+                });
+        }
+
+        if (bellBtn) {
+            bellBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var open = !bellPop.classList.contains('hidden');
+                bellPop.classList.toggle('hidden', open);
+                if (!open) loadNotifications();
+            });
+            document.addEventListener('click', function(e) {
+                if (!document.getElementById('bell-wrap')?.contains(e.target)) {
+                    bellPop.classList.add('hidden');
+                }
+            });
+        }
+
+        document.getElementById('bell-mark-all')?.addEventListener('click', function() {
+            fetch('/notifications/read-all', {method:'POST', headers:{'X-CSRF-TOKEN':csrf,'Accept':'application/json'}})
+                .then(() => { bellBadge.classList.add('hidden'); loadNotifications(); });
+        });
+
+        // Load badge count on page load
+        loadNotifications();
+    })();
+    </script>
+    @endauth
     @stack('scripts')
     @include('partials.share-script')
 </body>

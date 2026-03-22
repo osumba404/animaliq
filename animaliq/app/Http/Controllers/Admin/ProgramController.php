@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewProgramNotification;
 use App\Models\Department;
 use App\Models\Program;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
@@ -35,7 +37,15 @@ class ProgramController extends Controller
         } else {
             $validated['image'] = null;
         }
-        Program::create($validated);
+        $program = Program::create($validated);
+        $program->load('department');
+        app(NotificationService::class)->broadcast(
+            type:   'program',
+            title:  'New Program: ' . $program->title,
+            body:   $program->description ? \Illuminate\Support\Str::limit(strip_tags($program->description), 120) : '',
+            url:    route('programs.show', $program),
+            mailer: fn($user) => new NewProgramNotification($program, $user->first_name ?: 'there'),
+        );
         return redirect()->route('admin.programs.index')->with('success', 'Program created.');
     }
 

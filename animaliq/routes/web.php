@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommunityController;
@@ -49,6 +50,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/community/dashboard', [CommunityController::class, 'dashboard'])->name('community.dashboard');
     Route::get('/community/profile', [CommunityController::class, 'profileEdit'])->name('community.profile');
     Route::put('/community/profile', [CommunityController::class, 'profileUpdate'])->name('community.profile.update');
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/recent', [NotificationController::class, 'recent'])->name('notifications.recent');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
 });
 
 // Authentication

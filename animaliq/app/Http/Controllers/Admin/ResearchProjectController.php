@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewResearchNotification;
 use App\Models\Department;
 use App\Models\ResearchProject;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class ResearchProjectController extends Controller
@@ -37,7 +39,15 @@ class ResearchProjectController extends Controller
         } else {
             $validated['banner_image'] = null;
         }
-        ResearchProject::create($validated);
+        $project = ResearchProject::create($validated);
+        $project->load('department');
+        app(NotificationService::class)->broadcast(
+            type:   'research',
+            title:  'New Research: ' . $project->title,
+            body:   $project->summary ? \Illuminate\Support\Str::limit(strip_tags($project->summary), 120) : '',
+            url:    route('research.show', $project),
+            mailer: fn($user) => new NewResearchNotification($project, $user->first_name ?: 'there'),
+        );
         return redirect()->route('admin.research.index')->with('success', 'Research project created.');
     }
 

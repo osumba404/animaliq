@@ -91,8 +91,11 @@ class SiteSettingController extends Controller
         $keysConfig = $config['keys'];
         $rules = [];
         foreach (array_keys($keysConfig) as $key) {
-            if (($keysConfig[$key]['type'] ?? 'text') === 'image') {
+            $type = $keysConfig[$key]['type'] ?? 'text';
+            if ($type === 'image') {
                 $rules[$key] = 'nullable|image|max:2048';
+            } elseif ($type === 'file') {
+                $rules[$key] = 'nullable|file|max:10240';
             } else {
                 $rules[$key] = 'nullable|string';
             }
@@ -102,7 +105,7 @@ class SiteSettingController extends Controller
         foreach (array_keys($keysConfig) as $key) {
             $type = $keysConfig[$key]['type'] ?? 'text';
             $value = null;
-            if ($type === 'image') {
+            if ($type === 'image' || $type === 'file') {
                 if ($request->hasFile($key)) {
                     $value = $request->file($key)->store('settings', 'public');
                 } else {
