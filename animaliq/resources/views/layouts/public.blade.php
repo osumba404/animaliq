@@ -21,7 +21,7 @@
             <a href="{{ route('home') }}" class="logo-brand text-xl font-semibold flex items-center gap-2 shrink-0" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
                 @php $siteLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
                 @if($siteLogo)
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="h-8 w-auto inline-block" style="-webkit-text-fill-color: initial;">
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="h-8 w-8 object-cover rounded-full inline-block" style="-webkit-text-fill-color: initial;">
                 @endif
                 Animal IQ
             </a>

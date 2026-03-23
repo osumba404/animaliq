@@ -32,7 +32,7 @@
             <a href="{{ route('admin.dashboard') }}" class="font-semibold theme-accent text-lg flex items-center gap-2">
                 @php $adminSideLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
                 @if($adminSideLogo)
-                    <img src="{{ asset('storage/' . $adminSideLogo) }}" alt="Logo" class="h-6 w-auto inline-block">
+                    <img src="{{ asset('storage/' . $adminSideLogo) }}" alt="Logo" class="h-6 w-6 object-cover rounded-full inline-block">
                 @endif
                 Admin
             </a>
