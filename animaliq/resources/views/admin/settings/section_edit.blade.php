@@ -20,7 +20,7 @@
                 @endif
                 <input type="file" name="{{ $key }}" class="theme-input w-full">
                 <span class="text-xs theme-text-secondary">Leave empty to keep current</span>
-            @elseif(($meta['type'] ?? 'text') === 'text' && in_array($key, ['about_founder_story', 'mission_statement', 'vision_statement', 'homepage_mission_teaser', 'homepage_hero_subtitle']))
+            @elseif(($meta['type'] ?? 'text') === 'text' && in_array($key, ['about_founder_story', 'mission_statement', 'vision_statement', 'homepage_mission_teaser', 'homepage_hero_subtitle', 'core_values']))
                 <textarea name="{{ $key }}" rows="4" class="theme-input w-full">{{ old($key, $data[$key] ?? '') }}</textarea>
             @else
                 <input type="text" name="{{ $key }}" value="{{ old($key, $data[$key] ?? '') }}" class="theme-input">

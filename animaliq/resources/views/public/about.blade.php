@@ -92,7 +92,12 @@
                 <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center reveal">Core Values</h2>
                 <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto reveal reveal-delay-1">The principles that guide everything we do.</p>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    @foreach((array) $coreValues as $index => $value)
+                    @php
+                        $parsedValues = is_string($coreValues) && str_starts_with(trim($coreValues), '[') 
+                            ? json_decode($coreValues, true) 
+                            : (array) $coreValues;
+                    @endphp
+                    @foreach($parsedValues as $index => $value)
                         @php $label = is_string($value) ? $value : ($value['name'] ?? json_encode($value)); @endphp
                         <div class="theme-card rounded-xl p-5 flex items-start gap-4 hover-lift border-l-4 border-l-[var(--accent-orange)] reveal reveal-delay-{{ min($index+1,6) }}">
                             <span class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold theme-bg-warm theme-accent border-2 theme-border">{{ $index + 1 }}</span>

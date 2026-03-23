@@ -122,9 +122,10 @@ class SiteSettingController extends Controller
                     $value = json_encode($lines);
                 }
             }
+            $dbType = $type === 'file' ? 'text' : $type;
             SiteSetting::updateOrCreate(
                 ['setting_key' => $key],
-                ['setting_value' => $value ?? '', 'type' => $type]
+                ['setting_value' => $value ?? '', 'type' => $dbType]
             );
             \Illuminate\Support\Facades\Cache::forget("site_setting_{$key}");
         }
