@@ -179,8 +179,8 @@
     {{-- Core programs --}}
     <section class="py-12 md:py-16 theme-bg-warm -mx-4 px-4 md:rounded-2xl md:mx-0">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2 animate-fade-in-up">Core programs</h2>
-            <p class="theme-text-secondary mb-8 max-w-2xl animate-fade-in-up animate-delay-1">Education, youth engagement, and conservation at the heart of what we do.</p>
+            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2 animate-fade-in-up text-center">Core programs</h2>
+            <p class="theme-text-secondary mb-8 max-w-2xl animate-fade-in-up animate-delay-1 text-center mx-auto">Education, youth engagement, and conservation at the heart of what we do.</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
                 @forelse($programs as $program)
                     @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
@@ -214,8 +214,8 @@
     {{-- Upcoming events --}}
     <section class="py-12 md:py-16">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2">Upcoming events</h2>
-            <p class="theme-text-secondary mb-8">Join workshops, field trips, and community activities.</p>
+            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2 text-center">Upcoming events</h2>
+            <p class="theme-text-secondary mb-8 text-center mx-auto">Join workshops, field trips, and community activities.</p>
             @if(isset($upcomingEvents) && $upcomingEvents->isNotEmpty())
                 <div class="grid md:grid-cols-3 gap-6 stagger-children">
                     @foreach($upcomingEvents as $event)
@@ -254,8 +254,8 @@
     @if(isset($recentPosts) && $recentPosts->isNotEmpty())
     <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl md:mx-0">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2">Latest from the blog</h2>
-            <p class="theme-text-secondary mb-8">Stories and updates from our community.</p>
+            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2 text-center">Latest from the blog</h2>
+            <p class="theme-text-secondary mb-8 text-center mx-auto">Stories and updates from our community.</p>
             <div class="grid md:grid-cols-3 gap-6 stagger-children">
                 @foreach($recentPosts as $post)
                     <a href="{{ route('blog.show', $post) }}" class="block theme-card rounded-2xl overflow-hidden hover-lift group">
@@ -278,7 +278,7 @@
                 @endforeach
             </div>
             <div class="mt-8 text-center">
-                <a href="{{ route('blog.index') }}" class="theme-link font-semibold">View all posts</a>
+                <a href="{{ route('blog.index') }}" class="theme-btn-outline px-6 py-2">View all posts</a>
             </div>
         </div>
     </section>
@@ -288,8 +288,8 @@
     @if(isset($latestResearch) && $latestResearch->isNotEmpty())
     <section class="py-12 md:py-16">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2">Research & knowledge hub</h2>
-            <p class="theme-text-secondary mb-8">Discover our latest findings and conservation studies.</p>
+            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2 text-center">Research & knowledge hub</h2>
+            <p class="theme-text-secondary mb-8 text-center mx-auto">Discover our latest findings and conservation studies.</p>
             <div class="grid md:grid-cols-3 gap-6 stagger-children">
                 @foreach($latestResearch as $research)
                     <a href="{{ route('research.show', $research) }}" class="block theme-card rounded-2xl overflow-hidden hover-lift group">
@@ -314,7 +314,7 @@
                 @endforeach
             </div>
             <div class="mt-8 text-center">
-                <a href="{{ route('research.index') }}" class="theme-link font-semibold">View all research</a>
+                <a href="{{ route('research.index') }}" class="theme-btn-outline px-6 py-2">View all research</a>
             </div>
         </div>
     </section>
@@ -332,4 +332,40 @@
             </div>
         </div>
     </section>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    if (target.classList.contains('counted')) return;
+                    target.classList.add('counted');
+                    const finalValStr = target.innerText.replace(/,/g, '');
+                    const finalVal = parseInt(finalValStr, 10) || 0;
+                    
+                    if (finalVal === 0) return;
+                    
+                    target.innerText = '0';
+                    let startVal = 0;
+                    const duration = 2000;
+                    const stepTime = Math.max(Math.floor(duration / finalVal), 20);
+                    const steps = duration / stepTime;
+                    const increment = finalVal / steps;
+
+                    const timer = setInterval(() => {
+                        startVal += increment;
+                        if (startVal >= finalVal) {
+                            target.innerText = Number(finalVal).toLocaleString();
+                            clearInterval(timer);
+                        } else {
+                            target.innerText = Math.floor(startVal).toLocaleString();
+                        }
+                    }, stepTime);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
+    });
+    </script>
 @endsection
