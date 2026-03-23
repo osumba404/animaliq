@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AdminRoleNotification;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -77,7 +78,14 @@ class UserController extends Controller
 
         $adminRoles = ['admin', 'super_admin'];
         if (in_array($user->role, $adminRoles) && !in_array($oldRole, $adminRoles)) {
-            Mail::to($user->email)->queue(new AdminRoleNotification($user));
+            Notification::create([
+                'user_id' => $user->id,
+                'type'    => 'role',
+                'title'   => 'Admin access granted',
+                'body'    => 'You have been granted ' . ($user->role === 'super_admin' ? 'Super Admin' : 'Admin') . ' access on Animal IQ.',
+                'url'     => route('admin.dashboard'),
+            ]);
+            Mail::to($user->email)->send(new AdminRoleNotification($user));
         }
 
         return redirect()->route('admin.users.index')->with('success', 'User updated.');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeNotification;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -49,7 +50,15 @@ class RegisterController extends Controller
 
         $request->session()->regenerate();
 
-        Mail::to($user->email)->queue(new WelcomeNotification($user));
+        Notification::create([
+            'user_id' => $user->id,
+            'type'    => 'welcome',
+            'title'   => 'Welcome to Animal IQ!',
+            'body'    => 'Your account has been created. Explore programs, events, and more.',
+            'url'     => route('community.dashboard'),
+        ]);
+
+        Mail::to($user->email)->send(new WelcomeNotification($user));
 
         return redirect()->route('community.dashboard')->with('success', 'Welcome! Your account has been created.');
     }

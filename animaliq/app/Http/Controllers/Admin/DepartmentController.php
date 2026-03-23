@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\DepartmentAddedNotification;
 use App\Models\Department;
 use App\Models\DepartmentMember;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -98,7 +99,14 @@ class DepartmentController extends Controller
 
         $addedUser = User::find($validated['user_id']);
         if ($addedUser) {
-            Mail::to($addedUser->email)->queue(
+            Notification::create([
+                'user_id' => $addedUser->id,
+                'type'    => 'department',
+                'title'   => 'Added to ' . $department->name,
+                'body'    => 'You have been added to the ' . $department->name . ' department' . ($validated['position_title'] ?? null ? ' as ' . $validated['position_title'] : '') . '.',
+                'url'     => route('community.dashboard'),
+            ]);
+            Mail::to($addedUser->email)->send(
                 new DepartmentAddedNotification($addedUser, $department, $validated['position_title'] ?? null)
             );
         }
