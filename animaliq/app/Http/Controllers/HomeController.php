@@ -21,20 +21,22 @@ class HomeController extends Controller
         $activePrograms = Program::active()->count();
         $membersActive = User::count();
         $eventsHosted = (int) SiteSetting::getByKey('impact_events_hosted', 0);
-        $partnershipsFormed = (int) SiteSetting::getByKey('impact_partnerships_formed', 0);
+        $researchConducted = ResearchProject::count();
         $upcomingEventsCount = Event::upcoming()->count();
+        $publishedArticles = Post::published()->count();
         $programs = Program::active()->with('department', 'events')->latest()->take(3)->get();
         $upcomingEvent = Event::upcoming()->with('program')->first();
         $upcomingEvents = Event::upcoming()->with('program')->orderBy('start_datetime')->take(3)->get();
         $recentPosts = Post::published()->with('author')->latest('published_at')->take(3)->get();
-        $featuredResearch = ResearchProject::with('department')->orderByDesc('start_date')->first();
+        $latestResearch = ResearchProject::with('department')->latest('start_date')->take(3)->get();
+        $founderStory = SiteSetting::getByKey('about_founder_story', '');
 
         $seoImage = $slides->first()?->image_path;
 
         return view('public.home', compact(
             'slides', 'mission', 'missionTeaser', 'vision',
-            'activePrograms', 'membersActive', 'eventsHosted', 'partnershipsFormed', 'upcomingEventsCount',
-            'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'featuredResearch', 'seoImage'
+            'activePrograms', 'membersActive', 'eventsHosted', 'researchConducted', 'upcomingEventsCount', 'publishedArticles',
+            'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'latestResearch', 'founderStory', 'seoImage'
         ));
     }
 }

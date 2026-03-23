@@ -12,6 +12,7 @@ return [
     'mission' => [
         'title' => 'Mission & Vision',
         'keys' => [
+            'site_logo' => ['label' => 'Site logo (Navbar & Favicon)', 'type' => 'image'],
             'mission_statement' => ['label' => 'Mission statement', 'type' => 'text'],
             'mission_image' => ['label' => 'Mission image (optional)', 'type' => 'image'],
             'vision_statement' => ['label' => 'Vision statement', 'type' => 'text'],

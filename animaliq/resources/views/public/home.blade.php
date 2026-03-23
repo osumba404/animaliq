@@ -131,6 +131,14 @@
             @if($vision)
                 <p class="mt-6 text-base theme-text-secondary max-w-2xl mx-auto">{{ Str::limit($vision, 160) }}</p>
             @endif
+            @if(isset($founderStory) && $founderStory)
+                <div class="mt-8 pt-8 border-t theme-border text-left">
+                    <h3 class="text-xl font-bold theme-text-primary mb-3 text-center">Our Founder Story</h3>
+                    <div class="prose max-w-none theme-text-secondary mx-auto text-center">
+                        {!! nl2br(e($founderStory)) !!}
+                    </div>
+                </div>
+            @endif
             <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
                 <a href="{{ route('about') }}" class="theme-link font-semibold">Learn more about us →</a>
             </div>
@@ -140,29 +148,31 @@
     {{-- Impact stats – one row on desktop, equal width --}}
     <section class="py-12 md:py-16">
         <h2 class="text-2xl md:text-3xl font-bold theme-text-primary text-center mb-10 reveal">Our impact</h2>
-        <div class="flex flex-wrap justify-center gap-4 md:gap-6 lg:flex-nowrap lg:justify-center lg:gap-4">
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--accent-orange)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-1">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 px-4 max-w-[1400px] mx-auto">
+            <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--accent-orange)] reveal reveal-delay-1">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($activePrograms) }}</p>
-                <p class="text-sm md:text-base theme-text-secondary mt-1">Active programs</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Active programs</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-500)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-2">
+            <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-500)] reveal reveal-delay-2">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($membersActive) }}</p>
-                <p class="text-sm md:text-base theme-text-secondary mt-1">Members active</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Members active</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-600)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-3">
+            <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-600)] reveal reveal-delay-3">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($eventsHosted) }}</p>
-                <p class="text-sm md:text-base theme-text-secondary mt-1">Events hosted</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Events hosted</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-700)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-4">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($partnershipsFormed) }}</p>
-                <p class="text-sm md:text-base theme-text-secondary mt-1">Partnerships</p>
+            <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-700)] reveal reveal-delay-4">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($researchConducted) }}</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Research Conducted</p>
             </div>
-            @if(isset($upcomingEventsCount) && $upcomingEventsCount > 0)
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-400)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-5">
+            <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-400)] reveal reveal-delay-5">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($upcomingEventsCount) }}</p>
-                <p class="text-sm md:text-base theme-text-secondary mt-1">Upcoming events</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Upcoming events</p>
             </div>
-            @endif
+            <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-300)] reveal reveal-delay-6">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($publishedArticles) }}</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Published Articles</p>
+            </div>
         </div>
     </section>
 
@@ -274,26 +284,37 @@
     </section>
     @endif
 
-    {{-- Research highlight --}}
-    @if(isset($featuredResearch) && $featuredResearch)
+    {{-- Latest research --}}
+    @if(isset($latestResearch) && $latestResearch->isNotEmpty())
     <section class="py-12 md:py-16">
         <div class="max-w-6xl mx-auto">
-            <div class="theme-card rounded-2xl overflow-hidden flex flex-col md:flex-row hover-lift">
-                <div class="md:w-2/5 h-56 md:h-auto min-h-[200px] bg-[var(--bg-secondary)]">
-                    @if($featuredResearch->banner_image)
-                        <img src="{{ asset('storage/' . $featuredResearch->banner_image) }}" alt="{{ $featuredResearch->title }}" class="w-full h-full object-cover">
-                    @else
-                        <div class="w-full h-full flex items-center justify-center theme-text-secondary"><svg class="w-16 h-16 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>
-                    @endif
-                </div>
-                <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
-                    <p class="text-sm font-semibold theme-accent uppercase tracking-wide mb-2">Research & knowledge hub</p>
-                    <h2 class="text-2xl font-bold theme-text-primary">{{ $featuredResearch->title }}</h2>
-                    @if($featuredResearch->summary)
-                        <p class="theme-text-secondary mt-2 line-clamp-2">{{ Str::limit($featuredResearch->summary, 150) }}</p>
-                    @endif
-                    <a href="{{ route('research.show', $featuredResearch) }}" class="inline-block mt-4 theme-btn">Explore research</a>
-                </div>
+            <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-2">Research & knowledge hub</h2>
+            <p class="theme-text-secondary mb-8">Discover our latest findings and conservation studies.</p>
+            <div class="grid md:grid-cols-3 gap-6 stagger-children">
+                @foreach($latestResearch as $research)
+                    <a href="{{ route('research.show', $research) }}" class="block theme-card rounded-2xl overflow-hidden hover-lift group">
+                        <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
+                            @if($research->banner_image)
+                                <img src="{{ asset('storage/' . $research->banner_image) }}" alt="{{ $research->title }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center theme-text-secondary"><svg class="w-14 h-14 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>
+                            @endif
+                        </div>
+                        <div class="p-4">
+                            @if($research->department)
+                                <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-1">{{ $research->department->name }}</p>
+                            @endif
+                            <h3 class="font-bold theme-text-primary group-hover:theme-accent transition line-clamp-2">{{ $research->title }}</h3>
+                            @if($research->summary)
+                                <p class="text-sm theme-text-secondary mt-2 line-clamp-2">{{ Str::limit($research->summary, 80) }}</p>
+                            @endif
+                            <span class="inline-block mt-2 theme-link text-sm font-medium">Explore research →</span>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+            <div class="mt-8 text-center">
+                <a href="{{ route('research.index') }}" class="theme-link font-semibold">View all research</a>
             </div>
         </div>
     </section>

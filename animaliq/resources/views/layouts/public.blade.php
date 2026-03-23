@@ -18,7 +18,13 @@
 <body class="theme-bg-primary theme-text-primary min-h-screen antialiased">
     <header class="theme-bg-primary theme-header-border sticky top-0 z-30">
         <nav class="container mx-auto px-4 py-3 md:py-4 flex flex-wrap items-center justify-between gap-2">
-            <a href="{{ route('home') }}" class="logo-brand text-xl font-semibold shrink-0" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Animal IQ</a>
+            <a href="{{ route('home') }}" class="logo-brand text-xl font-semibold flex items-center gap-2 shrink-0" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                @php $siteLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
+                @if($siteLogo)
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="h-8 w-auto inline-block" style="-webkit-text-fill-color: initial;">
+                @endif
+                Animal IQ
+            </a>
             <div class="flex items-center gap-2 md:gap-4">
                 @include('partials.theme-toggle')
                 {{-- Desktop nav: visible from md up --}}

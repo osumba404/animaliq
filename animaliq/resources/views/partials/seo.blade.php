@@ -9,7 +9,11 @@
     $type = $seoType ?? 'website';
     $publishedTime = $seoPublishedTime ?? null;
     $modifiedTime = $seoModifiedTime ?? null;
+    $siteLogo = \App\Models\SiteSetting::getByKey('site_logo');
 @endphp
+@if($siteLogo)
+<link rel="icon" href="{{ asset('storage/' . $siteLogo) }}">
+@endif
 <meta name="description" content="{{ $descriptionText }}">
 <link rel="canonical" href="{{ $canonical }}">
 <meta name="robots" content="index, follow">

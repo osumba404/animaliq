@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin') – {{ config('app.name') }}</title>
+    @php $adminLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
+    @if($adminLogo)
+        <link rel="icon" href="{{ asset('storage/' . $adminLogo) }}">
+    @endif
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
     @include('partials.animations')
@@ -25,7 +29,13 @@
     <div class="admin-sidebar-mobile-overlay md:hidden" id="admin-sidebar-overlay" aria-hidden="true"></div>
     <aside class="admin-sidebar-wrap admin-sidebar flex min-h-screen" id="admin-sidebar">
         <div class="p-4 theme-header-border">
-            <a href="{{ route('admin.dashboard') }}" class="font-semibold theme-accent text-lg">Admin</a>
+            <a href="{{ route('admin.dashboard') }}" class="font-semibold theme-accent text-lg flex items-center gap-2">
+                @php $adminSideLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
+                @if($adminSideLogo)
+                    <img src="{{ asset('storage/' . $adminSideLogo) }}" alt="Logo" class="h-6 w-auto inline-block">
+                @endif
+                Admin
+            </a>
         </div>
         <nav class="p-2 flex-1 overflow-y-auto">
             @php
