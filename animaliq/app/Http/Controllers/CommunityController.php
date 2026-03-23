@@ -43,16 +43,26 @@ class CommunityController extends Controller
             'last_name' => 'required|string|max:100',
             'phone' => 'nullable|string|max:20',
             'bio' => 'nullable|string|max:1000',
-            'profile_photo' => 'nullable|string|max:255',
+            'profile_photo' => 'nullable|image|max:2048',
             'current_password' => 'nullable|required_with:password|current_password',
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ]);
+
         unset($validated['current_password']);
+
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profiles', 'public');
+            $validated['profile_photo'] = $path;
+        } else {
+            unset($validated['profile_photo']);
+        }
+
         if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
         }
+        
         $user->update($validated);
         return redirect()->route('community.dashboard')->with('success', 'Profile updated.');
     }
