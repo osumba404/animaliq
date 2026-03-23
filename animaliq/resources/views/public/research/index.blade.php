@@ -40,9 +40,9 @@
 
     {{-- Banner removed --}}
 
-    <div class="py-8">
-        <div class="max-w-6xl mx-auto mb-8">
-            <form method="GET" class="flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+    <div class="py-12 px-4 xl:px-0 max-w-6xl mx-auto">
+        <div class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+            <form method="GET" class="flex-1 flex flex-col md:flex-row gap-3 md:items-center w-full">
                 <div class="flex-1 flex gap-2">
                     <div class="relative flex-1">
                         <input
@@ -70,7 +70,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($projects as $project)
                 <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col reveal">
-                    <a href="{{ route('research.show', $project) }}" class="block flex-1">
+                    <a href="{{ route('research.show', $project) }}" class="block flex-1 flex flex-col">
                         <div class="h-52 bg-[var(--bg-secondary)] overflow-hidden">
                             @if($project->banner_image)
                                 <img src="{{ asset('storage/' . $project->banner_image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -78,11 +78,11 @@
                                 <div class="w-full h-full flex items-center justify-center theme-text-secondary"><svg class="w-16 h-16 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>
                             @endif
                         </div>
-                        <div class="p-6">
+                        <div class="p-5 flex-1 flex flex-col">
                             @if($project->department)
                                 <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-2">{{ $project->department->name }}</p>
                             @endif
-                            <h2 class="text-xl font-bold theme-text-primary group-hover:theme-accent transition">{{ $project->title }}</h2>
+                            <h2 class="text-lg font-bold theme-text-primary group-hover:theme-accent transition line-clamp-2">{{ $project->title }}</h2>
                             <p class="text-sm theme-text-secondary mt-2 flex items-center gap-2">
                                 <span class="theme-badge">{{ $project->status }}</span>
                                 @if($project->start_date) {{ $project->start_date->format('Y') }} @endif
@@ -92,7 +92,7 @@
                             @endif
                         </div>
                     </a>
-                    <div class="p-6 pt-0 flex flex-wrap items-center justify-between gap-2">
+                    <div class="p-5 pt-0 flex flex-wrap items-center justify-between gap-2">
                         <a href="{{ route('research.show', $project) }}" class="theme-link font-medium">View project →</a>
                         @include('partials.share-button', ['shareTitle' => $project->title . ' – Animal IQ', 'url' => route('research.show', $project)])
                     </div>
