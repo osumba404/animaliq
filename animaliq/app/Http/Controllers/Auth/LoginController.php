@@ -33,13 +33,26 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        $throttleKey = \Illuminate\Support\Str::transliterate(\Illuminate\Support\Str::lower($validated['email']) . '|' . $request->ip());
+
+        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = \Illuminate\Support\Facades\RateLimiter::availableIn($throttleKey);
+            throw ValidationException::withMessages([
+                'email' => __('Too many login attempts. Please try again in :seconds seconds.', ['seconds' => $seconds]),
+            ]);
+        }
+
         $remember = $request->boolean('remember');
 
         if (! Auth::attempt($validated, $remember)) {
+            \Illuminate\Support\Facades\RateLimiter::hit($throttleKey, 60);
+
             throw ValidationException::withMessages([
                 'email' => __('These credentials do not match our records.'),
             ]);
         }
+
+        \Illuminate\Support\Facades\RateLimiter::clear($throttleKey);
 
         $request->session()->regenerate();
 
