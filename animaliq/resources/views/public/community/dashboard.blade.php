@@ -3,30 +3,30 @@
 @section('title', 'Community Dashboard')
 
 @section('content')
-    <h1 class="text-3xl font-bold mb-6 theme-text-primary">My Dashboard</h1>
+    <h1 class="text-3xl font-bold mb-6 theme-text-primary animate-fade-in-up">My Dashboard</h1>
 
     {{-- Personal stats --}}
     <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div class="theme-card rounded-lg p-4 text-center">
-            <p class="text-2xl font-bold theme-accent">{{ $registrationsCount }}</p>
+        <div class="theme-card rounded-lg p-4 text-center reveal reveal-delay-1">
+            <p class="text-2xl font-bold theme-accent stat-number">{{ $registrationsCount }}</p>
             <p class="text-sm theme-text-secondary">Events registered</p>
         </div>
-        <div class="theme-card rounded-lg p-4 text-center">
-            <p class="text-2xl font-bold theme-accent">{{ number_format($totalHours, 1) }}</p>
+        <div class="theme-card rounded-lg p-4 text-center reveal reveal-delay-2">
+            <p class="text-2xl font-bold theme-accent stat-number">{{ number_format($totalHours, 1) }}</p>
             <p class="text-sm theme-text-secondary">Volunteer hours</p>
         </div>
-        <div class="theme-card rounded-lg p-4 text-center">
-            <p class="text-2xl font-bold theme-accent">{{ $donationsCount }}</p>
+        <div class="theme-card rounded-lg p-4 text-center reveal reveal-delay-3">
+            <p class="text-2xl font-bold theme-accent stat-number">{{ $donationsCount }}</p>
             <p class="text-sm theme-text-secondary">Donations made</p>
         </div>
-        <div class="theme-card rounded-lg p-4 text-center">
-            <p class="text-2xl font-bold theme-accent">{{ number_format($donationsTotal ?? 0, 0) }}</p>
+        <div class="theme-card rounded-lg p-4 text-center reveal reveal-delay-4">
+            <p class="text-2xl font-bold theme-accent stat-number">{{ number_format($donationsTotal ?? 0, 0) }}</p>
             <p class="text-sm theme-text-secondary">Total donated</p>
         </div>
     </section>
 
     {{-- Profile card --}}
-    <section class="theme-card rounded-lg p-6 mb-8">
+    <section class="theme-card rounded-lg p-6 mb-8 reveal">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div class="flex gap-4">
                 @if($user->profile_photo)

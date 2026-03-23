@@ -39,8 +39,8 @@
 @section('content')
     {{-- Hero / banner --}}
     @if($event->banner_image)
-        <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 h-56 md:h-80">
-            <img src="{{ asset('storage/' . $event->banner_image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+        <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 shadow-lg" style="aspect-ratio:21/9;">
+            <img src="{{ asset('storage/' . $event->banner_image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover object-center">
         </div>
     @else
         <div class="rounded-2xl theme-bg-secondary h-40 md:h-56 flex items-center justify-center mb-8">
@@ -50,7 +50,7 @@
 
     <div class="max-w-4xl mx-auto">
         {{-- Event header --}}
-        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 reveal">
             <div>
             @if($event->program)
                 <p class="text-sm font-semibold theme-accent uppercase tracking-wide mb-2">{{ $event->program->title }}</p>
@@ -73,7 +73,7 @@
         </header>
 
         {{-- Original event description --}}
-        <section class="mb-10">
+        <section class="mb-10 reveal">
             <h2 class="text-xl font-bold theme-text-primary mb-3">About this event</h2>
             <div class="prose prose-lg max-w-none theme-text-secondary leading-relaxed">{!! nl2br(e($event->description ?? 'No description.')) !!}</div>
         </section>

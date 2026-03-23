@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\DepartmentAddedNotification;
 use App\Models\Department;
 use App\Models\DepartmentMember;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class DepartmentController extends Controller
@@ -88,11 +90,19 @@ class DepartmentController extends Controller
             return back()->with('error', 'User is already a member of this department.');
         }
         $department->departmentMembers()->create([
-            'user_id' => $validated['user_id'],
+            'user_id'        => $validated['user_id'],
             'position_title' => $validated['position_title'] ?? null,
-            'is_lead' => $request->boolean('is_lead'),
-            'display_order' => $department->departmentMembers()->max('display_order') + 1,
+            'is_lead'        => $request->boolean('is_lead'),
+            'display_order'  => $department->departmentMembers()->max('display_order') + 1,
         ]);
+
+        $addedUser = User::find($validated['user_id']);
+        if ($addedUser) {
+            Mail::to($addedUser->email)->queue(
+                new DepartmentAddedNotification($addedUser, $department, $validated['position_title'] ?? null)
+            );
+        }
+
         return back()->with('success', 'Member added.');
     }
 

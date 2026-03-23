@@ -31,6 +31,8 @@ class ProgramController extends Controller
             'image' => 'nullable|image|max:2048',
             'department_id' => 'nullable|exists:departments,id',
             'status' => 'in:active,archived',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('programs', 'public');
@@ -63,6 +65,8 @@ class ProgramController extends Controller
             'image' => 'nullable|image|max:2048',
             'department_id' => 'nullable|exists:departments,id',
             'status' => 'in:active,archived',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('programs', 'public');

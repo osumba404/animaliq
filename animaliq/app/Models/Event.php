@@ -18,6 +18,16 @@ class Event extends Model
         'start_datetime', 'end_datetime', 'capacity', 'banner_image', 'status',
     ];
 
+    /** Computed display status based on dates. */
+    public function getDisplayStatusAttribute(): string
+    {
+        if ($this->status === 'archived') return 'archived';
+        if ($this->start_datetime && $this->start_datetime->isFuture()) return 'upcoming';
+        if ($this->end_datetime && $this->end_datetime->isFuture()) return 'ongoing';
+        if ($this->start_datetime && $this->start_datetime->isPast()) return 'completed';
+        return 'active';
+    }
+
     protected function casts(): array
     {
         return [
@@ -46,18 +56,17 @@ class Event extends Model
         return $this->hasOne(EventProceeding::class);
     }
 
-    /** Whether this event is in the past (completed or start date passed). */
+    /** Whether this event is in the past (start date has passed). */
     public function isPast(): bool
     {
-        if ($this->status === 'completed') {
-            return true;
-        }
-        return $this->start_datetime && $this->start_datetime->isPast();
+        if ($this->status === 'archived') return false;
+        return $this->start_datetime && $this->start_datetime->isPast()
+            && (!$this->end_datetime || $this->end_datetime->isPast());
     }
 
     public function scopeUpcoming($query)
     {
-        return $query->where('status', 'upcoming')
+        return $query->where('status', 'active')
             ->where('start_datetime', '>', now());
     }
 }

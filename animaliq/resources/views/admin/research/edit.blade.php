@@ -16,14 +16,37 @@
 </form>
 
 @if($researchProject->reports->isNotEmpty())
-<h2 class="text-xl font-semibold mt-8 mb-2 theme-text-primary">Reports</h2>
-<ul class="space-y-2">
+<h2 class="text-xl font-semibold mt-8 mb-4 theme-text-primary">Reports</h2>
+<div class="space-y-3 max-w-lg">
     @foreach($researchProject->reports as $report)
-    <li class="flex justify-between items-center py-2 theme-table-cell border-b">
-        <span class="theme-text-primary">{{ $report->title }}</span>
-        <span class="text-sm theme-text-secondary">{{ $report->published_at?->format('M j, Y') }}</span>
-    </li>
+    <div class="theme-card rounded-lg p-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="min-w-0">
+            <p class="font-medium theme-text-primary">{{ $report->title }}</p>
+            <div class="flex flex-wrap gap-3 mt-1 text-sm theme-text-secondary">
+                @if($report->file_path)
+                    <a href="{{ asset('storage/' . $report->file_path) }}" target="_blank" class="theme-link">{{ basename($report->file_path) }}</a>
+                @else
+                    <span class="italic">No file uploaded</span>
+                @endif
+                @if($report->published_at)
+                    <span>· {{ $report->published_at->format('M j, Y') }}</span>
+                @endif
+            </div>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+            <a href="{{ route('admin.research.reports.edit', [$researchProject, $report]) }}" class="theme-link text-sm">Edit</a>
+            <form action="{{ route('admin.research.reports.destroy', [$researchProject, $report]) }}" method="POST" class="inline" onsubmit="return confirm('Delete this report?')">
+                @csrf @method('DELETE')
+                <button type="submit" class="text-red-600 hover:underline text-sm">Delete</button>
+            </form>
+        </div>
+    </div>
     @endforeach
-</ul>
+</div>
+@else
+<p class="text-sm theme-text-secondary mt-8">No reports yet.</p>
 @endif
+<div class="mt-4">
+    <a href="{{ route('admin.research.reports.create', $researchProject) }}" class="theme-btn">Add Report</a>
+</div>
 @endsection

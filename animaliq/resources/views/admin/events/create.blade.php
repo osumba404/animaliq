@@ -49,10 +49,10 @@
         <div class="mb-4">
             <label class="block font-medium theme-text-secondary mb-1">Status</label>
             <select name="status" class="theme-input w-full">
-                <option value="upcoming" {{ old('status', 'upcoming') == 'upcoming' ? 'selected' : '' }}>Upcoming</option>
-                <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
-                <option value="cancelled" {{ old('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                <option value="active" {{ old('status', 'active') == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="archived" {{ old('status') == 'archived' ? 'selected' : '' }}>Archived</option>
             </select>
+            <p class="text-xs theme-text-secondary mt-1">Upcoming / Completed is determined automatically by the start and end dates.</p>
         </div>
         <button type="submit" class="theme-btn">Save</button>
         <a href="{{ route('admin.events.index') }}" class="ml-2 theme-link">Cancel</a>

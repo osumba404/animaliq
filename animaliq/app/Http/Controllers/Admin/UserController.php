@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdminRoleNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -70,7 +72,14 @@ class UserController extends Controller
             unset($validated['password']);
         }
         $validated['role'] = $validated['role'] ?? 'member';
+        $oldRole = $user->role;
         $user->update($validated);
+
+        $adminRoles = ['admin', 'super_admin'];
+        if (in_array($user->role, $adminRoles) && !in_array($oldRole, $adminRoles)) {
+            Mail::to($user->email)->queue(new AdminRoleNotification($user));
+        }
+
         return redirect()->route('admin.users.index')->with('success', 'User updated.');
     }
 

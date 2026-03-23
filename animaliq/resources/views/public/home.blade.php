@@ -27,8 +27,14 @@
 @endsection
 
 @section('content')
+@push('styles')
+<style>
+.hero-flush { margin-top: calc(-1.5rem - 1px); }
+@media (min-width: 768px) { .hero-flush { margin-top: calc(-2rem - 1px); } }
+</style>
+@endpush
     {{-- Full-width hero carousel --}}
-    <section class="hero-full-width mb-0 overflow-hidden" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw;">
+    <section class="hero-full-width hero-flush mb-0 overflow-hidden" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw;">
         @if($slides->isNotEmpty())
             <div class="relative">
                 <div id="hero-track" class="flex transition-transform duration-500 ease-out" style="width: {{ $slides->count() * 100 }}vw;">
@@ -116,7 +122,7 @@
     @endif
 
     {{-- Intro: mission / teaser --}}
-    <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl md:mx-0 animate-fade-in-up animate-slow">
+    <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl md:mx-0 reveal">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-4">What we do</h2>
             <p class="text-lg md:text-xl theme-text-secondary leading-relaxed">
@@ -133,27 +139,27 @@
 
     {{-- Impact stats – one row on desktop, equal width --}}
     <section class="py-12 md:py-16">
-        <h2 class="text-2xl md:text-3xl font-bold theme-text-primary text-center mb-10 animate-fade-in-up">Our impact</h2>
+        <h2 class="text-2xl md:text-3xl font-bold theme-text-primary text-center mb-10 reveal">Our impact</h2>
         <div class="flex flex-wrap justify-center gap-4 md:gap-6 lg:flex-nowrap lg:justify-center lg:gap-4">
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--accent-orange)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($activePrograms) }}</p>
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--accent-orange)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-1">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($activePrograms) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Active programs</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-500)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($membersActive) }}</p>
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-500)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-2">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($membersActive) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Members active</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-600)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($eventsHosted) }}</p>
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-600)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-3">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($eventsHosted) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Events hosted</p>
             </div>
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-700)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($partnershipsFormed) }}</p>
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-700)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-4">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($partnershipsFormed) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Partnerships</p>
             </div>
             @if(isset($upcomingEventsCount) && $upcomingEventsCount > 0)
-            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-400)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums">{{ number_format($upcomingEventsCount) }}</p>
+            <div class="theme-card rounded-2xl p-6 md:p-8 text-center hover-lift border-l-4 border-l-[var(--orange-400)] flex-1 min-w-[140px] max-w-[280px] lg:max-w-none lg:min-w-0 lg:flex-1 reveal reveal-delay-5">
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($upcomingEventsCount) }}</p>
                 <p class="text-sm md:text-base theme-text-secondary mt-1">Upcoming events</p>
             </div>
             @endif

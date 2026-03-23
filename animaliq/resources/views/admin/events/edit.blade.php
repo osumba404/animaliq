@@ -54,10 +54,10 @@
         <div class="mb-4">
             <label class="block font-medium theme-text-secondary mb-1">Status</label>
             <select name="status" class="theme-input w-full">
-                @foreach(['upcoming','completed','cancelled'] as $s)
-                    <option value="{{ $s }}" {{ old('status', $event->status) == $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
-                @endforeach
+                <option value="active" {{ old('status', $event->status) == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="archived" {{ old('status', $event->status) == 'archived' ? 'selected' : '' }}>Archived</option>
             </select>
+            <p class="text-xs theme-text-secondary mt-1">Upcoming / Completed is determined automatically by the start and end dates.</p>
         </div>
         <button type="submit" class="theme-btn">Update</button>
         <a href="{{ route('admin.events.index') }}" class="ml-2 theme-link">Cancel</a>

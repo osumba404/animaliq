@@ -35,13 +35,13 @@
 
 @section('content')
     @if($researchProject->banner_image)
-        <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 h-56 md:h-72">
-            <img src="{{ asset('storage/' . $researchProject->banner_image) }}" alt="{{ $researchProject->title }}" class="w-full h-full object-cover">
+        <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 shadow-lg" style="aspect-ratio:21/9;">
+            <img src="{{ asset('storage/' . $researchProject->banner_image) }}" alt="{{ $researchProject->title }}" class="w-full h-full object-cover object-center">
         </div>
     @endif
 
     <div class="max-w-4xl mx-auto">
-        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 reveal">
             <div>
                 @if($researchProject->department)
                     <p class="text-sm font-semibold theme-accent uppercase tracking-wide mb-2">{{ $researchProject->department->name }}</p>
@@ -56,7 +56,7 @@
             <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => $researchProject->title . ' – Animal IQ', 'url' => route('research.show', $researchProject)])</div>
         </header>
 
-        <section class="mb-10">
+        <section class="mb-10 reveal">
             <h2 class="text-xl font-bold theme-text-primary mb-3">Summary</h2>
             <div class="prose prose-lg max-w-none theme-text-secondary leading-relaxed">{!! nl2br(e($researchProject->summary ?? 'No summary yet.')) !!}</div>
         </section>

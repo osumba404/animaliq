@@ -33,12 +33,13 @@
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">What we do</p>
                 <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Our Programs</h1>
                 <p class="text-lg theme-text-secondary mt-2 animate-fade-in-up animate-delay-1">Explore our initiatives in wildlife education, youth engagement, and conservation.</p>
+                <div class="mt-4 accent-bar"></div>
             </div>
         </div>
     </section>
 
     <div class="py-12 max-w-6xl mx-auto">
-        <form method="GET" class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+        <form method="GET" class="mb-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between reveal">
             <div class="flex-1 flex gap-2">
                 <div class="relative flex-1">
                     <input
@@ -65,7 +66,7 @@
 
         @forelse($programs as $program)
             @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
-            <article class="theme-card rounded-2xl overflow-hidden mb-8 hover-lift group flex flex-col md:flex-row">
+            <article class="theme-card rounded-2xl overflow-hidden mb-8 hover-lift group flex flex-col md:flex-row reveal">
                 <a href="{{ route('programs.show', $program) }}" class="md:w-2/5 flex-shrink-0 block h-56 md:h-auto min-h-[200px] bg-[var(--bg-secondary)] img-zoom">
                         @if($img)
                             <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover">

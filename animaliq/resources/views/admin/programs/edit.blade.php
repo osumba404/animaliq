@@ -40,6 +40,16 @@
                 <option value="archived" {{ ($program->status ?? '') == 'archived' ? 'selected' : '' }}>Archived</option>
             </select>
         </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block font-medium theme-text-secondary mb-1">Start date <span class="text-xs">(optional)</span></label>
+                <input type="date" name="start_date" value="{{ old('start_date', $program->start_date?->format('Y-m-d')) }}" class="theme-input w-full">
+            </div>
+            <div>
+                <label class="block font-medium theme-text-secondary mb-1">End date <span class="text-xs">(optional)</span></label>
+                <input type="date" name="end_date" value="{{ old('end_date', $program->end_date?->format('Y-m-d')) }}" class="theme-input w-full">
+            </div>
+        </div>
         <button type="submit" class="theme-btn">Update</button>
         <a href="{{ route('admin.programs.index') }}" class="ml-2 theme-link">Cancel</a>
     </form>

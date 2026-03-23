@@ -23,7 +23,7 @@
                             <h2 class="font-semibold theme-text-primary text-lg">{{ $e->title }}</h2>
                             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm theme-text-secondary">
                                 <span><span class="font-medium">Date:</span> {{ $e->start_datetime?->format('M j, Y') ?? '—' }}{{ $e->end_datetime ? ' → ' . $e->end_datetime->format('M j, Y') : '' }}</span>
-                                <span><span class="font-medium">Status:</span> <span class="theme-badge">{{ $e->status ?? '—' }}</span></span>
+                                <span><span class="font-medium">Status:</span> <span class="theme-badge">{{ $e->display_status }}</span></span>
                                 <span><span class="font-medium">Program:</span> {{ $e->program?->title ?? '—' }}</span>
                                 <span><span class="font-medium">Registrations:</span> {{ $e->registrations_count ?? 0 }}{{ $e->capacity ? ' / ' . $e->capacity . ' capacity' : '' }}</span>
                                 <span><span class="font-medium">Location:</span> {{ $e->location ? Str::limit($e->location, 30) : '—' }}</span>

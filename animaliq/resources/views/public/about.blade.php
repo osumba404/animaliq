@@ -26,7 +26,7 @@
             <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-3 animate-fade-in-up">Who we are</p>
             <h1 class="text-4xl md:text-5xl font-bold theme-text-primary mb-4 animate-fade-in-up animate-delay-1">About Animal IQ</h1>
             <p class="text-lg theme-text-secondary animate-fade-in-up animate-delay-2">Education, conservation, and community at the heart of wildlife protection.</p>
-            <div class="mt-8 h-1 w-20 mx-auto rounded-full animate-fade-in-up animate-delay-3" style="background: linear-gradient(90deg, var(--orange-400), var(--orange-600));"></div>
+            <div class="mt-6 accent-bar mx-auto"></div>
         </div>
     </section>
 
@@ -34,7 +34,7 @@
         {{-- Founder Story --}}
         @if($founderStory)
             <section class="py-12 md:py-16">
-                <div class="theme-card rounded-2xl p-8 md:p-10 border-l-4 border-l-[var(--accent-orange)] shadow-lg">
+                <div class="theme-card rounded-2xl p-8 md:p-10 border-l-4 border-l-[var(--accent-orange)] shadow-lg reveal">
                     <h2 class="text-2xl font-bold theme-text-primary mb-2">Founder Story</h2>
                     <div class="prose prose-lg max-w-none theme-text-secondary leading-relaxed text-base md:text-lg" style="color: var(--text-secondary);">{!! nl2br(e($founderStory)) !!}</div>
                 </div>
@@ -44,10 +44,10 @@
         {{-- Mission & Vision --}}
         <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl">
             <div class="max-w-6xl mx-auto">
-                <h2 class="text-center text-2xl md:text-3xl font-bold theme-text-primary mb-8">Our Mission & Vision</h2>
+                <h2 class="text-center text-2xl md:text-3xl font-bold theme-text-primary mb-8 reveal">Our Mission & Vision</h2>
                 <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
                     @if($mission)
-                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col">
+                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col reveal reveal--left">
                             <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
                                 @if($missionImage)
                                     <img src="{{ asset('storage/' . $missionImage) }}" alt="Our mission" class="w-full h-full object-cover">
@@ -65,7 +65,7 @@
                         </article>
                     @endif
                     @if($vision)
-                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col">
+                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col reveal reveal--right">
                             <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
                                 @if($visionImage)
                                     <img src="{{ asset('storage/' . $visionImage) }}" alt="Our vision" class="w-full h-full object-cover">
@@ -89,12 +89,12 @@
         {{-- Core Values --}}
         @if(!empty($coreValues))
             <section class="py-12 md:py-16">
-                <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center">Core Values</h2>
-                <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto">The principles that guide everything we do.</p>
+                <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center reveal">Core Values</h2>
+                <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto reveal reveal-delay-1">The principles that guide everything we do.</p>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach((array) $coreValues as $index => $value)
                         @php $label = is_string($value) ? $value : ($value['name'] ?? json_encode($value)); @endphp
-                        <div class="theme-card rounded-xl p-5 flex items-start gap-4 hover-lift border-l-4 border-l-[var(--accent-orange)]">
+                        <div class="theme-card rounded-xl p-5 flex items-start gap-4 hover-lift border-l-4 border-l-[var(--accent-orange)] reveal reveal-delay-{{ min($index+1,6) }}">
                             <span class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold theme-bg-warm theme-accent border-2 theme-border">{{ $index + 1 }}</span>
                             <p class="theme-text-primary font-medium pt-1">{{ $label }}</p>
                         </div>
@@ -107,11 +107,11 @@
         @if($teamMembers->isNotEmpty())
             <section class="py-12 md:py-16 theme-bg-warm -mx-4 px-4 md:rounded-2xl">
                 <div class="max-w-5xl mx-auto">
-                    <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center">Our Team</h2>
-                    <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto">The people behind our mission.</p>
+                    <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center reveal">Our Team</h2>
+                    <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto reveal reveal-delay-1">The people behind our mission.</p>
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($teamMembers as $tm)
-                            <article class="theme-card rounded-2xl p-6 text-center hover-lift overflow-hidden group">
+                            <article class="theme-card rounded-2xl p-6 text-center hover-lift overflow-hidden group reveal reveal-delay-{{ min($loop->index+1,6) }}">
                                 <div class="mb-4 flex justify-center">
                                     @if($tm->image)
                                         <img src="{{ asset('storage/' . $tm->image) }}" alt="{{ $tm->name }}" class="w-28 h-28 object-cover rounded-[1.25rem] ring-4 ring-[var(--orange-200)] group-hover:ring-[var(--accent-orange)] transition">
@@ -137,10 +137,10 @@
 
         {{-- Organizational Structure --}}
         <section class="py-12 md:py-16">
-            <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center">Organizational Structure</h2>
-            <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto">How we're organized to deliver impact.</p>
+            <h2 class="text-2xl font-bold theme-text-primary mb-2 text-center reveal">Organizational Structure</h2>
+            <p class="text-center theme-text-secondary mb-10 max-w-xl mx-auto reveal reveal-delay-1">How we're organized to deliver impact.</p>
             @forelse($departments as $dept)
-                <div id="dept-{{ $dept->id }}" class="theme-card rounded-2xl p-6 md:p-8 mb-6 last:mb-0 hover-lift flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div id="dept-{{ $dept->id }}" class="theme-card rounded-2xl p-6 md:p-8 mb-6 last:mb-0 hover-lift flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 reveal">
                     <div class="flex-1">
                     <h3 class="text-xl font-bold theme-text-primary flex items-center gap-2">
                         <span class="w-1 h-6 rounded-full bg-[var(--accent-orange)]"></span>

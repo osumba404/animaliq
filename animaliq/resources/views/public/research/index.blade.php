@@ -31,8 +31,9 @@
         <div class="max-w-6xl mx-auto">
             <div>
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Knowledge hub</p>
-                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Research & Innovation</h1>
-                <p class="text-lg theme-text-secondary mt-2">Youth-led research, reports, and knowledge sharing.</p>
+                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary animate-fade-in-up">Research & Innovation</h1>
+                <p class="text-lg theme-text-secondary mt-2 animate-fade-in-up animate-delay-1">Youth-led research, reports, and knowledge sharing.</p>
+                <div class="mt-4 accent-bar"></div>
             </div>
         </div>
     </section>
@@ -72,7 +73,7 @@
 
         <div class="grid md:grid-cols-2 gap-8">
             @forelse($projects as $project)
-                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col">
+                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col reveal">
                     <a href="{{ route('research.show', $project) }}" class="block flex-1">
                         <div class="h-52 bg-[var(--bg-secondary)] overflow-hidden">
                             @if($project->banner_image)

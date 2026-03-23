@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeNotification;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
@@ -46,6 +48,8 @@ class RegisterController extends Controller
         Auth::login($user);
 
         $request->session()->regenerate();
+
+        Mail::to($user->email)->queue(new WelcomeNotification($user));
 
         return redirect()->route('community.dashboard')->with('success', 'Welcome! Your account has been created.');
     }

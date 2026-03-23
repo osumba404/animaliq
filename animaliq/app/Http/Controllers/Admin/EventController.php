@@ -34,7 +34,7 @@ class EventController extends Controller
             'end_datetime' => 'nullable|date|after_or_equal:start_datetime',
             'capacity' => 'nullable|integer|min:0',
             'banner_image' => 'nullable|image|max:2048',
-            'status' => 'in:upcoming,completed,cancelled',
+            'status' => 'in:active,archived',
         ]);
         if ($request->hasFile('banner_image')) {
             $validated['banner_image'] = $request->file('banner_image')->store('events', 'public');
@@ -76,7 +76,7 @@ class EventController extends Controller
             'end_datetime' => 'nullable|date|after_or_equal:start_datetime',
             'capacity' => 'nullable|integer|min:0',
             'banner_image' => 'nullable|image|max:2048',
-            'status' => 'in:upcoming,completed,cancelled',
+            'status' => 'in:active,archived',
         ]);
         if ($request->hasFile('banner_image')) {
             $validated['banner_image'] = $request->file('banner_image')->store('events', 'public');

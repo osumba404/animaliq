@@ -77,7 +77,7 @@
                 <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
             </div>
         @endif
-        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 reveal">
             <div>
                 <h1 class="text-3xl md:text-4xl font-bold theme-text-primary mb-3 leading-tight">{{ $post->title }}</h1>
                 <p class="theme-text-secondary text-sm md:text-base">

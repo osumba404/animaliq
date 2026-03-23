@@ -33,18 +33,25 @@
 @section('content')
     @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
     @if($img)
-        <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 h-56 md:h-80">
-            <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover">
+        <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 shadow-lg" style="aspect-ratio:21/9;">
+            <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover object-center">
         </div>
     @endif
 
     <div class="max-w-4xl mx-auto">
-        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <header class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 reveal">
             <div>
                 @if($program->department)
                     <p class="text-sm font-semibold theme-accent uppercase tracking-wide mb-2">{{ $program->department->name }}</p>
                 @endif
                 <h1 class="text-3xl md:text-4xl font-bold theme-text-primary">{{ $program->title }}</h1>
+                @if($program->start_date || $program->end_date)
+                    <p class="text-sm theme-text-secondary mt-2">
+                        @if($program->start_date) {{ $program->start_date->format('F j, Y') }} @endif
+                        @if($program->start_date && $program->end_date) – @endif
+                        @if($program->end_date) {{ $program->end_date->format('F j, Y') }} @endif
+                    </p>
+                @endif
             </div>
             <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => $program->title . ' – Animal IQ', 'url' => route('programs.show', $program)])</div>
         </header>

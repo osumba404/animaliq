@@ -29,7 +29,9 @@ class EventsController extends Controller
         }
 
         $upcoming = $query->paginate(9)->withQueryString();
-        $past = Event::where('status', 'completed')->with('program')->orderByDesc('start_datetime')->take(6)->get();
+        $past = Event::where('status', 'active')
+            ->where(function($q) { $q->where('start_datetime', '<', now())->where(function($q2) { $q2->whereNull('end_datetime')->orWhere('end_datetime', '<', now()); }); })
+            ->with('program')->orderByDesc('start_datetime')->take(6)->get();
 
         return view('public.events.index', compact('upcoming', 'past'));
     }
@@ -48,8 +50,11 @@ class EventsController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login')->with('error', 'Please log in to register for this event.');
         }
-        if ($event->status !== 'upcoming') {
+        if ($event->status === 'archived') {
             return back()->with('error', 'Registration is not available for this event.');
+        }
+        if ($event->start_datetime && $event->start_datetime->isPast()) {
+            return back()->with('error', 'This event has already passed.');
         }
         if ($event->registrations()->where('user_id', auth()->id())->whereIn('status', ['registered', 'attended'])->exists()) {
             return back()->with('info', 'You are already registered for this event.');

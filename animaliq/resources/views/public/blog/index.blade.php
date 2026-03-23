@@ -31,8 +31,9 @@
         <div class="max-w-6xl mx-auto">
             <div>
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Stories & updates</p>
-                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Blog</h1>
-                <p class="text-lg theme-text-secondary mt-2">News, stories, and updates from the Animal IQ community.</p>
+                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary animate-fade-in-up">Blog</h1>
+                <p class="text-lg theme-text-secondary mt-2 animate-fade-in-up animate-delay-1">News, stories, and updates from the Animal IQ community.</p>
+                <div class="mt-4 accent-bar"></div>
             </div>
         </div>
     </section>
@@ -66,7 +67,7 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($posts as $post)
-                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col">
+                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col reveal">
                     <a href="{{ route('blog.show', $post) }}" class="block flex-1 flex flex-col">
                         <div class="h-52 bg-[var(--bg-secondary)] overflow-hidden">
                             @if($post->featured_image)

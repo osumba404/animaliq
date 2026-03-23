@@ -12,7 +12,15 @@ class Program extends Model
 {
     use HasSlug, SoftDeletes;
 
-    protected $fillable = ['title', 'slug', 'description', 'image', 'department_id', 'status'];
+    protected $fillable = ['title', 'slug', 'description', 'image', 'department_id', 'status', 'start_date', 'end_date'];
+
+    protected function casts(): array
+    {
+        return [
+            'start_date' => 'date',
+            'end_date'   => 'date',
+        ];
+    }
 
     public function department(): BelongsTo
     {

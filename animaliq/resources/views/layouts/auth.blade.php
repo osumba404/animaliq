@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
     @include('partials.animations')
+    @stack('styles')
 </head>
 <body class="theme-bg-primary theme-text-primary min-h-screen antialiased flex flex-col">
     <header class="theme-border border-b">
@@ -43,5 +44,6 @@
             &copy; {{ date('Y') }} Animal IQ
         </div>
     </footer>
+    @stack('scripts')
 </body>
 </html>

@@ -13,13 +13,13 @@ function notifIcon(string $type): string {
 }
 @endphp
 <div class="max-w-2xl mx-auto">
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center justify-between mb-6 reveal">
         <h1 class="text-2xl font-bold theme-text-primary">Notifications</h1>
         <button id="mark-all-read-btn" class="text-sm theme-link font-medium">Mark all as read</button>
     </div>
 
     @if($notifications->isEmpty())
-        <div class="theme-card rounded-xl p-10 text-center">
+        <div class="theme-card rounded-xl p-10 text-center reveal">
             <div class="flex justify-center mb-3">
                 <svg class="w-12 h-12 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path stroke-linecap="round" stroke-linejoin="round" d="M13.73 21a2 2 0 01-3.46 0"/></svg>
             </div>
@@ -28,7 +28,7 @@ function notifIcon(string $type): string {
     @else
         <div class="space-y-3" id="notifications-list">
             @foreach($notifications as $n)
-                <div class="theme-card rounded-xl p-4 flex gap-4 items-start transition notification-item {{ $n->isUnread() ? 'border-l-4' : '' }}"
+                <div class="theme-card rounded-xl p-4 flex gap-4 items-start transition notification-item {{ $n->isUnread() ? 'border-l-4' : '' }} reveal"
                      style="{{ $n->isUnread() ? 'border-left-color: var(--accent-orange);' : '' }}"
                      data-id="{{ $n->id }}">
                     <div class="shrink-0 mt-0.5 w-9 h-9 rounded-lg flex items-center justify-center" style="background:var(--bg-warm); color:var(--accent-orange);">

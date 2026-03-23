@@ -12,7 +12,7 @@ class SiteSettingController extends Controller
     public function index()
     {
         $sections = array_keys(config('settings_sections', []));
-        $first = $sections[0] ?? 'homepage';
+        $first = 'mission';
         return redirect()->route('admin.settings.sections', $first);
     }
 

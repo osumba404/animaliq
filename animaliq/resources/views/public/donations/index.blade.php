@@ -31,8 +31,9 @@
         <div class="max-w-6xl mx-auto">
             <div>
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Support us</p>
-                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Donate</h1>
-                <p class="text-lg theme-text-secondary mt-2">One-time or campaign-based. M-Pesa integration. Donation receipt by email.</p>
+                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary animate-fade-in-up">Donate</h1>
+                <p class="text-lg theme-text-secondary mt-2 animate-fade-in-up animate-delay-1">One-time or campaign-based. M-Pesa integration. Donation receipt by email.</p>
+                <div class="mt-4 accent-bar"></div>
             </div>
         </div>
     </section>
@@ -40,7 +41,7 @@
     <div class="py-12 max-w-6xl mx-auto">
     <div class="grid md:grid-cols-2 gap-6">
         @forelse($campaigns as $campaign)
-            <a href="{{ route('donations.show', $campaign) }}" class="block theme-card rounded-2xl p-6 hover-lift">
+            <a href="{{ route('donations.show', $campaign) }}" class="block theme-card rounded-2xl p-6 hover-lift reveal">
                 <h2 class="font-bold theme-text-primary">{{ $campaign->title }}</h2>
                 @if($campaign->target_amount)
                     <p class="text-sm theme-text-secondary mt-1">Target: {{ number_format($campaign->target_amount, 0) }} KES</p>

@@ -120,6 +120,15 @@
                         @endif
                     </li>
                     <li>
+                        <a href="{{ route('notifications.index') }}" class="mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary">
+                            <span class="relative">
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                                <span id="mobile-bell-badge" class="absolute -top-1 -right-1 min-w-[16px] h-[16px] px-0.5 rounded-full text-white text-[9px] font-bold flex items-center justify-center hidden" style="background:var(--accent-orange);"></span>
+                            </span>
+                            <span>Notifications</span>
+                        </a>
+                    </li>
+                    <li>
                         <form method="POST" action="{{ url('/logout') }}">
                             @csrf
                             <button type="submit" class="mobile-nav-link w-full text-left px-4 py-3 rounded-lg theme-text-primary inline-flex items-center gap-1.5">
@@ -257,11 +266,15 @@
                 .then(r => r.json())
                 .then(data => {
                     // Badge
+                    var mobileBadge = document.getElementById('mobile-bell-badge');
                     if (data.unread > 0) {
-                        bellBadge.textContent = data.unread > 99 ? '99+' : data.unread;
+                        var label = data.unread > 99 ? '99+' : data.unread;
+                        bellBadge.textContent = label;
                         bellBadge.classList.remove('hidden');
+                        if (mobileBadge) { mobileBadge.textContent = label; mobileBadge.classList.remove('hidden'); }
                     } else {
                         bellBadge.classList.add('hidden');
+                        if (mobileBadge) mobileBadge.classList.add('hidden');
                     }
                     // List
                     if (!data.notifications.length) {

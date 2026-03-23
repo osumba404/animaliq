@@ -31,8 +31,9 @@
         <div class="max-w-6xl mx-auto">
             <div>
                 <p class="text-sm font-semibold tracking-wider uppercase theme-accent mb-2">Shop for a cause</p>
-                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary">Eco Store</h1>
-                <p class="text-lg theme-text-secondary mt-2">T-shirts, stickers, books and more. Proceeds support our programs.</p>
+                <h1 class="text-4xl md:text-5xl font-bold theme-text-primary animate-fade-in-up">Eco Store</h1>
+                <p class="text-lg theme-text-secondary mt-2 animate-fade-in-up animate-delay-1">T-shirts, stickers, books and more. Proceeds support our programs.</p>
+                <div class="mt-4 accent-bar"></div>
             </div>
         </div>
     </section>
@@ -40,7 +41,7 @@
     <div class="py-12 max-w-6xl mx-auto">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($products as $product)
-                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col">
+                <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col reveal">
                     <a href="{{ route('store.show', $product) }}" class="block flex-1 flex flex-col">
                         <div class="aspect-square bg-[var(--bg-secondary)] overflow-hidden">
                             @if($product->image_path)

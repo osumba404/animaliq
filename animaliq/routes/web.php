@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProgramController as AdminProgramController;
 use App\Http\Controllers\Admin\ResearchProjectController as AdminResearchProjectController;
+use App\Http\Controllers\Admin\ResearchReportController as AdminResearchReportController;
 use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\AuditLogController as AdminAuditLogController;
@@ -103,6 +104,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('settings/slides/{slide}', [AdminSiteSettingController::class, 'slidesUpdate'])->name('settings.slides.update');
     Route::delete('settings/slides/{slide}', [AdminSiteSettingController::class, 'slidesDestroy'])->name('settings.slides.destroy');
     Route::resource('research', AdminResearchProjectController::class)->parameters(['research' => 'researchProject']);
+    Route::get('research/{researchProject}/reports/create', [AdminResearchReportController::class, 'create'])->name('research.reports.create');
+    Route::post('research/{researchProject}/reports', [AdminResearchReportController::class, 'store'])->name('research.reports.store');
+    Route::get('research/{researchProject}/reports/{report}/edit', [AdminResearchReportController::class, 'edit'])->name('research.reports.edit');
+    Route::put('research/{researchProject}/reports/{report}', [AdminResearchReportController::class, 'update'])->name('research.reports.update');
+    Route::delete('research/{researchProject}/reports/{report}', [AdminResearchReportController::class, 'destroy'])->name('research.reports.destroy');
     Route::post('posts/upload-image', [AdminPostController::class, 'uploadImage'])->name('posts.upload-image');
     Route::resource('posts', AdminPostController::class);
     Route::resource('donations', AdminDonationCampaignController::class)
