@@ -67,7 +67,7 @@
             </form>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($projects as $project)
                 <article class="theme-card rounded-2xl overflow-hidden transition hover:shadow-xl group flex flex-col reveal">
                     <a href="{{ route('research.show', $project) }}" class="block flex-1">

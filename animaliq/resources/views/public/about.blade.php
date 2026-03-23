@@ -229,7 +229,7 @@
                 <div class="theme-card rounded-2xl p-8 md:p-10 text-center">
                     <h3 class="text-xl font-bold theme-text-primary mb-2">Interested in Partnering?</h3>
                     <p class="theme-text-secondary mb-4">Reach out to discuss collaboration opportunities.</p>
-                    <a href="mailto:info@animaliq.co.ke,animaliqinitiative@gmail.com?cc=tabithawaigwa99@gmail.com,sharonmona21@gmail.com,eva717.m@gmail.com" class="theme-btn">Get in touch</a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@animaliq.co.ke,animaliqinitiative@gmail.com&cc=tabithawaigwa99@gmail.com,sharonmona21@gmail.com,eva717.m@gmail.com&su=Request%20For%20Partnership" target="_blank" rel="noopener noreferrer" class="theme-btn">Get in touch</a>
                 </div>
             </div>
         </section>
