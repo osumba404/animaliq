@@ -35,7 +35,7 @@ class ProgramController extends Controller
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('programs', 'public');
+            $validated['image'] = \App\Services\ImageService::handleUpload($request->file('image'), 'programs');
         } else {
             $validated['image'] = null;
         }
@@ -69,7 +69,10 @@ class ProgramController extends Controller
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('programs', 'public');
+            if ($program->image) {
+                \App\Services\ImageService::delete($program->image);
+            }
+            $validated['image'] = \App\Services\ImageService::handleUpload($request->file('image'), 'programs');
         } else {
             unset($validated['image']);
         }
@@ -79,6 +82,9 @@ class ProgramController extends Controller
 
     public function destroy(Program $program)
     {
+        if ($program->image) {
+            \App\Services\ImageService::delete($program->image);
+        }
         $program->delete();
         return redirect()->route('admin.programs.index')->with('success', 'Program deleted.');
     }

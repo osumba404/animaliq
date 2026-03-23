@@ -30,7 +30,7 @@ class ProductController extends Controller
             'status' => 'in:active,inactive',
         ]);
         if ($request->hasFile('image')) {
-            $validated['image_path'] = $request->file('image')->store('products', 'public');
+            $validated['image_path'] = \App\Services\ImageService::handleUpload($request->file('image'), 'products');
         } else {
             $validated['image_path'] = null;
         }
@@ -54,7 +54,10 @@ class ProductController extends Controller
             'status' => 'in:active,inactive',
         ]);
         if ($request->hasFile('image')) {
-            $validated['image_path'] = $request->file('image')->store('products', 'public');
+            if ($product->image_path) {
+                \App\Services\ImageService::delete($product->image_path);
+            }
+            $validated['image_path'] = \App\Services\ImageService::handleUpload($request->file('image'), 'products');
         } else {
             unset($validated['image_path']);
         }
@@ -64,6 +67,9 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        if ($product->image_path) {
+            \App\Services\ImageService::delete($product->image_path);
+        }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Product deleted.');
     }

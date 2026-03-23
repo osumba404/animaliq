@@ -33,7 +33,7 @@ class PostController extends Controller
         ]);
         $validated['author_id'] = auth()->id();
         if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+            $validated['featured_image'] = \App\Services\ImageService::handleUpload($request->file('featured_image'), 'posts');
         } else {
             $validated['featured_image'] = null;
         }
@@ -70,7 +70,10 @@ class PostController extends Controller
             'published_at' => 'nullable|date',
         ]);
         if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+            if ($post->featured_image) {
+                \App\Services\ImageService::delete($post->featured_image);
+            }
+            $validated['featured_image'] = \App\Services\ImageService::handleUpload($request->file('featured_image'), 'posts');
         } else {
             unset($validated['featured_image']);
         }
@@ -83,6 +86,9 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
+        if ($post->featured_image) {
+            \App\Services\ImageService::delete($post->featured_image);
+        }
         $post->delete();
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted.');
     }
@@ -90,7 +96,7 @@ class PostController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate(['image' => 'required|image|max:2048']);
-        $path = $request->file('image')->store('posts', 'public');
+        $path = \App\Services\ImageService::handleUpload($request->file('image'), 'posts');
         return response()->json(['url' => asset('storage/' . $path)]);
     }
 }

@@ -35,7 +35,7 @@ class ResearchProjectController extends Controller
             'status' => 'in:ongoing,completed',
         ]);
         if ($request->hasFile('banner_image')) {
-            $validated['banner_image'] = $request->file('banner_image')->store('research', 'public');
+            $validated['banner_image'] = \App\Services\ImageService::handleUpload($request->file('banner_image'), 'research');
         } else {
             $validated['banner_image'] = null;
         }
@@ -70,7 +70,10 @@ class ResearchProjectController extends Controller
             'status' => 'in:ongoing,completed',
         ]);
         if ($request->hasFile('banner_image')) {
-            $validated['banner_image'] = $request->file('banner_image')->store('research', 'public');
+            if ($researchProject->banner_image) {
+                \App\Services\ImageService::delete($researchProject->banner_image);
+            }
+            $validated['banner_image'] = \App\Services\ImageService::handleUpload($request->file('banner_image'), 'research');
         } else {
             unset($validated['banner_image']);
         }
@@ -80,6 +83,9 @@ class ResearchProjectController extends Controller
 
     public function destroy(ResearchProject $researchProject)
     {
+        if ($researchProject->banner_image) {
+            \App\Services\ImageService::delete($researchProject->banner_image);
+        }
         $researchProject->delete();
         return redirect()->route('admin.research.index')->with('success', 'Research project deleted.');
     }

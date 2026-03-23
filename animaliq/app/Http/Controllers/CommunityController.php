@@ -51,7 +51,10 @@ class CommunityController extends Controller
         unset($validated['current_password']);
 
         if ($request->hasFile('profile_photo')) {
-            $path = $request->file('profile_photo')->store('profiles', 'public');
+            if ($user->profile_photo) {
+                \App\Services\ImageService::delete($user->profile_photo);
+            }
+            $path = \App\Services\ImageService::handleUpload($request->file('profile_photo'), 'profiles');
             $validated['profile_photo'] = $path;
         } else {
             unset($validated['profile_photo']);

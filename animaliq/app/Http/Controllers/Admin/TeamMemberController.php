@@ -47,7 +47,7 @@ class TeamMemberController extends Controller
         $validated['display_order'] = (int) ($validated['display_order'] ?? 0);
         $validated['socials'] = array_filter($validated['socials'] ?? []);
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('team', 'public');
+            $validated['image'] = \App\Services\ImageService::handleUpload($request->file('image'), 'team');
         } else {
             $validated['image'] = null;
         }
@@ -78,7 +78,10 @@ class TeamMemberController extends Controller
         $validated['display_order'] = (int) ($validated['display_order'] ?? 0);
         $validated['socials'] = array_filter($validated['socials'] ?? []);
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('team', 'public');
+            if ($team->image) {
+                \App\Services\ImageService::delete($team->image);
+            }
+            $validated['image'] = \App\Services\ImageService::handleUpload($request->file('image'), 'team');
         } else {
             unset($validated['image']);
         }
@@ -88,6 +91,9 @@ class TeamMemberController extends Controller
 
     public function destroy(TeamMember $team)
     {
+        if ($team->image) {
+            \App\Services\ImageService::delete($team->image);
+        }
         $team->delete();
         return redirect()->route('admin.team.index')->with('success', 'Team member deleted.');
     }

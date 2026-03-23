@@ -106,10 +106,13 @@ class SiteSettingController extends Controller
             $type = $keysConfig[$key]['type'] ?? 'text';
             $value = null;
             if ($type === 'image' || $type === 'file') {
+                $existing = SiteSetting::where('setting_key', $key)->first();
                 if ($request->hasFile($key)) {
-                    $value = $request->file($key)->store('settings', 'public');
+                    if ($existing?->setting_value) {
+                        \App\Services\ImageService::delete($existing->setting_value);
+                    }
+                    $value = \App\Services\ImageService::handleUpload($request->file($key), 'settings');
                 } else {
-                    $existing = SiteSetting::where('setting_key', $key)->first();
                     $value = $existing?->setting_value ?? '';
                 }
             } else {
@@ -165,7 +168,7 @@ class SiteSettingController extends Controller
         $validated['display_order'] = $validated['display_order'] ?? 0;
         $validated['status'] = $validated['status'] ?? 'inactive';
         if ($request->hasFile('image')) {
-            $validated['image_path'] = $request->file('image')->store('slides', 'public');
+            $validated['image_path'] = \App\Services\ImageService::handleUpload($request->file('image'), 'slides');
         } else {
             $validated['image_path'] = null;
         }
@@ -193,7 +196,10 @@ class SiteSettingController extends Controller
             'status' => 'in:active,inactive',
         ]);
         if ($request->hasFile('image')) {
-            $validated['image_path'] = $request->file('image')->store('slides', 'public');
+            if ($slide->image_path) {
+                \App\Services\ImageService::delete($slide->image_path);
+            }
+            $validated['image_path'] = \App\Services\ImageService::handleUpload($request->file('image'), 'slides');
         }
         unset($validated['image']);
         $slide->update($validated);
@@ -202,6 +208,9 @@ class SiteSettingController extends Controller
 
     public function slidesDestroy(HomepageSlide $slide)
     {
+        if ($slide->image_path) {
+            \App\Services\ImageService::delete($slide->image_path);
+        }
         $slide->delete();
         return redirect()->route('admin.settings.slides')->with('success', 'Slide deleted.');
     }

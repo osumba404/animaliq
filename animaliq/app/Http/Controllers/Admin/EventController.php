@@ -37,7 +37,7 @@ class EventController extends Controller
             'status' => 'in:active,archived',
         ]);
         if ($request->hasFile('banner_image')) {
-            $validated['banner_image'] = $request->file('banner_image')->store('events', 'public');
+            $validated['banner_image'] = \App\Services\ImageService::handleUpload($request->file('banner_image'), 'events');
         } else {
             $validated['banner_image'] = null;
         }
@@ -79,7 +79,10 @@ class EventController extends Controller
             'status' => 'in:active,archived',
         ]);
         if ($request->hasFile('banner_image')) {
-            $validated['banner_image'] = $request->file('banner_image')->store('events', 'public');
+            if ($event->banner_image) {
+                \App\Services\ImageService::delete($event->banner_image);
+            }
+            $validated['banner_image'] = \App\Services\ImageService::handleUpload($request->file('banner_image'), 'events');
         } else {
             unset($validated['banner_image']);
         }
@@ -89,6 +92,9 @@ class EventController extends Controller
 
     public function destroy(Event $event)
     {
+        if ($event->banner_image) {
+            \App\Services\ImageService::delete($event->banner_image);
+        }
         $event->delete();
         return redirect()->route('admin.events.index')->with('success', 'Event deleted.');
     }

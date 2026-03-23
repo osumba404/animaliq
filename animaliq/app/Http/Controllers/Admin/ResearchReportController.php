@@ -24,7 +24,7 @@ class ResearchReportController extends Controller
 
         $filePath = null;
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('research/reports', 'public');
+            $filePath = \App\Services\ImageService::handleUpload($request->file('file'), 'research/reports');
         }
 
         $researchProject->reports()->create([
@@ -53,7 +53,10 @@ class ResearchReportController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            $validated['file_path'] = $request->file('file')->store('research/reports', 'public');
+            if ($report->file_path) {
+                \App\Services\ImageService::delete($report->file_path);
+            }
+            $validated['file_path'] = \App\Services\ImageService::handleUpload($request->file('file'), 'research/reports');
         }
         unset($validated['file']);
 
@@ -65,6 +68,9 @@ class ResearchReportController extends Controller
     public function destroy(ResearchProject $researchProject, ResearchReport $report)
     {
         abort_if($report->project_id !== $researchProject->id, 404);
+        if ($report->file_path) {
+            \App\Services\ImageService::delete($report->file_path);
+        }
         $report->delete();
         return back()->with('success', 'Report deleted.');
     }

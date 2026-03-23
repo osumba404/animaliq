@@ -80,6 +80,9 @@ class EventProceedingController extends Controller
         if ($image->event_proceeding_id !== $event->proceeding?->id) {
             abort(404);
         }
+        if ($image->image_path) {
+            \App\Services\ImageService::delete($image->image_path);
+        }
         $image->delete();
         return back()->with('success', 'Image removed.');
     }
@@ -94,7 +97,7 @@ class EventProceedingController extends Controller
             : [];
         $order = (int) $proceeding->images()->max('display_order');
         foreach ($request->file('images') as $i => $file) {
-            $path = $file->store('event-proceedings', 'public');
+            $path = \App\Services\ImageService::handleUpload($file, 'event-proceedings');
             $proceeding->images()->create([
                 'image_path' => $path,
                 'caption' => $captionLines[$i] ?? null,

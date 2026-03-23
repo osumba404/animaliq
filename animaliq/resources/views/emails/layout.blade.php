@@ -19,7 +19,7 @@
   .logo-wrap { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 6px; }
   .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #FF7518, #CC5500); border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; }
   .logo-icon svg { width: 24px; height: 24px; color: #fff; }
-  .logo-text { font-size: 26px; font-weight: 800; background: linear-gradient(135deg, #FFB347, #FF7518); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.5px; }
+  .logo-text { font-size: 26px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; }
   .header-tagline { color: #999; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
 
   /* Badge */
@@ -32,12 +32,13 @@
   .intro { font-size: 15px; color: #555; line-height: 1.7; margin-bottom: 28px; }
 
   /* Content card */
-  .content-card { background: #FFF8F2; border: 1px solid #FFD4A8; border-left: 4px solid #FF7518; border-radius: 12px; padding: 24px 28px; margin-bottom: 28px; }
+  .content-card { background: #fdfbf9; border: 1px solid #eaeaea; border-radius: 12px; padding: 28px 32px; margin-bottom: 28px; }
   .content-type { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #FF7518; margin-bottom: 8px; }
-  .content-title { font-size: 20px; font-weight: 800; color: #1a1a1a; line-height: 1.3; margin-bottom: 12px; }
-  .content-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
-  .meta-item { font-size: 13px; color: #777; display: flex; align-items: center; gap: 5px; }
-  .meta-dot { width: 6px; height: 6px; background: #FF7518; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .content-title { font-size: 20px; font-weight: 800; color: #1a1a1a; line-height: 1.3; margin-bottom: 16px; }
+  .content-meta { margin-bottom: 20px; background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid #f0f0f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .meta-item { font-size: 14px; color: #444; font-weight: 500; margin-bottom: 10px; display: block; line-height: 1.4; }
+  .meta-item:last-child { margin-bottom: 0; }
+  .meta-dot { width: 6px; height: 6px; background: #FF7518; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 10px; margin-top: -2px; }
   .content-excerpt { font-size: 14px; color: #555; line-height: 1.7; }
 
   /* CTA */
@@ -76,7 +77,12 @@
     <!-- Header -->
     <div class="header">
       <div class="logo-wrap">
-        <span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+        @php $emailLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
+        @if($emailLogo)
+            <img src="{{ url('storage/' . $emailLogo) }}" alt="Animal IQ Logo" style="height: 42px; width: 42px; object-fit: cover; border-radius: 50%;">
+        @else
+            <span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+        @endif
         <span class="logo-text">Animal IQ</span>
       </div>
       <div class="header-tagline">Wildlife &amp; Environmental Education</div>
