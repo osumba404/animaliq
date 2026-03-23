@@ -120,3 +120,23 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('team', AdminTeamMemberController::class);
     Route::get('audit', [AdminAuditLogController::class, 'index'])->name('audit.index');
 });
+
+Route::get('/fix-storage-link', function () {
+    $target = storage_path('app/public');
+    $link = public_path('storage');
+    
+    $output = "Correct Target: $target <br>Correct Link: $link <br><hr>";
+    
+    if (file_exists($link) || is_link($link)) {
+        is_link($link) ? unlink($link) : false; // Remove if broken
+    }
+    
+    try {
+        symlink($target, $link);
+        $output .= "<b style='color:green'>SUCCESS: Laravel's native storage link has been perfectly recreated.</b>";
+    } catch (\Exception $e) {
+        $output .= "<b style='color:red'>FAILED:</b> " . $e->getMessage();
+    }
+    
+    return $output . "<br><a href='/'>Go Home and verify images</a>";
+});
