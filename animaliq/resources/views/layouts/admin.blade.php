@@ -65,6 +65,7 @@
                 @if(in_array('settings', $adminSections))
                 <li><a href="{{ route('admin.settings.sections', 'mission') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'mission') active @endif">Mission &amp; Vision</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'about') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'about') active @endif">About</a></li>
+                <li><a href="{{ route('admin.settings.sections', 'donations') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'donations') active @endif">Donations &amp; Payments</a></li>
                 <li><a href="{{ route('admin.settings.slides') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.slides*')) active @endif">Homepage Slides</a></li>
                 @endif
                 @if(in_array('team', $adminSections))

@@ -33,4 +33,11 @@ return [
             'research_section_banner' => ['label' => 'Research section banner image', 'type' => 'image'],
         ],
     ],
+    'donations' => [
+        'title' => 'Donations & Payments',
+        'keys' => [
+            'mpesa_till_number' => ['label' => 'M-Pesa Till Number', 'type' => 'text'],
+            'mpesa_till_name' => ['label' => 'M-Pesa Till Name (returned by Safaricom)', 'type' => 'text'],
+        ],
+    ],
 ];

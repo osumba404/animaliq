@@ -62,7 +62,7 @@
                 @endif
                 <div class="prose theme-text-secondary max-w-none mb-8">{!! nl2br(e($product->description ?? '')) !!}</div>
                 @if($product->stock === null || $product->stock > 0)
-                    <p class="text-sm theme-text-secondary mb-2">M-Pesa checkout will use the Daraja API (STK Push). Integration is prepared but not implemented yet – see <code class="text-sm">config/daraja.php</code> and <code class="text-sm">App\Services\Mpesa\DarajaService</code>. For now, contact us to order.</p>
+                    <p class="text-sm theme-text-secondary mb-4">To complete your purchase, please contact us for merchandise availability and manual M-Pesa payment details.</p>
                     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@animaliq.co.ke,animaliqinitiative@gmail.com&cc=tabithawaigwa99@gmail.com,sharonmona21@gmail.com,eva717.m@gmail.com&su=Purchase%20Inquiry" target="_blank" rel="noopener noreferrer" class="theme-btn inline-block">Contact to order</a>
                 @endif
             </div>
