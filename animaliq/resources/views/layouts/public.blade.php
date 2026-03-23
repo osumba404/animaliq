@@ -330,6 +330,38 @@
     })();
     </script>
     @endauth
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var forms = document.querySelectorAll('form[method="GET"]');
+        forms.forEach(function(form) {
+            var sortSelect = form.querySelector('select[name="sort"]');
+            var searchInput = form.querySelector('input[name="q"]');
+            
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    form.submit();
+                });
+            }
+            
+            if (searchInput) {
+                var timeout = null;
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function() {
+                        form.submit();
+                    }, 500);
+                });
+                
+                if (searchInput.value) {
+                    var val = searchInput.value;
+                    searchInput.focus();
+                    searchInput.value = '';
+                    searchInput.value = val;
+                }
+            }
+        });
+    });
+    </script>
     @stack('scripts')
     @include('partials.share-script')
 </body>

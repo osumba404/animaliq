@@ -38,11 +38,7 @@
         </div>
     </section>
 
-    @if($sectionBanner)
-        <div class="rounded-2xl overflow-hidden my-8 -mx-4 md:mx-0 h-56 md:h-72">
-            <img src="{{ asset('storage/' . $sectionBanner) }}" alt="Research" class="w-full h-full object-cover">
-        </div>
-    @endif
+    {{-- Banner removed --}}
 
     <div class="py-8">
         <div class="max-w-6xl mx-auto mb-8">
