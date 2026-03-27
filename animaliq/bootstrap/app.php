@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Session\TokenMismatchException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,5 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn () => route('community.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Redirect back to the login page with a friendly message instead of
+        // showing the raw "419 Page Expired" screen. This is the last-resort
+        // fallback for any CSRF mismatch that slips past the bfcache guard and
+        // no-store cache headers on the auth controllers.
+        $exceptions->render(function (TokenMismatchException $e, \Illuminate\Http\Request $request) {
+            return redirect()
+                ->route('login')
+                ->with('error', 'Your session expired. Please log in again.');
+        });
     })->create();

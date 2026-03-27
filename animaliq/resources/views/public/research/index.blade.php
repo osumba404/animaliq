@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Research & Knowledge Hub')
+@section('title', 'Wildlife Research & Knowledge Hub – Animal IQ')
 
 @section('meta')
 @php
@@ -24,6 +24,12 @@
     ];
 @endphp
 @include('partials.seo')
+@if($projects->previousPageUrl())
+<link rel="prev" href="{{ $projects->previousPageUrl() }}">
+@endif
+@if($projects->nextPageUrl())
+<link rel="next" href="{{ $projects->nextPageUrl() }}">
+@endif
 @endsection
 
 @section('content')
@@ -73,7 +79,7 @@
                     <a href="{{ route('research.show', $project) }}" class="block flex-1 flex flex-col">
                         <div class="h-52 bg-[var(--bg-secondary)] overflow-hidden">
                             @if($project->banner_image)
-                                <img src="{{ asset('storage/' . $project->banner_image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <img src="{{ asset('storage/' . $project->banner_image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
                             @else
                                 <div class="w-full h-full flex items-center justify-center theme-text-secondary"><svg class="w-16 h-16 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>
                             @endif

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class RegisterController extends Controller
@@ -18,13 +19,17 @@ class RegisterController extends Controller
     /**
      * Show the registration form.
      */
-    public function create(): View|RedirectResponse
+    public function create(): Response|RedirectResponse
     {
         if (Auth::check()) {
             return redirect()->route('community.dashboard');
         }
 
-        return view('auth.register');
+        return response()
+            ->view('auth.register')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Our Programs')
+@section('title', 'Wildlife Education & Conservation Programs – Animal IQ')
 
 @section('meta')
 @php
@@ -24,6 +24,12 @@
     ];
 @endphp
 @include('partials.seo')
+@if($programs->previousPageUrl())
+<link rel="prev" href="{{ $programs->previousPageUrl() }}">
+@endif
+@if($programs->nextPageUrl())
+<link rel="next" href="{{ $programs->nextPageUrl() }}">
+@endif
 @endsection
 
 @section('content')
@@ -69,7 +75,7 @@
             <article class="theme-card rounded-2xl overflow-hidden mb-8 hover-lift group flex flex-col md:flex-row reveal">
                 <a href="{{ route('programs.show', $program) }}" class="md:w-2/5 flex-shrink-0 block h-56 md:h-auto min-h-[200px] bg-[var(--bg-secondary)] img-zoom">
                         @if($img)
-                            <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('storage/' . $img) }}" alt="{{ $program->title }}" class="w-full h-full object-cover" loading="lazy">
                         @else
                             <div class="w-full h-full flex items-center justify-center theme-text-secondary">
                                 <svg class="w-16 h-16 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>

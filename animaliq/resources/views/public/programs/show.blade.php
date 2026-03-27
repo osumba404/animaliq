@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', $program->title)
+@section('title', $program->title . ' – Animal IQ Program')
 
 @section('meta')
 @php
@@ -59,6 +59,13 @@
 @endpush
 
 @section('content')
+    <nav aria-label="Breadcrumb" class="mb-4 text-sm">
+        <ol class="flex flex-wrap items-center gap-1 theme-text-secondary">
+            <li><a href="{{ route('home') }}" class="hover:underline">Home</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li><a href="{{ route('programs.index') }}" class="hover:underline">Programs</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li class="theme-text-primary font-medium">{{ $program->title }}</li>
+        </ol>
+    </nav>
     <article class="max-w-3xl mx-auto">
         @php $img = $program->image ?? $program->events->first()?->banner_image; @endphp
         @if($img)

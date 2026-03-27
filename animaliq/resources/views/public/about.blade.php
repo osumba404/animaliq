@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'About Animal IQ')
+@section('title', 'About Animal IQ – Mission, Vision, Team & Story')
 
 @section('meta')
 @php

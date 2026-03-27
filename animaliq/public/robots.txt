@@ -1,2 +1,10 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /community/
+Disallow: /notifications/
+Disallow: /login
+Disallow: /register
+
+Sitemap: https://animaliq.co.ke/sitemap.xml

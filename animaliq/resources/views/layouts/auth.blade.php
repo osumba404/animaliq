@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Sign in') – {{ config('app.name') }}</title>
+    <meta name="robots" content="noindex, nofollow">
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme')
     @include('partials.animations')
@@ -45,5 +47,19 @@
         </div>
     </footer>
     @stack('scripts')
+    <script>
+    /**
+     * BFCache guard — mobile browsers (iOS Safari, Android Chrome) restore pages
+     * from the Back/Forward Cache instantly, without a network request. This means
+     * the @csrf token embedded in the form can be stale, causing a 419 "Page Expired"
+     * when the user submits. Reloading whenever the page is restored from bfcache
+     * guarantees a fresh token every time.
+     */
+    window.addEventListener('pageshow', function (e) {
+        if (e.persisted) {
+            window.location.reload();
+        }
+    });
+    </script>
 </body>
 </html>

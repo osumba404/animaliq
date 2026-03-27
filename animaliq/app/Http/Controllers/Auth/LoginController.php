@@ -7,20 +7,24 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
+use Illuminate\Http\Response;
 
 class LoginController extends Controller
 {
     /**
      * Show the login form.
      */
-    public function create(): View|RedirectResponse
+    public function create(): Response|RedirectResponse
     {
         if (Auth::check()) {
             return redirect()->intended(route('community.dashboard'));
         }
 
-        return view('auth.login');
+        return response()
+            ->view('auth.login')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     /**

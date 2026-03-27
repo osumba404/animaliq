@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', $product->name)
+@section('title', $product->name . ' – Animal IQ Eco Store')
 
 @section('meta')
 @php
@@ -42,6 +42,13 @@
 @endsection
 
 @section('content')
+    <nav aria-label="Breadcrumb" class="mb-4 text-sm">
+        <ol class="flex flex-wrap items-center gap-1 theme-text-secondary">
+            <li><a href="{{ route('home') }}" class="hover:underline">Home</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li><a href="{{ route('store.index') }}" class="hover:underline">Store</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li class="theme-text-primary font-medium">{{ $product->name }}</li>
+        </ol>
+    </nav>
     <div class="max-w-5xl mx-auto py-8">
         <div class="grid md:grid-cols-2 gap-8 md:gap-12">
             <div class="theme-card rounded-2xl overflow-hidden aspect-square md:aspect-auto md:min-h-[400px] bg-[var(--bg-secondary)]">

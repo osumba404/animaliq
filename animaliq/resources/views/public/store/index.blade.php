@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Eco Store')
+@section('title', 'Eco Store – Shop & Support Animal IQ Conservation')
 
 @section('meta')
 @php
@@ -24,6 +24,12 @@
     ];
 @endphp
 @include('partials.seo')
+@if($products->previousPageUrl())
+<link rel="prev" href="{{ $products->previousPageUrl() }}">
+@endif
+@if($products->nextPageUrl())
+<link rel="next" href="{{ $products->nextPageUrl() }}">
+@endif
 @endsection
 
 @section('content')
@@ -45,7 +51,7 @@
                     <a href="{{ route('store.show', $product) }}" class="block flex-1 flex flex-col">
                         <div class="aspect-square bg-[var(--bg-secondary)] overflow-hidden">
                             @if($product->image_path)
-                                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
                             @else
                                 <div class="w-full h-full flex items-center justify-center theme-text-secondary"><svg class="w-16 h-16 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div>
                             @endif

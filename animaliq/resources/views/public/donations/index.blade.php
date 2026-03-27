@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Donate')
+@section('title', 'Support Wildlife Conservation – Donate to Animal IQ')
 
 @section('meta')
 @php

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin') – {{ config('app.name') }}</title>
+    <meta name="robots" content="noindex, nofollow">
     @php $adminLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
     @if($adminLogo)
         <link rel="icon" href="{{ asset('storage/' . $adminLogo) }}">

@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Donate – ' . $donationCampaign->title)
+@section('title', 'Donate: ' . $donationCampaign->title . ' – Animal IQ')
 
 @section('meta')
 @php
@@ -30,6 +30,13 @@
 @endsection
 
 @section('content')
+    <nav aria-label="Breadcrumb" class="mb-4 text-sm">
+        <ol class="flex flex-wrap items-center gap-1 theme-text-secondary">
+            <li><a href="{{ route('home') }}" class="hover:underline">Home</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li><a href="{{ route('donations.index') }}" class="hover:underline">Donate</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li class="theme-text-primary font-medium">{{ $donationCampaign->title }}</li>
+        </ol>
+    </nav>
     <section class="theme-bg-warm border-b theme-border -mx-4 px-4 py-12 md:py-16 mb-8">
         <div class="max-w-4xl mx-auto">
             <h1 class="text-3xl md:text-4xl font-bold theme-text-primary">{{ $donationCampaign->title }}</h1>

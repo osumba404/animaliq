@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', $researchProject->title)
+@section('title', $researchProject->title . ' – Animal IQ Research')
 
 @section('meta')
 @php
@@ -62,6 +62,13 @@
 @endpush
 
 @section('content')
+    <nav aria-label="Breadcrumb" class="mb-4 text-sm">
+        <ol class="flex flex-wrap items-center gap-1 theme-text-secondary">
+            <li><a href="{{ route('home') }}" class="hover:underline">Home</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li><a href="{{ route('research.index') }}" class="hover:underline">Research</a> <span aria-hidden="true" class="opacity-40">›</span></li>
+            <li class="theme-text-primary font-medium">{{ $researchProject->title }}</li>
+        </ol>
+    </nav>
     <article class="max-w-3xl mx-auto">
         @if($researchProject->banner_image)
             <div class="rounded-2xl overflow-hidden mb-8 -mx-4 md:mx-0 h-64 md:h-96 shadow-lg">
