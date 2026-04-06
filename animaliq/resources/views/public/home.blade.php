@@ -180,15 +180,15 @@
             </div>
             <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-600)] reveal reveal-delay-3">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($eventsHosted) }}</p>
-                <p class="text-xs md:text-sm theme-text-secondary mt-1">Events hosted</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Events Conducted</p>
             </div>
             <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-700)] reveal reveal-delay-4">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($researchConducted) }}</p>
                 <p class="text-xs md:text-sm theme-text-secondary mt-1">Research Conducted</p>
             </div>
             <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-400)] reveal reveal-delay-5">
-                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($upcomingEventsCount) }}</p>
-                <p class="text-xs md:text-sm theme-text-secondary mt-1">Upcoming events</p>
+                <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($merchandiseCount) }}</p>
+                <p class="text-xs md:text-sm theme-text-secondary mt-1">Merchandise</p>
             </div>
             <div class="theme-card rounded-2xl p-4 lg:p-6 text-center hover-lift border-l-4 border-[var(--orange-300)] reveal reveal-delay-6">
                 <p class="text-3xl md:text-4xl font-bold theme-accent tabular-nums stat-number">{{ number_format($publishedArticles) }}</p>

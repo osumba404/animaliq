@@ -42,47 +42,120 @@
         @endif
 
         {{-- Mission & Vision --}}
-        <section class="py-12 md:py-16 theme-bg-secondary -mx-4 px-4 md:rounded-2xl">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-center text-2xl md:text-3xl font-bold theme-text-primary mb-8 reveal">Our Mission & Vision</h2>
-                <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
-                    @if($mission)
-                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col reveal reveal--left">
-                            <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
-                                @if($missionImage)
-                                    <img src="{{ asset('storage/' . $missionImage) }}" alt="Our mission" class="w-full h-full object-cover">
-                                @else
-                                    <div class="w-full h-full flex items-center justify-center theme-text-secondary">
-                                        <svg class="w-14 h-14 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="p-6 md:p-7 flex-1 flex flex-col">
-                                <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-2">Mission</p>
-                                <h3 class="text-xl font-bold theme-text-primary mb-2 group-hover:theme-accent transition">Why we exist</h3>
-                                <p class="theme-text-secondary leading-relaxed text-sm md:text-base flex-1">{{ $mission }}</p>
-                            </div>
-                        </article>
-                    @endif
-                    @if($vision)
-                        <article class="theme-card rounded-2xl overflow-hidden hover-lift group flex flex-col reveal reveal--right">
-                            <div class="h-44 bg-[var(--bg-primary)] overflow-hidden img-zoom">
-                                @if($visionImage)
-                                    <img src="{{ asset('storage/' . $visionImage) }}" alt="Our vision" class="w-full h-full object-cover">
-                                @else
-                                    <div class="w-full h-full flex items-center justify-center theme-text-secondary">
-                                        <svg class="w-14 h-14 opacity-30 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="p-6 md:p-7 flex-1 flex flex-col">
-                                <p class="text-xs font-semibold theme-accent uppercase tracking-wide mb-2">Vision</p>
-                                <h3 class="text-xl font-bold theme-text-primary mb-2 group-hover:theme-accent transition">Where we’re going</h3>
-                                <p class="theme-text-secondary leading-relaxed text-sm md:text-base flex-1">{{ $vision }}</p>
-                            </div>
-                        </article>
-                    @endif
+        <section class="py-12 md:py-16">
+            <style>
+                .mv-split {
+                    display: flex;
+                    flex-wrap: wrap;
+                    border-radius: 2rem;
+                    overflow: hidden;
+                    box-shadow: 0 25px 45px -12px rgba(0,0,0,0.22);
+                    position: relative;
+                    max-width: 900px;
+                    margin: 0 auto;
+                }
+                .mv-split::after {
+                    content: ‘’;
+                    position: absolute;
+                    top: 0; left: 50%;
+                    width: 2px; height: 100%;
+                    background: linear-gradient(to bottom, transparent, var(--border-color), transparent);
+                    pointer-events: none;
+                }
+                .mv-panel {
+                    flex: 1;
+                    min-width: 280px;
+                    padding: 52px 40px;
+                    position: relative;
+                    background-size: cover;
+                    background-position: center;
+                    transition: transform 0.3s ease, box-shadow 0.3s;
+                }
+                .mv-panel:hover {
+                    transform: scale(1.02);
+                    box-shadow: 0 30px 40px -12px rgba(0,0,0,0.3);
+                    z-index: 2;
+                    border-radius: 0.75rem;
+                }
+                .mv-panel::before {
+                    content: ‘’;
+                    position: absolute;
+                    inset: 0;
+                    pointer-events: none;
+                }
+                html.light-theme .mv-mission { background-color: var(--bg-warm); }
+                html.light-theme .mv-mission::before { background: linear-gradient(135deg, rgba(255,245,230,0.88), rgba(255,240,210,0.9)); }
+                html.light-theme .mv-vision  { background-color: var(--bg-secondary); }
+                html.light-theme .mv-vision::before  { background: linear-gradient(135deg, rgba(248,249,250,0.88), rgba(240,245,240,0.9)); }
+                html.dark-theme  .mv-mission { background-color: #1a1005; }
+                html.dark-theme  .mv-mission::before { background: linear-gradient(135deg, rgba(0,0,0,0.78), rgba(20,10,0,0.82)); }
+                html.dark-theme  .mv-vision  { background-color: #0e0e0e; }
+                html.dark-theme  .mv-vision::before  { background: linear-gradient(135deg, rgba(0,0,0,0.78), rgba(0,10,5,0.82)); }
+                .mv-content {
+                    position: relative;
+                    z-index: 1;
+                }
+                .mv-icon {
+                    width: 3rem;
+                    height: 3rem;
+                    margin-bottom: 1.5rem;
+                    color: var(--accent-orange);
+                }
+                .mv-title {
+                    font-size: 2rem;
+                    font-weight: 800;
+                    letter-spacing: -0.02em;
+                    margin-bottom: 0.25rem;
+                    color: var(--text-primary);
+                }
+                .mv-sub {
+                    font-size: 0.78rem;
+                    text-transform: uppercase;
+                    letter-spacing: 3px;
+                    font-weight: 600;
+                    opacity: 0.7;
+                    margin-bottom: 1.25rem;
+                    color: var(--text-secondary);
+                }
+                .mv-desc {
+                    font-size: 1rem;
+                    line-height: 1.6;
+                    font-weight: 500;
+                    max-width: 92%;
+                    color: var(--text-secondary);
+                }
+                @@media (max-width: 640px) {
+                    .mv-panel { padding: 36px 24px; }
+                    .mv-title { font-size: 1.65rem; }
+                    .mv-split::after { display: none; }
+                }
+            </style>
+            <h2 class="text-center text-2xl md:text-3xl font-bold theme-text-primary mb-8 reveal">Our Mission & Vision</h2>
+            <div class="mv-split reveal">
+                @if($mission)
+                <div class="mv-panel mv-mission" @if($missionImage) style="background-image: url(‘{{ asset(‘storage/’ . $missionImage) }}’)" @endif>
+                    <div class="mv-content">
+                        <svg class="mv-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <div class="mv-title">Mission</div>
+                        <div class="mv-sub">Why we exist</div>
+                        <div class="mv-desc">{{ $mission }}</div>
+                    </div>
                 </div>
+                @endif
+                @if($vision)
+                <div class="mv-panel mv-vision" @if($visionImage) style="background-image: url(‘{{ asset(‘storage/’ . $visionImage) }}’)" @endif>
+                    <div class="mv-content">
+                        <svg class="mv-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="mv-title">Vision</div>
+                        <div class="mv-sub">Where we’re going</div>
+                        <div class="mv-desc">{{ $vision }}</div>
+                    </div>
+                </div>
+                @endif
             </div>
         </section>
 

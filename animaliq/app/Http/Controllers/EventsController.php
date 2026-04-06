@@ -31,7 +31,7 @@ class EventsController extends Controller
         $upcoming = $query->paginate(9)->withQueryString();
         $past = Event::where('status', 'active')
             ->where(function($q) { $q->where('start_datetime', '<', now())->where(function($q2) { $q2->whereNull('end_datetime')->orWhere('end_datetime', '<', now()); }); })
-            ->with('program')->orderByDesc('start_datetime')->take(6)->get();
+            ->with('program')->orderByDesc('start_datetime')->get();
 
         return view('public.events.index', compact('upcoming', 'past'));
     }

@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\HomepageSlide;
 use App\Models\Post;
 use App\Models\Program;
+use App\Models\Product;
 use App\Models\ResearchProject;
 use App\Models\SiteSetting;
 use App\Models\User;
@@ -20,9 +21,9 @@ class HomeController extends Controller
         $vision = SiteSetting::getByKey('vision_statement', '');
         $activePrograms = Program::active()->count();
         $membersActive = User::count();
-        $eventsHosted = (int) SiteSetting::getByKey('impact_events_hosted', 0);
+        $eventsHosted = Event::count();
         $researchConducted = ResearchProject::count();
-        $upcomingEventsCount = Event::upcoming()->count();
+        $merchandiseCount = Product::count();
         $publishedArticles = Post::published()->count();
         $programs = Program::active()->with('department', 'events')->latest()->take(3)->get();
         $upcomingEvent = Event::upcoming()->with('program')->first();
@@ -35,7 +36,7 @@ class HomeController extends Controller
 
         return view('public.home', compact(
             'slides', 'mission', 'missionTeaser', 'vision',
-            'activePrograms', 'membersActive', 'eventsHosted', 'researchConducted', 'upcomingEventsCount', 'publishedArticles',
+            'activePrograms', 'membersActive', 'eventsHosted', 'researchConducted', 'merchandiseCount', 'publishedArticles',
             'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'latestResearch', 'founderStory', 'seoImage'
         ));
     }
