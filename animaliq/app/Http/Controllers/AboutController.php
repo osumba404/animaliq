@@ -15,6 +15,8 @@ class AboutController extends Controller
         $missionImage = SiteSetting::getByKey('mission_image', '');
         $vision = SiteSetting::getByKey('vision_statement', '');
         $visionImage = SiteSetting::getByKey('vision_image', '');
+        $missionImageUrl = $missionImage ? asset('storage/' . $missionImage) : null;
+        $visionImageUrl  = $visionImage  ? asset('storage/' . $visionImage)  : null;
         $coreValues = SiteSetting::getByKey('core_values', []);
         $departments = Department::with(['departmentMembers' => fn ($q) => $q->with('user')->orderBy('display_order')])->orderBy('name')->get();
         $strategicPlanUrl = SiteSetting::getByKey('strategic_plan_file', null);
@@ -25,7 +27,8 @@ class AboutController extends Controller
 
         return view('public.about', compact(
             'founderStory', 'mission', 'missionImage', 'vision', 'visionImage', 'coreValues',
-            'departments', 'strategicPlanUrl', 'annualReports', 'teamMembers', 'mediaKitUrl', 'proposalTemplateUrl'
+            'departments', 'strategicPlanUrl', 'annualReports', 'teamMembers', 'mediaKitUrl', 'proposalTemplateUrl',
+            'missionImageUrl', 'visionImageUrl'
         ));
     }
 }

@@ -54,21 +54,12 @@
                     max-width: 900px;
                     margin: 0 auto;
                 }
-                .mv-split::after {
-                    content: ‘’;
-                    position: absolute;
-                    top: 0; left: 50%;
-                    width: 2px; height: 100%;
-                    background: linear-gradient(to bottom, transparent, var(--border-color), transparent);
-                    pointer-events: none;
-                }
                 .mv-panel {
                     flex: 1;
                     min-width: 280px;
                     padding: 52px 40px;
                     position: relative;
-                    background-size: cover;
-                    background-position: center;
+                    overflow: hidden;
                     transition: transform 0.3s ease, box-shadow 0.3s;
                 }
                 .mv-panel:hover {
@@ -77,23 +68,25 @@
                     z-index: 2;
                     border-radius: 0.75rem;
                 }
-                .mv-panel::before {
-                    content: ‘’;
+                .mv-bg-img {
                     position: absolute;
                     inset: 0;
-                    pointer-events: none;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    z-index: 0;
                 }
-                html.light-theme .mv-mission { background-color: var(--bg-warm); }
-                html.light-theme .mv-mission::before { background: linear-gradient(135deg, rgba(255,245,230,0.88), rgba(255,240,210,0.9)); }
-                html.light-theme .mv-vision  { background-color: var(--bg-secondary); }
-                html.light-theme .mv-vision::before  { background: linear-gradient(135deg, rgba(248,249,250,0.88), rgba(240,245,240,0.9)); }
-                html.dark-theme  .mv-mission { background-color: #1a1005; }
-                html.dark-theme  .mv-mission::before { background: linear-gradient(135deg, rgba(0,0,0,0.78), rgba(20,10,0,0.82)); }
-                html.dark-theme  .mv-vision  { background-color: #0e0e0e; }
-                html.dark-theme  .mv-vision::before  { background: linear-gradient(135deg, rgba(0,0,0,0.78), rgba(0,10,5,0.82)); }
+                .mv-overlay {
+                    position: absolute;
+                    inset: 0;
+                    z-index: 1;
+                }
+                html.light-theme .mv-overlay { background: rgba(255,255,255,0.62); }
+                html.dark-theme  .mv-overlay { background: rgba(0,0,0,0.62); }
                 .mv-content {
                     position: relative;
-                    z-index: 1;
+                    z-index: 2;
                 }
                 .mv-icon {
                     width: 3rem;
@@ -106,34 +99,40 @@
                     font-weight: 800;
                     letter-spacing: -0.02em;
                     margin-bottom: 0.25rem;
-                    color: var(--text-primary);
                 }
+                html.light-theme .mv-panel .mv-title { color: #111; }
+                html.light-theme .mv-panel .mv-sub   { color: #444; }
+                html.light-theme .mv-panel .mv-desc  { color: #222; }
+                html.dark-theme  .mv-panel .mv-title { color: #fff; }
+                html.dark-theme  .mv-panel .mv-sub   { color: rgba(255,255,255,0.65); }
+                html.dark-theme  .mv-panel .mv-desc  { color: rgba(255,255,255,0.9); }
                 .mv-sub {
                     font-size: 0.78rem;
                     text-transform: uppercase;
                     letter-spacing: 3px;
                     font-weight: 600;
-                    opacity: 0.7;
+                    opacity: 0.8;
                     margin-bottom: 1.25rem;
-                    color: var(--text-secondary);
                 }
                 .mv-desc {
                     font-size: 1rem;
                     line-height: 1.6;
                     font-weight: 500;
                     max-width: 92%;
-                    color: var(--text-secondary);
                 }
                 @@media (max-width: 640px) {
                     .mv-panel { padding: 36px 24px; }
                     .mv-title { font-size: 1.65rem; }
-                    .mv-split::after { display: none; }
                 }
             </style>
             <h2 class="text-center text-2xl md:text-3xl font-bold theme-text-primary mb-8 reveal">Our Mission & Vision</h2>
             <div class="mv-split reveal">
                 @if($mission)
-                <div class="mv-panel mv-mission" @if($missionImage) style="background-image: url(‘{{ asset(‘storage/’ . $missionImage) }}’)" @endif>
+                <div class="mv-panel mv-mission">
+                    @if($missionImageUrl)
+                    <img src="{{ $missionImageUrl }}" alt="" class="mv-bg-img">
+                    @endif
+                    <div class="mv-overlay"></div>
                     <div class="mv-content">
                         <svg class="mv-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
@@ -145,7 +144,11 @@
                 </div>
                 @endif
                 @if($vision)
-                <div class="mv-panel mv-vision" @if($visionImage) style="background-image: url(‘{{ asset(‘storage/’ . $visionImage) }}’)" @endif>
+                <div class="mv-panel mv-vision">
+                    @if($visionImageUrl)
+                    <img src="{{ $visionImageUrl }}" alt="" class="mv-bg-img">
+                    @endif
+                    <div class="mv-overlay"></div>
                     <div class="mv-content">
                         <svg class="mv-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
