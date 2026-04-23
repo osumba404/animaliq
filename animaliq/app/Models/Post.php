@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
@@ -35,5 +36,25 @@ class Post extends Model
     {
         return $query->where('status', 'published')
             ->whereNotNull('published_at');
+    }
+
+    public function views(): HasMany
+    {
+        return $this->hasMany(PostView::class);
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(PostLike::class);
+    }
+
+    public function bookmarks(): HasMany
+    {
+        return $this->hasMany(PostBookmark::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(PostComment::class)->whereNull('parent_id')->with('user', 'replies', 'likes')->withCount('likes')->latest();
     }
 }

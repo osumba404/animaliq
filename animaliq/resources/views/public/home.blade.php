@@ -197,6 +197,32 @@
         </div>
     </section>
 
+    {{-- Animal Awareness Day (shows on the day of celebration) --}}
+    @if(isset($todayAwarenessDay) && $todayAwarenessDay)
+    <section class="py-10 md:py-14 -mx-4 px-4 md:rounded-2xl md:mx-0 mb-10 reveal" style="background:linear-gradient(135deg, var(--bg-warm) 0%, var(--bg-secondary) 100%);border:1px solid var(--accent-orange);">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-center gap-2 mb-4 justify-center">
+                <svg class="w-5 h-5 theme-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span class="text-sm font-bold uppercase tracking-widest theme-accent">Today's Awareness Day</span>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                @if($todayAwarenessDay->image)
+                <div class="md:w-2/5 flex-shrink-0 h-56 rounded-2xl overflow-hidden">
+                    <img src="{{ asset('storage/' . $todayAwarenessDay->image) }}" alt="{{ $todayAwarenessDay->title }}" class="w-full h-full object-cover">
+                </div>
+                @endif
+                <div class="flex-1">
+                    <h2 class="text-2xl md:text-3xl font-bold theme-text-primary mb-3">{{ $todayAwarenessDay->title }}</h2>
+                    @if($todayAwarenessDay->body)
+                    <p class="theme-text-secondary leading-relaxed mb-4">{{ Str::limit($todayAwarenessDay->body, 250) }}</p>
+                    @endif
+                    <a href="{{ route('awareness-days.index') }}" class="theme-btn text-sm inline-block">See all awareness days →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+
     {{-- Core programs --}}
     <section class="py-12 md:py-16 theme-bg-warm -mx-4 px-4 md:rounded-2xl md:mx-0">
         <div class="max-w-6xl mx-auto">
@@ -353,6 +379,83 @@
             </div>
         </div>
     </section>
+    @if(isset($todayAwarenessDay) && $todayAwarenessDay)
+    {{-- Awareness Day Modal --}}
+    <div id="awareness-popup" role="dialog" aria-modal="true" aria-label="Today's Awareness Day"
+        style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;padding:1.25rem;backdrop-filter:blur(3px);">
+        <div id="awareness-popup-box"
+            style="position:relative;width:100%;max-width:480px;background:var(--bg-primary);border-radius:1.25rem;box-shadow:0 25px 60px rgba(0,0,0,0.35);overflow:hidden;animation:popupIn 0.3s ease;">
+            {{-- Close button --}}
+            <button id="awareness-popup-close"
+                style="position:absolute;top:0.75rem;right:0.75rem;z-index:10;width:2rem;height:2rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);border:none;cursor:pointer;color:#fff;transition:background 0.15s;"
+                aria-label="Close"
+                onmouseover="this.style.background='rgba(0,0,0,0.6)'"
+                onmouseout="this.style.background='rgba(0,0,0,0.35)'">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            @if($todayAwarenessDay->image)
+            <div style="height:220px;overflow:hidden;">
+                <img src="{{ asset('storage/' . $todayAwarenessDay->image) }}" alt="{{ $todayAwarenessDay->title }}" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            @endif
+            <div style="padding:1.75rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                    <svg style="width:1rem;height:1rem;color:var(--accent-orange);flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-orange);">Today's Awareness Day</span>
+                </div>
+                <h3 style="font-size:1.35rem;font-weight:700;color:var(--text-primary);margin-bottom:0.6rem;line-height:1.3;">{{ $todayAwarenessDay->title }}</h3>
+                @if($todayAwarenessDay->body)
+                <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.6;margin-bottom:1.25rem;">{{ Str::limit($todayAwarenessDay->body, 200) }}</p>
+                @endif
+                <a href="{{ route('awareness-days.index') }}" class="theme-btn" style="display:block;text-align:center;font-size:0.9rem;">Learn More →</a>
+                <button id="awareness-popup-dismiss" style="display:block;width:100%;margin-top:0.75rem;background:none;border:none;cursor:pointer;color:var(--text-secondary);font-size:0.8rem;padding:0.25rem;">Dismiss</button>
+            </div>
+        </div>
+    </div>
+    <style>
+    @keyframes popupIn {
+        from { opacity:0; transform:scale(0.93) translateY(12px); }
+        to   { opacity:1; transform:scale(1)   translateY(0); }
+    }
+    #awareness-popup { overflow-y:auto; }
+    body.popup-open { overflow:hidden; }
+    </style>
+    <script>
+    (function() {
+        var key = 'awareness_popup_{{ $todayAwarenessDay->id }}_{{ now()->format('Y-m-d') }}';
+        var popup = document.getElementById('awareness-popup');
+
+        function openPopup() {
+            popup.style.display = 'flex';
+            document.body.classList.add('popup-open');
+            document.getElementById('awareness-popup-close').focus();
+        }
+        function closePopup() {
+            popup.style.display = 'none';
+            document.body.classList.remove('popup-open');
+            sessionStorage.setItem(key, '1');
+        }
+
+        if (!sessionStorage.getItem(key) && popup) {
+            setTimeout(openPopup, 1500);
+        }
+
+        document.getElementById('awareness-popup-close').addEventListener('click', closePopup);
+        document.getElementById('awareness-popup-dismiss').addEventListener('click', closePopup);
+
+        // Close on backdrop click (not on the card itself)
+        popup.addEventListener('click', function(e) {
+            if (e.target === popup) closePopup();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popup.style.display === 'flex') closePopup();
+        });
+    })();
+    </script>
+    @endif
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const observer = new IntersectionObserver((entries) => {

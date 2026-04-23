@@ -85,7 +85,7 @@ class UserController extends Controller
                 'body'    => 'You have been granted ' . ($user->role === 'super_admin' ? 'Super Admin' : 'Admin') . ' access on Animal IQ.',
                 'url'     => route('admin.dashboard'),
             ]);
-            Mail::to($user->email)->send(new AdminRoleNotification($user));
+            try { Mail::to($user->email)->queue(new AdminRoleNotification($user)); } catch (\Exception $e) { \Log::error('Admin role email failed: ' . $e->getMessage()); }
         }
 
         return redirect()->route('admin.users.index')->with('success', 'User updated.');

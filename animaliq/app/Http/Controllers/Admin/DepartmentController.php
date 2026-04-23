@@ -106,9 +106,9 @@ class DepartmentController extends Controller
                 'body'    => 'You have been added to the ' . $department->name . ' department' . ($validated['position_title'] ?? null ? ' as ' . $validated['position_title'] : '') . '.',
                 'url'     => route('community.dashboard'),
             ]);
-            Mail::to($addedUser->email)->send(
-                new DepartmentAddedNotification($addedUser, $department, $validated['position_title'] ?? null)
-            );
+            try {
+                Mail::to($addedUser->email)->queue(new DepartmentAddedNotification($addedUser, $department, $validated['position_title'] ?? null));
+            } catch (\Exception $e) { \Log::error('Department email failed: ' . $e->getMessage()); }
         }
 
         return back()->with('success', 'Member added.');

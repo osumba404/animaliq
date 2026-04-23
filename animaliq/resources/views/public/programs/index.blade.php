@@ -89,6 +89,9 @@
                         @endif
                         <h2 class="text-2xl font-bold theme-text-primary group-hover:theme-accent transition"><a href="{{ route('programs.show', $program) }}" class="hover:theme-accent">{{ $program->title }}</a></h2>
                         <p class="theme-text-secondary mt-2 line-clamp-3">{{ Str::limit($program->description, 180) }}</p>
+                        @if($program->events_count > 0)
+                        <p class="text-xs font-semibold theme-accent mt-2">{{ $program->events_count }} {{ Str::plural('event', $program->events_count) }} hosted</p>
+                        @endif
                         <a href="{{ route('programs.show', $program) }}" class="inline-flex items-center gap-2 mt-4 theme-link font-medium">View program →</a>
                     </div>
                     <div class="flex-shrink-0">@include('partials.share-button', ['shareTitle' => $program->title . ' – Animal IQ', 'url' => route('programs.show', $program)])</div>

@@ -63,7 +63,11 @@ class RegisterController extends Controller
             'url'     => route('community.dashboard'),
         ]);
 
-        Mail::to($user->email)->send(new WelcomeNotification($user));
+        try {
+            Mail::to($user->email)->queue(new WelcomeNotification($user));
+        } catch (\Exception $e) {
+            \Log::error('Welcome email failed: ' . $e->getMessage());
+        }
 
         return redirect()->route('community.dashboard')->with('success', 'Welcome! Your account has been created.');
     }

@@ -2,11 +2,15 @@
 
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AwarenessDaysController;
+use App\Http\Controllers\PostEngagementController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PodcastsController;
 use App\Http\Controllers\ProgramsController;
 use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\StoreController;
@@ -23,6 +27,9 @@ use App\Http\Controllers\Admin\ResearchReportController as AdminResearchReportCo
 use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\AuditLogController as AdminAuditLogController;
+use App\Http\Controllers\Admin\AwarenessDayController as AdminAwarenessDayController;
+use App\Http\Controllers\Admin\PodcastController as AdminPodcastController;
+use App\Http\Controllers\Admin\ForumController as AdminForumController;
 use App\Http\Controllers\Admin\TeamMemberController as AdminTeamMemberController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -49,6 +56,29 @@ Route::get('/donate/campaign/{donationCampaign}', [DonationController::class, 's
 Route::post('/donate/campaign/{donationCampaign}/pay', [DonationController::class, 'initiatePayment'])->name('donations.initiate');
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 Route::get('/store/{product}', [StoreController::class, 'show'])->name('store.show');
+Route::get('/awareness-days', [AwarenessDaysController::class, 'index'])->name('awareness-days.index');
+Route::get('/podcasts', [PodcastsController::class, 'index'])->name('podcasts.index');
+
+// Blog engagement (auth required)
+Route::middleware('auth')->group(function () {
+    Route::post('/blog/{post}/like', [PostEngagementController::class, 'like'])->name('blog.like');
+    Route::post('/blog/{post}/bookmark', [PostEngagementController::class, 'bookmark'])->name('blog.bookmark');
+    Route::post('/blog/{post}/comment', [PostEngagementController::class, 'comment'])->name('blog.comment');
+    Route::post('/blog/comments/{comment}/like', [PostEngagementController::class, 'likeComment'])->name('blog.comment.like');
+});
+
+// Forum — static routes MUST come before the {post:slug} wildcard
+Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/forum/create', [ForumController::class, 'create'])->name('forum.create');
+    Route::post('/forum', [ForumController::class, 'store'])->name('forum.store');
+    Route::post('/forum/comments/{comment}/like', [ForumController::class, 'likeComment'])->name('forum.comment.like');
+    Route::post('/forum/{post:slug}/like', [ForumController::class, 'like'])->name('forum.like');
+    Route::post('/forum/{post:slug}/bookmark', [ForumController::class, 'bookmark'])->name('forum.bookmark');
+    Route::post('/forum/{post:slug}/comment', [ForumController::class, 'comment'])->name('forum.comment');
+    Route::delete('/forum/{post:slug}', [ForumController::class, 'destroy'])->name('forum.destroy');
+});
+Route::get('/forum/{post:slug}', [ForumController::class, 'show'])->name('forum.show');
 
 // Community portal (authenticated members)
 Route::middleware(['auth'])->group(function () {
@@ -123,6 +153,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('team/{team}/edit-form', [AdminTeamMemberController::class, 'formEdit'])->name('team.edit-form');
     Route::resource('team', AdminTeamMemberController::class);
     Route::get('audit', [AdminAuditLogController::class, 'index'])->name('audit.index');
+    Route::resource('awareness-days', AdminAwarenessDayController::class)->parameters(['awareness-days' => 'awarenessDay']);
+    Route::resource('podcasts', AdminPodcastController::class);
+    Route::get('forum', [AdminForumController::class, 'index'])->name('forum.index');
+    Route::delete('forum/{forum}', [AdminForumController::class, 'destroy'])->name('forum.destroy');
 });
 
 Route::get('/fix-storage-link', function () {

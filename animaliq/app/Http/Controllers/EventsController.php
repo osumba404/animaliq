@@ -38,7 +38,7 @@ class EventsController extends Controller
 
     public function show(Event $event)
     {
-        $event->load('program', 'proceeding.images');
+        $event->load('program', 'proceeding.images', 'documents');
         $event->loadCount('registrations');
         $isRegistered = auth()->check() && $event->registrations()->where('user_id', auth()->id())->whereIn('status', ['registered', 'attended'])->exists();
 

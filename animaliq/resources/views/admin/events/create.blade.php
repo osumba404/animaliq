@@ -54,7 +54,33 @@
             </select>
             <p class="text-xs theme-text-secondary mt-1">Upcoming / Completed is determined automatically by the start and end dates.</p>
         </div>
+
+        {{-- Documents --}}
+        <div class="mb-6">
+            <label class="block font-medium theme-text-secondary mb-1">Event Documents</label>
+            <p class="text-xs theme-text-secondary mb-2">Upload PDFs, Word docs, spreadsheets, etc. that attendees can download. (Max 10MB each)</p>
+            <div id="doc-upload-list">
+                <div class="doc-upload-row flex gap-2 mb-2">
+                    <input type="text" name="document_names[]" placeholder="Document name (optional)" class="theme-input flex-1">
+                    <input type="file" name="documents[]" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip" class="theme-input flex-1">
+                    <button type="button" class="theme-btn-outline text-sm px-3 add-doc-row">+</button>
+                </div>
+            </div>
+        </div>
+
         <button type="submit" class="theme-btn">Save</button>
         <a href="{{ route('admin.events.index') }}" class="ml-2 theme-link">Cancel</a>
     </form>
+    <script>
+    document.querySelectorAll('.add-doc-row').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const list = document.getElementById('doc-upload-list');
+            const row = document.createElement('div');
+            row.className = 'doc-upload-row flex gap-2 mb-2';
+            row.innerHTML = '<input type="text" name="document_names[]" placeholder="Document name (optional)" class="theme-input flex-1"><input type="file" name="documents[]" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip" class="theme-input flex-1"><button type="button" class="theme-btn-outline text-sm px-3 remove-doc-row">×</button>';
+            list.appendChild(row);
+            row.querySelector('.remove-doc-row').addEventListener('click', () => row.remove());
+        });
+    });
+    </script>
 @endsection

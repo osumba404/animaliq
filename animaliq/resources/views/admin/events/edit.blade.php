@@ -59,7 +59,54 @@
             </select>
             <p class="text-xs theme-text-secondary mt-1">Upcoming / Completed is determined automatically by the start and end dates.</p>
         </div>
+
+        {{-- Existing Documents --}}
+        @if($event->documents->isNotEmpty())
+        <div class="mb-4">
+            <label class="block font-medium theme-text-secondary mb-2">Existing Documents</label>
+            <div class="space-y-2">
+                @foreach($event->documents as $doc)
+                <div class="flex items-center gap-3 theme-card rounded-lg p-3">
+                    <svg class="w-5 h-5 theme-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium theme-text-primary truncate">{{ $doc->name }}</p>
+                        <p class="text-xs theme-text-secondary">{{ $doc->formatted_size }}</p>
+                    </div>
+                    <label class="flex items-center gap-1 text-sm text-red-500 cursor-pointer">
+                        <input type="checkbox" name="delete_documents[]" value="{{ $doc->id }}"> Delete
+                    </label>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        {{-- Upload New Documents --}}
+        <div class="mb-6">
+            <label class="block font-medium theme-text-secondary mb-1">Add New Documents</label>
+            <p class="text-xs theme-text-secondary mb-2">Upload PDFs, Word docs, spreadsheets, etc. (Max 10MB each)</p>
+            <div id="doc-upload-list">
+                <div class="doc-upload-row flex gap-2 mb-2">
+                    <input type="text" name="document_names[]" placeholder="Document name (optional)" class="theme-input flex-1">
+                    <input type="file" name="documents[]" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip" class="theme-input flex-1">
+                    <button type="button" class="theme-btn-outline text-sm px-3 add-doc-row">+</button>
+                </div>
+            </div>
+        </div>
+
         <button type="submit" class="theme-btn">Update</button>
         <a href="{{ route('admin.events.index') }}" class="ml-2 theme-link">Cancel</a>
     </form>
+    <script>
+    document.querySelectorAll('.add-doc-row').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const list = document.getElementById('doc-upload-list');
+            const row = document.createElement('div');
+            row.className = 'doc-upload-row flex gap-2 mb-2';
+            row.innerHTML = '<input type="text" name="document_names[]" placeholder="Document name (optional)" class="theme-input flex-1"><input type="file" name="documents[]" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip" class="theme-input flex-1"><button type="button" class="theme-btn-outline text-sm px-3 remove-doc-row">×</button>';
+            list.appendChild(row);
+            row.querySelector('.remove-doc-row').addEventListener('click', () => row.remove());
+        });
+    });
+    </script>
 @endsection

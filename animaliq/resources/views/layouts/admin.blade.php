@@ -62,10 +62,21 @@
                 @if(in_array('posts', $adminSections))
                 <li><a href="{{ route('admin.posts.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.posts.*')) active @endif">Posts</a></li>
                 @endif
+                @if(in_array('awareness_days', $adminSections))
+                <li><a href="{{ route('admin.awareness-days.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.awareness-days.*')) active @endif">Awareness Days</a></li>
+                @endif
+                @if(in_array('podcasts', $adminSections))
+                <li><a href="{{ route('admin.podcasts.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.podcasts.*')) active @endif">Podcasts</a></li>
+                @endif
+                @if(in_array('forum', $adminSections))
+                <li><a href="{{ route('admin.forum.index') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.forum.*')) active @endif">Forum Posts</a></li>
+                @endif
                 <li class="pt-2 mt-2 border-t theme-border"><span class="px-3 text-xs font-semibold group-label uppercase">Settings &amp; Site</span></li>
                 @if(in_array('settings', $adminSections))
                 <li><a href="{{ route('admin.settings.sections', 'mission') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'mission') active @endif">Mission &amp; Vision</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'about') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'about') active @endif">About</a></li>
+                <li><a href="{{ route('admin.settings.sections', 'socials') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'socials') active @endif">Social Media</a></li>
+                <li><a href="{{ route('admin.settings.sections', 'contacts') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'contacts') active @endif">Contact Details</a></li>
                 <li><a href="{{ route('admin.settings.sections', 'donations') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.sections') && request()->route('section') === 'donations') active @endif">Donations &amp; Payments</a></li>
                 <li><a href="{{ route('admin.settings.slides') }}" class="block px-3 py-2 rounded @if(request()->routeIs('admin.settings.slides*')) active @endif">Homepage Slides</a></li>
                 @endif

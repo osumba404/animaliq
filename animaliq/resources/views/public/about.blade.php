@@ -34,9 +34,20 @@
         {{-- Founder Story --}}
         @if($founderStory)
             <section class="py-12 md:py-16">
-                <div class="theme-card rounded-2xl p-8 md:p-10 border-l-4 border-l-[var(--accent-orange)] shadow-lg reveal">
-                    <h2 class="text-2xl font-bold theme-text-primary mb-2">Founder Story</h2>
-                    <div class="prose prose-lg max-w-none theme-text-secondary leading-relaxed text-base md:text-lg" style="color: var(--text-secondary);">{!! nl2br(e($founderStory)) !!}</div>
+                <div class="theme-card rounded-2xl overflow-hidden shadow-lg reveal">
+                    <div class="flex flex-col md:flex-row">
+                        {{-- Text: 60% on desktop --}}
+                        <div class="flex-1 p-8 md:p-10 border-l-4 border-l-[var(--accent-orange)]" style="@if($founderImageUrl) flex: 0 0 60%; max-width: 60%; @endif">
+                            <h2 class="text-2xl font-bold theme-text-primary mb-4">Founder Story</h2>
+                            <div class="prose prose-lg max-w-none theme-text-secondary leading-relaxed text-base md:text-lg" style="color: var(--text-secondary);">{!! nl2br(e($founderStory)) !!}</div>
+                        </div>
+                        {{-- Image: 40% on desktop, below on mobile --}}
+                        @if($founderImageUrl)
+                        <div class="md:w-2/5 flex-shrink-0 min-h-[280px] md:min-h-0 overflow-hidden">
+                            <img src="{{ $founderImageUrl }}" alt="Founder Story" class="w-full h-full object-cover object-center">
+                        </div>
+                        @endif
+                    </div>
                 </div>
             </section>
         @endif

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AwarenessDay;
 use App\Models\Event;
 use App\Models\HomepageSlide;
 use App\Models\Post;
@@ -31,13 +32,15 @@ class HomeController extends Controller
         $recentPosts = Post::published()->with('author')->latest('published_at')->take(3)->get();
         $latestResearch = ResearchProject::with('department')->latest('start_date')->take(3)->get();
         $founderStory = SiteSetting::getByKey('about_founder_story', '');
+        $todayAwarenessDay = AwarenessDay::active()->today()->first();
 
         $seoImage = $slides->first()?->image_path;
 
         return view('public.home', compact(
             'slides', 'mission', 'missionTeaser', 'vision',
             'activePrograms', 'membersActive', 'eventsHosted', 'researchConducted', 'merchandiseCount', 'publishedArticles',
-            'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'latestResearch', 'founderStory', 'seoImage'
+            'programs', 'upcomingEvent', 'upcomingEvents', 'recentPosts', 'latestResearch', 'founderStory', 'seoImage',
+            'todayAwarenessDay'
         ));
     }
 }

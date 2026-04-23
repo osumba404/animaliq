@@ -56,6 +56,11 @@ class Event extends Model
         return $this->hasOne(EventProceeding::class);
     }
 
+    public function documents(): HasMany
+    {
+        return $this->hasMany(EventDocument::class);
+    }
+
     /** Whether this event is in the past (start date has passed). */
     public function isPast(): bool
     {

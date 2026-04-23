@@ -10,7 +10,8 @@ class ProgramsController extends Controller
     public function index(Request $request)
     {
         $query = Program::active()
-            ->with('department', 'events');
+            ->with('department', 'events')
+            ->withCount('events');
 
         if ($search = $request->query('q')) {
             $query->where(function ($q) use ($search) {
@@ -38,7 +39,7 @@ class ProgramsController extends Controller
         if ($program->status !== 'active') {
             abort(404);
         }
-        $program->load(['department', 'events' => fn ($q) => $q->whereIn('status', ['upcoming', 'completed'])->orderBy('start_datetime')]);
+        $program->load(['department', 'events' => fn ($q) => $q->orderBy('start_datetime')]);
 
         return view('public.programs.show', compact('program'));
     }

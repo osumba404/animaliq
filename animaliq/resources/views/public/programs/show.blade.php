@@ -92,14 +92,34 @@
         <div class="blog-content mb-10">{!! nl2br(e($program->description ?? '')) !!}</div>
 
         <section class="pt-10 border-t theme-border">
-            <h2 class="text-2xl font-bold theme-text-primary mb-4">Related Events</h2>
+            <h2 class="text-2xl font-bold theme-text-primary mb-6">Events Under This Program</h2>
             @forelse($program->events as $event)
-                <a href="{{ route('events.show', $event) }}{{ $event->isPast() ? '#proceedings' : '' }}" class="flex flex-wrap items-center justify-between gap-4 theme-card rounded-xl p-4 mb-3 transition hover:shadow-lg block">
-                    <span class="font-semibold theme-text-primary">{{ $event->title }}</span>
-                    <span class="text-sm theme-text-secondary">{{ $event->start_datetime?->format('M j, Y') }} · @include('partials.event-view-label', ['event' => $event])</span>
-                </a>
+            <a href="{{ route('events.show', $event) }}{{ $event->isPast() ? '#proceedings' : '' }}" class="flex flex-col sm:flex-row gap-4 theme-card rounded-xl overflow-hidden mb-4 hover:shadow-lg transition group">
+                @if($event->banner_image)
+                <div class="sm:w-40 h-32 sm:h-auto flex-shrink-0 overflow-hidden">
+                    <img src="{{ asset('storage/' . $event->banner_image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                </div>
+                @endif
+                <div class="flex-1 p-4">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        @if($event->start_datetime)
+                        <span class="text-sm font-semibold theme-accent">{{ $event->start_datetime->format('M j, Y') }}</span>
+                        @endif
+                        @include('partials.event-view-label', ['event' => $event])
+                    </div>
+                    <h3 class="font-bold theme-text-primary group-hover:theme-accent transition">{{ $event->title }}</h3>
+                    @if($event->location)
+                    <p class="text-xs theme-text-secondary mt-1 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        {{ $event->location }}
+                    </p>
+                    @endif
+                </div>
+            </a>
             @empty
-                <p class="theme-text-secondary">No upcoming or past events for this program.</p>
+                <div class="theme-card rounded-xl p-8 text-center">
+                    <p class="theme-text-secondary">No events have been held under this program yet.</p>
+                </div>
             @endforelse
         </section>
     </article>

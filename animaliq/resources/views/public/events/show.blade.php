@@ -135,6 +135,29 @@
             </section>
         @endif
 
+        {{-- Event Documents --}}
+        @if($event->documents->isNotEmpty())
+        <section class="pt-10 border-t theme-border mb-10">
+            <h2 class="text-xl font-bold theme-text-primary mb-4">Event Documents</h2>
+            <div class="grid gap-3">
+                @foreach($event->documents as $doc)
+                <a href="{{ asset('storage/' . $doc->file_path) }}" target="_blank" rel="noopener" class="flex items-center gap-3 theme-card rounded-xl p-4 hover:shadow-md transition group">
+                    <span class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:var(--bg-warm)">
+                        <svg class="w-5 h-5 theme-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </span>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-medium theme-text-primary group-hover:theme-accent transition truncate">{{ $doc->name }}</p>
+                        @if($doc->file_size)
+                        <p class="text-xs theme-text-secondary">{{ $doc->formatted_size }}</p>
+                        @endif
+                    </div>
+                    <svg class="w-4 h-4 theme-text-secondary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                </a>
+                @endforeach
+            </div>
+        </section>
+        @endif
+
         {{-- Post-event proceedings --}}
         @if($event->proceeding)
             <section class="pt-10 border-t theme-border" id="proceedings">

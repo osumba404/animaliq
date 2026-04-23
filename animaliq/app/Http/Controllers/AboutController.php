@@ -11,6 +11,8 @@ class AboutController extends Controller
     public function index()
     {
         $founderStory = SiteSetting::getByKey('about_founder_story', '');
+        $founderImage = SiteSetting::getByKey('about_founder_image', null);
+        $founderImageUrl = $founderImage ? asset('storage/' . $founderImage) : null;
         $mission = SiteSetting::getByKey('mission_statement', '');
         $missionImage = SiteSetting::getByKey('mission_image', '');
         $vision = SiteSetting::getByKey('vision_statement', '');
@@ -26,7 +28,8 @@ class AboutController extends Controller
         $proposalTemplateUrl = SiteSetting::getByKey('partnership_proposal_template', null);
 
         return view('public.about', compact(
-            'founderStory', 'mission', 'missionImage', 'vision', 'visionImage', 'coreValues',
+            'founderStory', 'founderImage', 'founderImageUrl',
+            'mission', 'missionImage', 'vision', 'visionImage', 'coreValues',
             'departments', 'strategicPlanUrl', 'annualReports', 'teamMembers', 'mediaKitUrl', 'proposalTemplateUrl',
             'missionImageUrl', 'visionImageUrl'
         ));
