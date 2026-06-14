@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostBookmark;
 use App\Models\PostLike;
 use App\Models\PostView;
+use App\Models\UserPoint;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -50,6 +51,9 @@ class BlogController extends Controller
                 'user_id'    => auth()->id(),
             ]);
             session()->put($viewKey, true);
+            if (auth()->check()) {
+                UserPoint::record(auth()->id(), 'blog_view', 'PostView', $post->id);
+            }
         }
 
         $userLiked     = auth()->check() && PostLike::where('post_id', $post->id)->where('user_id', auth()->id())->exists();

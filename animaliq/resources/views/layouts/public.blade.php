@@ -55,6 +55,7 @@
                             <div class="border-t theme-border my-1"></div>
                             <a href="{{ route('donations.index') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium hover:bg-[var(--bg-warm)] {{ request()->routeIs('donations.*') ? 'font-semibold' : '' }}" style="color:var(--accent-orange);">Donate</a>
                             <a href="{{ route('store.index') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm theme-text-primary hover:bg-[var(--bg-warm)] {{ request()->routeIs('store.*') ? 'font-semibold' : '' }}" style="{{ request()->routeIs('store.*') ? 'color:var(--accent-orange);' : '' }}">Store</a>
+                            <a href="{{ route('leaderboard') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm theme-text-primary hover:bg-[var(--bg-warm)] {{ request()->routeIs('leaderboard') ? 'font-semibold' : '' }}" style="{{ request()->routeIs('leaderboard') ? 'color:var(--accent-orange);' : '' }}">Leaderboard</a>
                         </div>
                     </li>
                     @auth
@@ -139,6 +140,7 @@
                 <li>@include('partials.nav-link', ['route' => route('forum.index'), 'label' => 'Forum', 'icon' => 'community', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
                 <li>@include('partials.nav-link', ['route' => route('donations.index'), 'label' => 'Donate', 'icon' => 'donate', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-accent font-medium'])</li>
                 <li>@include('partials.nav-link', ['route' => route('store.index'), 'label' => 'Store', 'icon' => 'store', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
+                <li>@include('partials.nav-link', ['route' => route('leaderboard'), 'label' => 'Leaderboard', 'icon' => 'community', 'class' => 'mobile-nav-link flex items-center gap-1.5 px-4 py-3 rounded-lg theme-text-primary'])</li>
                 @auth
                     <li>
                         @if(in_array(auth()->user()->role, ['admin', 'super_admin']))

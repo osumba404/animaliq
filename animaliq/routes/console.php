@@ -10,3 +10,4 @@ Artisan::command('inspire', function () {
 
 // Send awareness day emails every day at 8:00 AM
 Schedule::command('animaliq:awareness-day-emails')->dailyAt('08:00');
+Schedule::command('animaliq:monthly-leaderboard')->monthlyOn(1, '09:00');

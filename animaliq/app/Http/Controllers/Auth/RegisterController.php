@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\WelcomeNotification;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\UserPoint;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,8 @@ class RegisterController extends Controller
             'body'    => 'Your account has been created. Explore programs, events, and more.',
             'url'     => route('community.dashboard'),
         ]);
+
+        UserPoint::record($user->id, 'account_created', 'User', $user->id, $user->created_at);
 
         try {
             Mail::to($user->email)->queue(new WelcomeNotification($user));

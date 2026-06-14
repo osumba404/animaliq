@@ -12,6 +12,7 @@ use App\Models\ForumPostBookmark;
 use App\Models\ForumPostLike;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\UserPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -57,6 +58,8 @@ class ForumController extends Controller
             'body'    => $request->body,
             'image'   => $image,
         ]);
+
+        UserPoint::record(auth()->id(), 'forum_post', 'ForumPost', $post->id);
 
         // Broadcast in-app + email to all other users
         $url    = route('forum.show', $post);
@@ -111,6 +114,7 @@ class ForumController extends Controller
         } else {
             ForumPostLike::create(['forum_post_id' => $post->id, 'user_id' => auth()->id()]);
             $liked = true;
+            UserPoint::record(auth()->id(), 'forum_like', 'ForumPostLike', $post->id);
 
             if ($post->user_id !== auth()->id()) {
                 $liker = auth()->user();
@@ -151,6 +155,7 @@ class ForumController extends Controller
         } else {
             ForumPostBookmark::create(['forum_post_id' => $post->id, 'user_id' => auth()->id()]);
             $bookmarked = true;
+            UserPoint::record(auth()->id(), 'forum_bookmark', 'ForumPostBookmark', $post->id);
         }
         return response()->json(['bookmarked' => $bookmarked, 'count' => ForumPostBookmark::where('forum_post_id', $post->id)->count()]);
     }
@@ -167,6 +172,7 @@ class ForumController extends Controller
         ]);
 
         $comment->load('user');
+        UserPoint::record(auth()->id(), 'forum_comment', 'ForumComment', $comment->id);
 
         $notified  = collect();
         $commenter = auth()->user();
@@ -253,6 +259,7 @@ class ForumController extends Controller
         } else {
             ForumCommentLike::create(['forum_comment_id' => $comment->id, 'user_id' => auth()->id()]);
             $liked = true;
+            UserPoint::record(auth()->id(), 'forum_comment_like', 'ForumCommentLike', $comment->id);
 
             // Notify comment author
             if ($comment->user_id !== auth()->id()) {

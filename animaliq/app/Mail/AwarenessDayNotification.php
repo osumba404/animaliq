@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use App\Models\AwarenessDay;
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -11,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 
 class AwarenessDayNotification extends Mailable
 {
-    use Queueable, SerializesModels;
+    use SerializesModels;
 
     public function __construct(
         public AwarenessDay $day,
@@ -20,7 +19,7 @@ class AwarenessDayNotification extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: '🌍 Today is ' . $this->day->title . '!');
+        return new Envelope(subject: 'Today is ' . $this->day->title . '!');
     }
 
     public function content(): Content

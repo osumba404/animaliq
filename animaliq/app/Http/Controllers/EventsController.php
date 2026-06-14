@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventRegistration;
+use App\Models\UserPoint;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
@@ -66,6 +67,7 @@ class EventsController extends Controller
             'user_id' => auth()->id(),
             'status' => 'registered',
         ]);
+        UserPoint::record(auth()->id(), 'event_register', 'Event', $event->id);
         return back()->with('success', 'You are now registered for this event.');
     }
 }

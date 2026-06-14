@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AwarenessDaysController;
@@ -56,6 +57,7 @@ Route::get('/donate/campaign/{donationCampaign}', [DonationController::class, 's
 Route::post('/donate/campaign/{donationCampaign}/pay', [DonationController::class, 'initiatePayment'])->name('donations.initiate');
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 Route::get('/store/{product}', [StoreController::class, 'show'])->name('store.show');
+Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
 Route::get('/awareness-days', [AwarenessDaysController::class, 'index'])->name('awareness-days.index');
 Route::get('/podcasts', [PodcastsController::class, 'index'])->name('podcasts.index');
 

@@ -10,6 +10,7 @@ use App\Models\PostBookmark;
 use App\Models\PostComment;
 use App\Models\PostCommentLike;
 use App\Models\PostLike;
+use App\Models\UserPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -29,6 +30,7 @@ class PostEngagementController extends Controller
         } else {
             PostLike::create(['post_id' => $post->id, 'user_id' => auth()->id()]);
             $liked = true;
+            UserPoint::record(auth()->id(), 'blog_like', 'PostLike', $post->id);
         }
 
         return response()->json([
@@ -50,6 +52,7 @@ class PostEngagementController extends Controller
         } else {
             PostBookmark::create(['post_id' => $post->id, 'user_id' => auth()->id()]);
             $bookmarked = true;
+            UserPoint::record(auth()->id(), 'blog_bookmark', 'PostBookmark', $post->id);
         }
 
         return response()->json([
@@ -74,6 +77,7 @@ class PostEngagementController extends Controller
         ]);
 
         $comment->load('user');
+        UserPoint::record(auth()->id(), 'blog_comment', 'PostComment', $comment->id);
         $this->notifyCommentRecipients($comment, $post);
 
         return response()->json([
@@ -94,6 +98,7 @@ class PostEngagementController extends Controller
         } else {
             PostCommentLike::create(['post_comment_id' => $comment->id, 'user_id' => auth()->id()]);
             $liked = true;
+            UserPoint::record(auth()->id(), 'blog_comment_like', 'PostCommentLike', $comment->id);
 
             // Notify the comment author (in-app + email)
             if ($comment->user_id !== auth()->id()) {

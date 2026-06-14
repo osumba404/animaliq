@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Donation;
 use App\Models\DonationCampaign;
+use App\Models\UserPoint;
 use App\Services\Mpesa\DarajaService;
 use Illuminate\Http\Request;
 
@@ -58,6 +59,9 @@ class DonationController extends Controller
                 'checkout_request_id'  => $result['checkout_request_id'] ?? null,
                 'merchant_request_id'  => $result['merchant_request_id'] ?? null,
             ]);
+            if (auth()->check()) {
+                UserPoint::record(auth()->id(), 'donation', 'Donation', $donation->id);
+            }
             return redirect()->back()->with('success', 'Check your phone and enter M-Pesa PIN to complete the donation.');
         }
 

@@ -33,15 +33,19 @@ class SendAwarenessDayEmails extends Command
                 Notification::create([
                     'user_id' => $user->id,
                     'type'    => 'awareness_day',
-                    'title'   => '🌍 Today is ' . $day->title . '!',
+                    'title'   => 'Today is ' . $day->title . '!',
                     'body'    => $day->body ? \Illuminate\Support\Str::limit(strip_tags($day->body), 100) : '',
                     'url'     => route('awareness-days.index'),
                 ]);
 
                 // Email
-                Mail::to($user->email)->queue(
-                    new AwarenessDayNotification($day, $user->first_name ?: 'there')
-                );
+                try {
+                    Mail::to($user->email)->send(
+                        new AwarenessDayNotification($day, $user->first_name ?: 'there')
+                    );
+                } catch (\Exception $e) {
+                    \Log::error('Awareness day email failed for ' . $user->email . ': ' . $e->getMessage());
+                }
             }
 
             $this->info("Notifications sent for {$day->title} to {$users->count()} users.");

@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//c/xampp/htdocs/animaliq/animaliq/**)",
-      "Bash(php artisan:*)"
-    ]
-  }
-}
