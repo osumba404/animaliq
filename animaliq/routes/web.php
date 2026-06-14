@@ -57,6 +57,19 @@ Route::get('/donate/campaign/{donationCampaign}', [DonationController::class, 's
 Route::post('/donate/campaign/{donationCampaign}/pay', [DonationController::class, 'initiatePayment'])->name('donations.initiate');
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 Route::get('/store/{product}', [StoreController::class, 'show'])->name('store.show');
+// Sharing (awards points to the sharer)
+Route::post('/share', function (\Illuminate\Http\Request $request) {
+    if (auth()->check()) {
+        \App\Models\UserPoint::record(
+            auth()->id(),
+            'share',
+            $request->input('source_type', 'page'),
+            (int) $request->input('source_id', 0) ?: null
+        );
+    }
+    return response()->json(['ok' => true]);
+})->middleware('auth')->name('share.track');
+
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
 Route::get('/awareness-days', [AwarenessDaysController::class, 'index'])->name('awareness-days.index');
 Route::get('/podcasts', [PodcastsController::class, 'index'])->name('podcasts.index');
@@ -159,6 +172,23 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('podcasts', AdminPodcastController::class);
     Route::get('forum', [AdminForumController::class, 'index'])->name('forum.index');
     Route::delete('forum/{forum}', [AdminForumController::class, 'destroy'])->name('forum.destroy');
+});
+
+Route::get('/run-backfill-points', function () {
+    // One-time backfill route — DELETE THIS ROUTE after running once on production
+    if (request('token') !== 'animaliq-backfill-2026') {
+        abort(403);
+    }
+    set_time_limit(300);
+    ini_set('max_execution_time', 300);
+    try {
+        \Artisan::call('animaliq:backfill-points');
+        $output = \Artisan::output();
+        $total  = \App\Models\UserPoint::count();
+        return response('<pre style="font-family:monospace;padding:20px">' . e($output) . "\nTotal user_point records: {$total}\n\nSUCCESS — you can now remove this route." . '</pre>');
+    } catch (\Throwable $e) {
+        return response('<pre style="font-family:monospace;padding:20px;color:red">ERROR: ' . e($e->getMessage()) . "\n\n" . e($e->getTraceAsString()) . '</pre>', 500);
+    }
 });
 
 Route::get('/fix-storage-link', function () {

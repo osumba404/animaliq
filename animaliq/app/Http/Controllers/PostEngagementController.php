@@ -31,6 +31,10 @@ class PostEngagementController extends Controller
             PostLike::create(['post_id' => $post->id, 'user_id' => auth()->id()]);
             $liked = true;
             UserPoint::record(auth()->id(), 'blog_like', 'PostLike', $post->id);
+            // Award the post author for receiving a like
+            if ($post->author_id && $post->author_id !== auth()->id()) {
+                UserPoint::record($post->author_id, 'post_received_like', 'PostLike', $post->id . '_' . auth()->id());
+            }
         }
 
         return response()->json([
@@ -53,6 +57,9 @@ class PostEngagementController extends Controller
             PostBookmark::create(['post_id' => $post->id, 'user_id' => auth()->id()]);
             $bookmarked = true;
             UserPoint::record(auth()->id(), 'blog_bookmark', 'PostBookmark', $post->id);
+            if ($post->author_id && $post->author_id !== auth()->id()) {
+                UserPoint::record($post->author_id, 'post_received_bookmark', 'PostBookmark', $post->id . '_' . auth()->id());
+            }
         }
 
         return response()->json([
@@ -78,6 +85,11 @@ class PostEngagementController extends Controller
 
         $comment->load('user');
         UserPoint::record(auth()->id(), 'blog_comment', 'PostComment', $comment->id);
+        // Award the post author for receiving a comment
+        $post->loadMissing('author');
+        if ($post->author_id && $post->author_id !== auth()->id()) {
+            UserPoint::record($post->author_id, 'post_received_comment', 'PostComment', $comment->id);
+        }
         $this->notifyCommentRecipients($comment, $post);
 
         return response()->json([

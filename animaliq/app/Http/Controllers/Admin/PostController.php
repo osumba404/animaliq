@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\NewPostNotification;
 use App\Models\Post;
+use App\Models\UserPoint;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,7 @@ class PostController extends Controller
         }
         $post = Post::create($validated);
         if ($post->status === 'published') {
+            UserPoint::record(auth()->id(), 'post_published', 'Post', $post->id, $post->published_at ?? now());
             $post->load('author', 'campaign');
             app(NotificationService::class)->broadcast(
                 type:   'post',

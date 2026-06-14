@@ -115,6 +115,9 @@ class ForumController extends Controller
             ForumPostLike::create(['forum_post_id' => $post->id, 'user_id' => auth()->id()]);
             $liked = true;
             UserPoint::record(auth()->id(), 'forum_like', 'ForumPostLike', $post->id);
+            if ($post->user_id !== auth()->id()) {
+                UserPoint::record($post->user_id, 'forum_received_like', 'ForumPostLike', $post->id . '_' . auth()->id());
+            }
 
             if ($post->user_id !== auth()->id()) {
                 $liker = auth()->user();
@@ -156,6 +159,9 @@ class ForumController extends Controller
             ForumPostBookmark::create(['forum_post_id' => $post->id, 'user_id' => auth()->id()]);
             $bookmarked = true;
             UserPoint::record(auth()->id(), 'forum_bookmark', 'ForumPostBookmark', $post->id);
+            if ($post->user_id !== auth()->id()) {
+                UserPoint::record($post->user_id, 'forum_received_bookmark', 'ForumPostBookmark', $post->id . '_' . auth()->id());
+            }
         }
         return response()->json(['bookmarked' => $bookmarked, 'count' => ForumPostBookmark::where('forum_post_id', $post->id)->count()]);
     }
@@ -173,6 +179,9 @@ class ForumController extends Controller
 
         $comment->load('user');
         UserPoint::record(auth()->id(), 'forum_comment', 'ForumComment', $comment->id);
+        if ($post->user_id !== auth()->id()) {
+            UserPoint::record($post->user_id, 'forum_received_comment', 'ForumComment', $comment->id);
+        }
 
         $notified  = collect();
         $commenter = auth()->user();

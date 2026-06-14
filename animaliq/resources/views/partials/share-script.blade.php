@@ -1,5 +1,16 @@
 <script>
 (function() {
+    var csrf = document.querySelector('meta[name=csrf-token]')?.content || '';
+
+    function trackShare(sourceType, sourceId) {
+        if (!csrf) return; // not logged in
+        fetch('/share', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json','X-CSRF-TOKEN':csrf,'Accept':'application/json'},
+            body: JSON.stringify({source_type: sourceType, source_id: sourceId})
+        }).catch(function(){});
+    }
+
     function initShare() {
         document.querySelectorAll('.share-trigger').forEach(function(btn) {
             var id = btn.getAttribute('data-share-id');
@@ -10,6 +21,9 @@
                 modal.classList.add('opacity-100', 'visible', 'pointer-events-auto');
                 modal.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
+                // Track share on open
+                var wrap = btn.closest('[data-source-type]');
+                trackShare(wrap ? wrap.dataset.sourceType : 'page', wrap ? wrap.dataset.sourceId : null);
             });
         });
         document.querySelectorAll('.share-close').forEach(function(btn) {

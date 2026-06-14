@@ -53,6 +53,9 @@ class BlogController extends Controller
             session()->put($viewKey, true);
             if (auth()->check()) {
                 UserPoint::record(auth()->id(), 'blog_view', 'PostView', $post->id);
+                if ($post->author_id && $post->author_id !== auth()->id()) {
+                    UserPoint::record($post->author_id, 'post_received_view', 'PostView', $post->id . '_' . auth()->id());
+                }
             }
         }
 

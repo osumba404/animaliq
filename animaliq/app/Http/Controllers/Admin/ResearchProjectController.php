@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\NewResearchNotification;
 use App\Models\Department;
 use App\Models\ResearchProject;
+use App\Models\UserPoint;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,7 @@ class ResearchProjectController extends Controller
             $validated['banner_image'] = null;
         }
         $project = ResearchProject::create($validated);
+        UserPoint::record(auth()->id(), 'research_published', 'ResearchProject', $project->id, now());
         $project->load('department');
         app(NotificationService::class)->broadcast(
             type:   'research',
