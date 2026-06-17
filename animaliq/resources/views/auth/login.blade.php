@@ -42,9 +42,12 @@ function togglePwd(id, btn) {
             </div>
         </div>
 
-        <div class="flex items-center">
-            <input type="checkbox" name="remember" id="remember" class="rounded theme-border text-[var(--accent-orange)] focus:ring-[var(--accent-orange)]">
-            <label for="remember" class="ml-2 text-sm theme-text-secondary">Remember me</label>
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <input type="checkbox" name="remember" id="remember" class="rounded theme-border text-[var(--accent-orange)] focus:ring-[var(--accent-orange)]">
+                <label for="remember" class="ml-2 text-sm theme-text-secondary">Remember me</label>
+            </div>
+            <a href="{{ route('password.request') }}" class="text-sm theme-link">Forgot password?</a>
         </div>
 
         <button type="submit" class="w-full theme-btn py-2.5 px-4">
