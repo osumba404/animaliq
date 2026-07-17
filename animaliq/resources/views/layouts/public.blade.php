@@ -16,8 +16,8 @@
     @include('partials.animations')
     @stack('styles')
 </head>
-<body class="theme-bg-primary theme-text-primary min-h-screen antialiased">
-    <header class="theme-bg-primary theme-header-border sticky top-0 z-30">
+<body class="theme-bg-primary theme-text-primary min-h-screen antialiased {{ request()->routeIs('home') ? 'page-home' : '' }}">
+    <header id="site-header" class="theme-bg-primary theme-header-border sticky top-0 z-40 {{ request()->routeIs('home') ? 'header-over-hero' : '' }}">
         <nav class="container mx-auto px-4 py-3 md:py-4 flex flex-wrap items-center justify-between gap-2">
             <a href="{{ route('home') }}" class="logo-brand text-xl font-semibold flex items-center gap-2 shrink-0" style="background: linear-gradient(135deg, var(--orange-200), var(--orange-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
                 @php $siteLogo = \App\Models\SiteSetting::getByKey('site_logo'); @endphp
@@ -179,7 +179,7 @@
             </ul>
         </div>
     </header>
-    <main class="container mx-auto px-4 py-6 md:py-8 theme-text-primary min-w-0 main-enter">
+    <main class="container mx-auto px-4 theme-text-primary min-w-0 main-enter {{ request()->routeIs('home') ? 'pt-0 pb-6 md:pb-8' : 'py-6 md:py-8' }}">
         @if (session('success'))
             <div class="mb-4 p-4 rounded theme-alert-success">{{ session('success') }}</div>
         @endif
@@ -464,5 +464,25 @@
     </script>
     @stack('scripts')
     @include('partials.share-script')
+    @if(request()->routeIs('home'))
+    <script>
+    (function() {
+        var header = document.getElementById('site-header');
+        var hero = document.getElementById('home-hero');
+        if (!header || !header.classList.contains('header-over-hero')) return;
+        function updateHeader() {
+            var threshold = hero ? Math.max(80, (hero.offsetHeight || window.innerHeight) * 0.15) : 80;
+            if (window.scrollY > threshold) {
+                header.classList.add('header-solid');
+            } else {
+                header.classList.remove('header-solid');
+            }
+        }
+        updateHeader();
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        window.addEventListener('resize', updateHeader);
+    })();
+    </script>
+    @endif
 </body>
 </html>
